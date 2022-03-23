@@ -6,7 +6,7 @@
 
 	<fragment
 		android:id="@+id/signInFragment"
-		android:name="com.bobrovskii.signin.presentation.SignInFragment"
+		android:name="com.bobrovskii.signin.ui.SignInFragment"
 		android:label="SignInFragment" >
 		<action
 			android:id="@+id/action_signInFragment_to_signUpFragment"
@@ -15,12 +15,23 @@
 			android:id="@+id/action_signInFragment_to_homeFragment"
 			app:destination="@id/homeFragment" />
 	</fragment>
+
 	<fragment
 		android:id="@+id/signUpFragment"
-		android:name="com.bobrovskii.signup.presentation.SignUpFragment"
+		android:name="com.bobrovskii.signup.ui.SignUpFragment"
 		android:label="SignUpFragment" />
+
 	<fragment
 		android:id="@+id/homeFragment"
-		android:name="com.bobrovskii.home.presentation.HomeFragment"
-		android:label="HomeFragment" />
+		android:name="com.bobrovskii.home.ui.HomeFragment"
+		android:label="HomeFragment" >
+		<action
+			android:id="@+id/action_homeFragment_to_addExamDialogFragment"
+			app:destination="@id/addExamDialogFragment" />
+	</fragment>
+
+	<dialog
+		android:id="@+id/addExamDialogFragment"
+		android:name="com.bobrovskii.home.ui.AddExamDialogFragment"
+		android:label="AddExamDialogFragment" />
 </navigation>

@@ -2,11 +2,12 @@ package com.bobrovskii.forexam.navigation
 
 import androidx.navigation.NavController
 import com.bobrovskii.forexam.R
-import com.bobrovskii.home.presentation.HomeNavigation
+import com.bobrovskii.home.presentation.navigation.AddExamNavigation
+import com.bobrovskii.home.presentation.navigation.HomeNavigation
 import com.bobrovskii.signin.presentation.SignInNavigation
 import com.bobrovskii.signup.presentation.SignUpNavigation
 
-class Navigator : SignInNavigation, SignUpNavigation, HomeNavigation {
+class Navigator : SignInNavigation, SignUpNavigation, HomeNavigation, AddExamNavigation {
 
 	private var navController: NavController? = null
 
@@ -28,5 +29,17 @@ class Navigator : SignInNavigation, SignUpNavigation, HomeNavigation {
 
 	override fun goBack() {
 		navController?.popBackStack()
+	}
+
+	override fun openAddExam() {
+		navController?.navigate(R.id.action_homeFragment_to_addExamDialogFragment)
+	}
+
+	fun setToSignIn() {
+		navController?.navigate(R.id.signInFragment)
+	}
+
+	fun setToHome() {
+		navController?.navigate(R.id.homeFragment)
 	}
 }

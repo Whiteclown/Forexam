@@ -5,7 +5,18 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".presentation.SignUpFragment">
+	tools:context=".ui.SignUpFragment">
+
+	<ImageButton
+		android:id="@+id/imageButtonBack"
+		style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+		android:layout_width="48dp"
+		android:layout_height="48dp"
+		android:layout_marginStart="4dp"
+		android:layout_marginTop="16dp"
+		android:src="@drawable/baseline_arrow_back_ios_black_24"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
 
 	<TextView
 		android:id="@+id/screenName"
@@ -15,9 +26,83 @@
 		android:text="Регистрация"
 		android:textAppearance="@style/TextAppearance.AppCompat.Large"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.218"
-		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintHorizontal_bias="0.039"
+		app:layout_constraintStart_toEndOf="@+id/imageButtonBack"
 		app:layout_constraintTop_toTopOf="parent" />
+
+	<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/editTextEmail"
+		android:layout_width="290dp"
+		android:layout_height="48dp"
+		android:layout_marginTop="200dp"
+		android:ems="10"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.504"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+		<com.google.android.material.textfield.TextInputEditText
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:inputType="textEmailAddress"
+			android:hint="Электронная почта" />
+
+	</com.google.android.material.textfield.TextInputLayout>
+
+	<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/editTextPassword"
+		android:layout_width="290dp"
+		android:layout_height="48dp"
+		android:layout_marginTop="24dp"
+		android:ems="10"
+		app:layout_constraintStart_toStartOf="@+id/editTextEmail"
+		app:layout_constraintTop_toBottomOf="@+id/editTextEmail"
+		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+		<com.google.android.material.textfield.TextInputEditText
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:inputType="textPassword"
+			android:hint="Пароль" />
+
+	</com.google.android.material.textfield.TextInputLayout>
+
+	<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/editTextRepeatPassword"
+		android:layout_width="290dp"
+		android:layout_height="48dp"
+		android:layout_marginTop="24dp"
+		android:ems="10"
+		app:layout_constraintStart_toStartOf="@+id/editTextPassword"
+		app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
+		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+		<com.google.android.material.textfield.TextInputEditText
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:inputType="textPassword"
+			android:hint="Повторите пароль" />
+
+	</com.google.android.material.textfield.TextInputLayout>
+
+	<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/editTextCheckCode"
+		android:layout_width="290dp"
+		android:layout_height="48dp"
+		android:layout_marginTop="24dp"
+		android:ems="10"
+		app:layout_constraintStart_toStartOf="@+id/editTextRepeatPassword"
+		app:layout_constraintTop_toBottomOf="@+id/editTextRepeatPassword"
+		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+		<com.google.android.material.textfield.TextInputEditText
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:inputType="textPersonName"
+			android:hint="Проверочный код" />
+
+	</com.google.android.material.textfield.TextInputLayout>
 
 	<Button
 		android:id="@+id/buttonRegistration"
@@ -28,57 +113,7 @@
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintHorizontal_bias="0.504"
-		app:layout_constraintStart_toStartOf="parent" />
+		app:layout_constraintStart_toStartOf="parent"
+		style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
-	<EditText
-		android:id="@+id/editTextRepeatPassword"
-		android:layout_width="290dp"
-		android:layout_height="48dp"
-		android:layout_marginBottom="24dp"
-		android:ems="10"
-		android:hint="Повторите пароль"
-		android:inputType="textPassword"
-		app:layout_constraintBottom_toTopOf="@+id/editTextCheckCode"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.504"
-		app:layout_constraintStart_toStartOf="parent" />
-
-	<EditText
-		android:id="@+id/editTextPassword"
-		android:layout_width="290dp"
-		android:layout_height="48dp"
-		android:layout_marginBottom="24dp"
-		android:ems="10"
-		android:hint="Пароль"
-		android:inputType="textPassword"
-		app:layout_constraintBottom_toTopOf="@+id/editTextRepeatPassword"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.504"
-		app:layout_constraintStart_toStartOf="parent" />
-
-	<EditText
-		android:id="@+id/editTextEmail"
-		android:layout_width="290dp"
-		android:layout_height="48dp"
-		android:layout_marginBottom="24dp"
-		android:ems="10"
-		android:hint="Электронная почта"
-		android:inputType="textEmailAddress"
-		app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.504"
-		app:layout_constraintStart_toStartOf="parent" />
-
-	<EditText
-		android:id="@+id/editTextCheckCode"
-		android:layout_width="290dp"
-		android:layout_height="48dp"
-		android:layout_marginBottom="144dp"
-		android:ems="10"
-		android:hint="Проверочный код"
-		android:inputType="textPersonName"
-		app:layout_constraintBottom_toTopOf="@+id/buttonRegistration"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.504"
-		app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

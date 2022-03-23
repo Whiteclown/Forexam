@@ -1,26 +1,48 @@
 package com.bobrovskii.signin.presentation
 
 import androidx.lifecycle.ViewModel
-import com.bobrovskii.signin.domain.entity.UserCredentials
-import com.bobrovskii.signin.domain.usecase.GetTokenUseCase
+import androidx.lifecycle.viewModelScope
+import com.bobrovskii.session.domain.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
+
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-	private val getTokenUseCase: GetTokenUseCase
+	private val loginUseCase: LoginUseCase,
 ) : ViewModel() {
 
-	private val _token = MutableStateFlow(false)
+	@Inject
+	lateinit var navigation: SignInNavigation
 
-	val token: StateFlow<Boolean> = _token
+	private val _isError = MutableStateFlow(0)
+	val isLogin: StateFlow<Int> = _isError
 
-	fun signIn(email: String) {
-		_token.value = getTokenUseCase(UserCredentials(email = email))
+	fun signIn(email: String, password: String) {
+		viewModelScope.launch {
+			try {
+				loginUseCase(username = email, password = password)
+				navigateToHome()
+			} catch (e: HttpException) {
+				_isError.value = e.code()
+			}
+		}
+	}
+
+	fun changeErrorState() {
+		_isError.value = 0
+	}
+
+	private fun navigateToHome() {
+		navigation.openHome()
+	}
+
+	fun navigateToSignUp() {
+		navigation.openSignUp()
 	}
 
 }

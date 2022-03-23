@@ -4,10 +4,24 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/app/src/main/res/layout/activity_main.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/app/src/main/res/xml/network_security_config.xml" value="0.2375" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/drawable/baseline_add_20.xml" value="0.354" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/drawable/baseline_add_circle_24.xml" value="0.354" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/drawable/baseline_arrow_back_ios_24.xml" value="0.144" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/drawable/baseline_delete_20.xml" value="0.216" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/drawable/baseline_logout_24.xml" value="0.216" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/dialog_fragment_add_exam.xml" value="0.33" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/dialog_fragment_date.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/exam_item.xml" value="0.33" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/fragment_home.xml" value="0.33" />
-        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/signin/src/main/res/layout/fragment_sign_in.xml" value="0.25" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/item_discipline.xml" value="0.25729166666666664" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/period_edit_item.xml" value="0.33" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/period_item.xml" value="0.2375" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/signin/src/main/res/drawable/baseline_logout_24.xml" value="0.216" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/signin/src/main/res/layout/fragment_sign_in.xml" value="0.33" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/signup/src/main/res/drawable/baseline_arrow_back_ios_24.xml" value="0.216" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/signup/src/main/res/layout/fragment_sign_up.xml" value="0.33" />
+        <entry key="..\:/Users/Ivan/AppData/Local/Android/Sdk/platforms/android-31/data/res/drawable/ic_lock_power_off.xml" value="0.216" />
       </map>
     </option>
   </component>

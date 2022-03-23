@@ -5,10 +5,10 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".presentation.HomeFragment">
+	tools:context=".ui.HomeFragment">
 
 	<androidx.recyclerview.widget.RecyclerView
-		android:id="@+id/list_of_exams"
+		android:id="@+id/periodsRV"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
 		android:layout_marginTop="20dp"
@@ -16,7 +16,7 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/textViewPast"
-		tools:listitem="@layout/exam_item" />
+		tools:listitem="@layout/period_edit_item" />
 
 	<TextView
 		android:id="@+id/screenName"
@@ -31,15 +31,16 @@
 		app:layout_constraintTop_toTopOf="parent" />
 
 	<ImageButton
+		style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 		android:id="@+id/imageButtonExit"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+		android:layout_width="50dp"
+		android:layout_height="50dp"
 		android:layout_marginEnd="16dp"
-		android:src="@android:drawable/ic_lock_power_off"
-		app:layout_constraintBottom_toBottomOf="parent"
+		android:layout_marginTop="16dp"
+		android:src="@drawable/baseline_logout_black_24"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintVertical_bias="0.023" />
+		android:contentDescription="Exit" />
 
 	<TextView
 		android:id="@+id/textViewActive"
@@ -62,5 +63,17 @@
 		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintTop_toTopOf="parent" />
+
+	<ImageButton
+		style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+		android:id="@+id/imageButtonAdd"
+		android:layout_width="48dp"
+		android:layout_height="48dp"
+		android:layout_marginBottom="16dp"
+		android:layout_marginEnd="16dp"
+		android:src="@drawable/baseline_add_circle_black_48"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		android:contentDescription="Add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
