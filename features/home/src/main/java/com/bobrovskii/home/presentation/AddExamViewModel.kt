@@ -73,6 +73,7 @@ class AddExamViewModel @Inject constructor(
 				groups = groups.filter { choseGroupsIds.contains(it.id) },
 				startTime = startTime
 			)
+			navigation.goBack()
 		}
 	}
 

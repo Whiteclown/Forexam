@@ -19,16 +19,6 @@
 		app:layout_constraintTop_toTopOf="parent" />
 
 	<TextView
-		android:id="@+id/insteadGroupsChips"
-		android:layout_width="290dp"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="25dp"
-		android:text="Пожалуйста, выберите дисциплину."
-		app:layout_constraintBottom_toTopOf="@+id/editTextStartDateLayout"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent" />
-
-	<TextView
 		android:id="@+id/screenName"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -80,16 +70,6 @@
 
 	</com.google.android.material.textfield.TextInputLayout>
 
-	<com.google.android.material.chip.ChipGroup
-		android:id="@+id/chip_group"
-		android:layout_width="290dp"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="36dp"
-		app:layout_constraintStart_toStartOf="@+id/editTextExamRule"
-		app:layout_constraintTop_toBottomOf="@+id/editTextExamRule">
-
-	</com.google.android.material.chip.ChipGroup>
-
 	<com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/editTextStartDateLayout"
 		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -97,8 +77,8 @@
 		android:layout_height="wrap_content"
 		android:layout_marginTop="24dp"
 		android:ems="10"
-		app:layout_constraintStart_toStartOf="@+id/chip_group"
-		app:layout_constraintTop_toBottomOf="@+id/chip_group">
+		app:layout_constraintStart_toStartOf="@+id/editTextExamRule"
+		app:layout_constraintTop_toBottomOf="@+id/editTextExamRule">
 
 		<com.google.android.material.textfield.TextInputEditText
 			android:id="@+id/editTextStartDate"
@@ -109,6 +89,36 @@
 			android:inputType="textPersonName" />
 
 	</com.google.android.material.textfield.TextInputLayout>
+
+	<TextView
+		android:id="@+id/insteadGroupsChips"
+		android:layout_width="290dp"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="0dp"
+		android:text="Пожалуйста, выберите дисциплину."
+		app:layout_constraintBottom_toTopOf="@+id/chip_group"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent" />
+
+	<TextView
+		android:id="@+id/textView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Группы:"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.169"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/editTextStartDateLayout" />
+
+	<com.google.android.material.chip.ChipGroup
+		android:id="@+id/chip_group"
+		android:layout_width="290dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="36dp"
+		app:layout_constraintStart_toStartOf="@+id/editTextStartDateLayout"
+		app:layout_constraintTop_toBottomOf="@+id/editTextStartDateLayout">
+
+	</com.google.android.material.chip.ChipGroup>
 
 	<Button
 		android:id="@+id/buttonAddExam"
@@ -121,15 +131,5 @@
 		app:layout_constraintHorizontal_bias="0.504"
 		app:layout_constraintStart_toStartOf="parent"
 		style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
-
-	<TextView
-		android:id="@+id/textView"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Группы:"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.169"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/editTextExamRule" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

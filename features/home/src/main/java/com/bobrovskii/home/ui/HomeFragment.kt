@@ -1,6 +1,9 @@
 package com.bobrovskii.home.ui
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,12 +28,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 		initListeners()
 	}
 
+	override fun onStart() {
+		super.onStart()
+		Log.d("debug", "start!")
+	}
+
+	override fun onResume() {
+		super.onResume()
+		Log.d("debug", "resume!")
+	}
+
+	override fun onAttach(context: Context) {
+		super.onAttach(context)
+		Log.d("debug", "attach!")
+	}
+
 	private fun initRecyclerView() {
 		binding.periodsRV.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
 		val adapterPeriods = PeriodsAdapter()
 		viewModel.periodsLiveData.observe(viewLifecycleOwner) {
 			adapterPeriods.submitList(it)
+			adapterPeriods.notifyDataSetChanged()
+			binding.swipe.isRefreshing = false
 		}
 
 		binding.periodsRV.adapter = adapterPeriods
@@ -42,6 +62,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 		}
 		binding.imageButtonAdd.setOnClickListener {
 			viewModel.openAddExam()
+		}
+		binding.swipe.setOnRefreshListener {
+			viewModel.getPeriods()
 		}
 	}
 }

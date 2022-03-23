@@ -38,6 +38,7 @@ class HomeViewModel @Inject constructor(
 	fun getPeriods() {
 		viewModelScope.launch {
 			exams = getExamsUseCase().toMutableList()
+			periods.clear()
 			exams.forEach { exam ->
 				periods.addAll(getPeriodsByExamIdUseCase(exam.id).map {
 					it.discipline = exam.name
