@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/nested_scroll_view"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:fillViewport="true">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:gravity="center">
+
+		<!--Тулбар-->
+		<com.google.android.material.appbar.AppBarLayout
+			android:id="@+id/toolbar_container"
+
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<com.google.android.material.appbar.MaterialToolbar
+
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:contentInsetLeft="0dp"
+				app:contentInsetStart="0dp">
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:paddingHorizontal="20dp"
+					android:paddingVertical="12dp">
+
+					<ImageButton
+						android:id="@+id/imageButtonBack"
+						style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+						android:layout_width="48dp"
+						android:layout_height="48dp"
+						android:layout_marginStart="4dp"
+						android:layout_marginTop="16dp"
+						android:src="@drawable/ic_arrow_back" />
+
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginStart="12dp"
+						android:orientation="vertical">
+
+						<TextView
+							android:id="@+id/screenName"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="24dp"
+							android:text="Изменение экзамена"
+							android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+					</LinearLayout>
+				</LinearLayout>
+			</com.google.android.material.appbar.MaterialToolbar>
+		</com.google.android.material.appbar.AppBarLayout>
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/editTextDiscipline"
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+			android:layout_width="290dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="100dp"
+			android:ems="10">
+
+			<AutoCompleteTextView
+				android:id="@+id/autoCompleteDiscipline"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="Дисциплина"
+				android:inputType="none" />
+
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/editTextExamRule"
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+			android:layout_width="290dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="24dp"
+			android:ems="10">
+
+			<AutoCompleteTextView
+				android:id="@+id/autoCompleteExamRule"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="Регламент"
+				android:inputType="none" />
+
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/editTextStartDateLayout"
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+			android:layout_width="290dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="24dp"
+			android:ems="10">
+
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/editTextStartDate"
+				android:focusable="false"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:cursorVisible="false"
+				android:hint="Время начала"
+				android:inputType="textPersonName" />
+
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<TextView
+			android:id="@+id/textView"
+			android:layout_width="290dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="24dp"
+			android:textStyle="bold"
+			android:text="Группы:" />
+
+		<com.google.android.material.chip.ChipGroup
+			android:id="@+id/chip_group"
+			android:layout_width="290dp"
+			android:layout_height="wrap_content">
+
+		</com.google.android.material.chip.ChipGroup>
+
+		<Space
+			android:layout_width="wrap_content"
+			android:layout_height="0dp"
+			android:layout_weight="1"/>
+
+		<Button
+			android:id="@+id/buttonSave"
+			android:layout_width="290dp"
+			android:layout_height="48dp"
+			android:layout_marginBottom="20dp"
+			android:text="Сохранить"
+			style="@style/secondaryButton"/>
+
+		<Button
+			android:id="@+id/buttonSaveAndChangeState"
+			android:layout_width="290dp"
+			android:layout_height="48dp"
+			android:layout_marginBottom="20dp"
+			android:text="Перевести в допуск"
+			style="@style/primaryButton"/>
+
+	</LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

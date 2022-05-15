@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<color name="period_edit_background">#96B3FF</color>
+	<color name="period_allowance_background">#FDFF8B</color>
+	<color name="period_ready_background">#C0FF99</color>
+	<color name="period_progress_background">#FFB2B2</color>
+	<color name="period_finished_background">#B0B0B0</color>
+	<color name="period_closed_background">#757575</color>
 </resources>

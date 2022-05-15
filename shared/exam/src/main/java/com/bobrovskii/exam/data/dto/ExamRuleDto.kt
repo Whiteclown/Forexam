@@ -6,13 +6,15 @@ import com.squareup.moshi.JsonClass
 data class ExamRuleDto(
 	val id: Int,
 	val name: String,
-	val themes: List<Theme>?,
-	val discipline: DisciplineDto,
+	val themeIds: List<Int>,
+	val disciplineId: Int,
 	val questionCount: Int,
 	val exerciseCount: Int,
 	val duration: Int,
 	val minimalRating: Int
-) {
+)
+
+/*{
 
 	@JsonClass(generateAdapter = true)
 	data class Theme(
@@ -20,4 +22,4 @@ data class ExamRuleDto(
 		val name: String,
 		val discipline: DisciplineDto
 	)
-}
+}*/

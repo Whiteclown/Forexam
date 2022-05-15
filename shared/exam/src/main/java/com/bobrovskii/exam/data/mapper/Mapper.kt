@@ -5,17 +5,22 @@ import com.bobrovskii.exam.data.dto.ExamDto
 import com.bobrovskii.exam.data.dto.ExamRuleDto
 import com.bobrovskii.exam.data.dto.GroupDto
 import com.bobrovskii.exam.data.dto.PeriodDto
+import com.bobrovskii.exam.data.dto.StudentDto
+import com.bobrovskii.exam.data.dto.TicketDto
 import com.bobrovskii.exam.domain.entity.Discipline
 import com.bobrovskii.exam.domain.entity.Exam
 import com.bobrovskii.exam.domain.entity.ExamRule
 import com.bobrovskii.exam.domain.entity.Group
 import com.bobrovskii.exam.domain.entity.Period
+import com.bobrovskii.exam.domain.entity.Student
+import com.bobrovskii.exam.domain.entity.Ticket
 
 fun ExamDto.toEntity() =
 	Exam(
-			id = id,
-			name = examRule.discipline.name,
-		//startTime = startTime
+		id = id,
+		examRuleId = examRuleId,
+		disciplineId = disciplineId,
+		groupIds = groupIds,
 	)
 
 fun PeriodDto.toEntity() =
@@ -23,7 +28,9 @@ fun PeriodDto.toEntity() =
 		id = id,
 		start = start,
 		end = end,
-		state = state
+		examId = examId,
+		state = state,
+		discipline = null,
 	)
 
 fun DisciplineDto.toEntity() =
@@ -57,7 +64,9 @@ fun ExamRuleDto.toEntity() =
 		questionCount = questionCount,
 		exerciseCount = exerciseCount,
 		duration = duration,
-		minimalRating = minimalRating
+		minimalRating = minimalRating,
+		themeIds = themeIds,
+		disciplineId = disciplineId,
 	)
 
 fun ExamRule.toDto() =
@@ -68,6 +77,23 @@ fun ExamRule.toDto() =
 		exerciseCount = exerciseCount,
 		duration = duration,
 		minimalRating = minimalRating,
-		themes = null,
-		discipline = DisciplineDto(-1, "")
+		themeIds = themeIds,
+		disciplineId = disciplineId,
+	)
+
+fun TicketDto.toEntity() =
+	Ticket(
+		id = id,
+		semesterRating = semesterRating,
+		examRating = examRating,
+		allowed = allowed,
+		examPeriodId = examPeriodId,
+		studentId = studentId,
+		studentName = null,
+	)
+
+fun StudentDto.toEntity() =
+	Student(
+		name = account.name,
+		surname = account.surname,
 	)

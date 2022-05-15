@@ -1,14 +1,12 @@
 package com.bobrovskii.exam.domain.repository
 
-import com.bobrovskii.exam.data.dto.DisciplineDto
-import com.bobrovskii.exam.data.dto.ExamRuleDto
-import com.bobrovskii.exam.data.dto.GroupDto
 import com.bobrovskii.exam.domain.entity.Discipline
 import com.bobrovskii.exam.domain.entity.Exam
 import com.bobrovskii.exam.domain.entity.ExamRule
 import com.bobrovskii.exam.domain.entity.Group
 import com.bobrovskii.exam.domain.entity.Period
-import retrofit2.http.Body
+import com.bobrovskii.exam.domain.entity.Student
+import com.bobrovskii.exam.domain.entity.Ticket
 
 interface ExamRepository {
 
@@ -23,4 +21,24 @@ interface ExamRepository {
 	suspend fun getGroupsByDiscipline(disciplineId: Int): List<Group>
 
 	suspend fun postExam(discipline: Discipline, examRule: ExamRule, groups: List<Group>, startTime: String)
+
+	suspend fun getDisciplineById(disciplineId: Int): Discipline
+
+	suspend fun deleteExamById(examId: Int)
+
+	suspend fun getExamById(examId: Int): Exam
+
+	suspend fun getExamRuleById(examRuleId: Int): ExamRule
+
+	suspend fun getLastPeriodByExam(examId: Int): Period
+
+	suspend fun updateExam(examId: Int, discipline: Discipline, examRule: ExamRule, groups: List<Group>, startTime: String)
+
+	suspend fun updatePeriodState(periodId: Int, state: String)
+
+	suspend fun getUnpassedTickets(examId: Int): List<Ticket>
+
+	suspend fun updateTicketsRating(ticketsRating: List<Ticket>)
+
+	suspend fun getStudentById(studentId: Int): Student
 }

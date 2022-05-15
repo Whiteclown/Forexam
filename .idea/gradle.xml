@@ -11,9 +11,14 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/accessexamination" />
+            <option value="$PROJECT_DIR$/features/addexamination" />
+            <option value="$PROJECT_DIR$/features/editexamination" />
             <option value="$PROJECT_DIR$/features/home" />
+            <option value="$PROJECT_DIR$/features/progressexamination" />
             <option value="$PROJECT_DIR$/features/signin" />
             <option value="$PROJECT_DIR$/features/signup" />
             <option value="$PROJECT_DIR$/shared" />

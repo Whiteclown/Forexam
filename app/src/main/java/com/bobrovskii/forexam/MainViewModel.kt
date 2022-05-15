@@ -3,7 +3,6 @@ package com.bobrovskii.forexam
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bobrovskii.forexam.navigation.Navigator
-import com.bobrovskii.home.presentation.navigation.AddExamNavigation
 import com.bobrovskii.session.domain.usecase.GetSessionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

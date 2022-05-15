@@ -5,16 +5,22 @@ import android.view.ViewGroup
 import com.bobrovskii.exam.domain.entity.Period
 import com.bobrovskii.home.databinding.PeriodEditItemBinding
 
-class EditPeriodViewHolder(private val binding: PeriodEditItemBinding) :
+class EditPeriodViewHolder(
+	private val binding: PeriodEditItemBinding,
+) :
 	BasePeriodViewHolder(binding.root) {
 
 	fun bind(
-		item: Period
+		item: Period,
+		onItemClicked: (Int) -> Unit,
+		onDeleteClicked: (Int) -> Unit,
 	) {
-		period = item
 		with(binding) {
 			//Set data and listeners
 			textViewTitle.text = item.discipline
+
+			itemView.setOnClickListener { onItemClicked(item.examId) }
+			imageButtonDelete.setOnClickListener { onDeleteClicked(item.examId) }
 		}
 	}
 

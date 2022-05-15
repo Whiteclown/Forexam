@@ -8,22 +8,22 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bobrovskii.signin.R
 import com.bobrovskii.signin.databinding.FragmentSignInBinding
-import com.bobrovskii.signin.presentation.SignInNavigation
 import com.bobrovskii.signin.presentation.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
-	private lateinit var binding: FragmentSignInBinding
+	private var _binding: FragmentSignInBinding? = null
+	private val binding get() = _binding!!
 
 	private val viewModel: SignInViewModel by viewModels()
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		binding = FragmentSignInBinding.bind(view)
+		_binding = FragmentSignInBinding.bind(view)
 		initListeners()
 		initObservers()
 	}

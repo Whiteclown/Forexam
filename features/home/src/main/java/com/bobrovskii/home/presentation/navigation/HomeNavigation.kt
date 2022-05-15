@@ -4,5 +4,9 @@ interface HomeNavigation {
 
 	fun goBack()
 
-	fun openAddExam()
+	fun openEditExamination(examId: Int)
+
+	fun routeToAccessExam(examId: Int)
+
+	fun routeToAddExam()
 }

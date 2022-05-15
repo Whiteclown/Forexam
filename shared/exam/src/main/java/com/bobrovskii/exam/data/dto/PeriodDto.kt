@@ -7,6 +7,6 @@ data class PeriodDto(
 	val id: Int,
 	val start: String,
 	val end: String,
-	//val exam: ExamDto,
-	val state: String
+	val examId: Int,
+	val state: String,
 )

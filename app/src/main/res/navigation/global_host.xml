@@ -26,12 +26,26 @@
 		android:name="com.bobrovskii.home.ui.HomeFragment"
 		android:label="HomeFragment" >
 		<action
-			android:id="@+id/action_homeFragment_to_addExamDialogFragment"
-			app:destination="@id/addExamDialogFragment" />
+			android:id="@+id/action_homeFragment_to_editExaminationFragment"
+			app:destination="@id/editExaminationFragment" />
+		<action
+			android:id="@+id/action_homeFragment_to_addExamFragment"
+			app:destination="@id/addExamFragment" />
+		<action
+			android:id="@+id/action_homeFragment_to_accessExamFragment"
+			app:destination="@id/accessExamFragment" />
 	</fragment>
 
-	<dialog
-		android:id="@+id/addExamDialogFragment"
-		android:name="com.bobrovskii.home.ui.AddExamDialogFragment"
-		android:label="AddExamDialogFragment" />
+	<fragment
+		android:id="@+id/editExaminationFragment"
+		android:name="com.bobrovskii.editexamination.ui.EditExaminationFragment"
+		android:label="EditExaminationFragment" />
+	<fragment
+		android:id="@+id/addExamFragment"
+		android:name="com.bobrovskii.addexamination.ui.AddExamFragment"
+		android:label="AddExamFragment" />
+	<fragment
+		android:id="@+id/accessExamFragment"
+		android:name="com.bobrovskii.accessexamination.ui.AccessExamFragment"
+		android:label="AccessExamFragment" />
 </navigation>

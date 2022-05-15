@@ -4,8 +4,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class RequestExam(
-	val discipline: DisciplineDto,
-	val examRule: ExamRuleDto,
-	val groups: List<GroupDto>,
-	val startTime: String
+	val examRuleId: Int,
+	val disciplineId: Int,
+	val groupIds: List<Int>,
+	val startTime: String,
 )

@@ -5,13 +5,13 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ExamDto(
 	val id: Int,
-	//val name: String,
-	val examRule: ExamRuleDto,
-	val teacher: Teacher,
-	val groups: List<GroupDto>,
-	//val startTime: String
-) {
+	val examRuleId: Int,
+	val disciplineId: Int,
+	val groupIds: List<Int>,
+)
 
+
+/*{
 	@JsonClass(generateAdapter = true)
 	data class Teacher(
 		val id: Int,
@@ -30,4 +30,4 @@ data class ExamDto(
 		)
 	}
 }
-
+*/

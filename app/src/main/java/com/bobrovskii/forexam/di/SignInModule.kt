@@ -1,14 +1,11 @@
 package com.bobrovskii.forexam.di
 
 import android.content.Context
-import com.bobrovskii.forexam.navigation.Navigator
 import com.bobrovskii.session.data.api.SessionApi
 import com.bobrovskii.session.data.repository.LoginRepositoryImpl
 import com.bobrovskii.session.data.repository.SessionRepositoryImpl
 import com.bobrovskii.session.domain.repository.LoginRepository
 import com.bobrovskii.session.domain.repository.SessionRepository
-import com.bobrovskii.session.domain.usecase.LoginUseCase
-import com.bobrovskii.signin.presentation.SignInNavigation
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,12 +18,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class SignInModule {
-
-	@Provides
-	@Singleton
-	fun provideSignInNavigation(navigator: Navigator): SignInNavigation {
-		return navigator
-	}
 
 	@Singleton
 	@Provides
@@ -43,10 +34,5 @@ class SignInModule {
 	@Provides
 	fun provideSessionRepository(@ApplicationContext context: Context): SessionRepository {
 		return SessionRepositoryImpl(context)
-	}
-
-	@Provides
-	fun provideLoginUseCase(loginRepository: LoginRepository, sessionRepository: SessionRepository): LoginUseCase {
-		return LoginUseCase(loginRepository = loginRepository, sessionRepository = sessionRepository)
 	}
 }

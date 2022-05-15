@@ -2,6 +2,7 @@ package com.bobrovskii.exam.domain.entity
 
 data class Exam(
 	val id: Int,
-	val name: String,
-	//val startTime: String,
+	val examRuleId: Int,
+	val disciplineId: Int,
+	val groupIds: List<Int>,
 )
