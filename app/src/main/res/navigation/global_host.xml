@@ -32,8 +32,8 @@
 			android:id="@+id/action_homeFragment_to_addExamFragment"
 			app:destination="@id/addExamFragment" />
 		<action
-			android:id="@+id/action_homeFragment_to_accessExamFragment"
-			app:destination="@id/accessExamFragment" />
+			android:id="@+id/action_homeFragment_to_progressExaminationFragment"
+			app:destination="@id/progressExaminationFragment" />
 	</fragment>
 
 	<fragment
@@ -45,7 +45,7 @@
 		android:name="com.bobrovskii.addexamination.ui.AddExamFragment"
 		android:label="AddExamFragment" />
 	<fragment
-		android:id="@+id/accessExamFragment"
-		android:name="com.bobrovskii.accessexamination.ui.AccessExamFragment"
-		android:label="AccessExamFragment" />
+		android:id="@+id/progressExaminationFragment"
+		android:name="com.bobrovskii.progressexamination.ui.ProgressExaminationFragment"
+		android:label="ProgressExaminationFragment" />
 </navigation>

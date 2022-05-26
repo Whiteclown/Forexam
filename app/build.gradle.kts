@@ -42,7 +42,7 @@ dependencies {
 	implementation(project(":features:home"))
 	implementation(project(":features:editexamination"))
 	implementation(project(":features:addexamination"))
-	implementation(project(":features:accessexamination"))
+	implementation(project(":features:progressexamination"))
 	implementation(project(":shared:session"))
 	implementation(project(":shared:exam"))
 }

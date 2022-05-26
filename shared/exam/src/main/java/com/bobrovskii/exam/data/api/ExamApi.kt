@@ -2,14 +2,10 @@ package com.bobrovskii.exam.data.api
 
 import com.bobrovskii.exam.data.dto.DisciplineDto
 import com.bobrovskii.exam.data.dto.ExamDto
-import com.bobrovskii.exam.data.dto.ExamRuleDto
 import com.bobrovskii.exam.data.dto.GroupDto
-import com.bobrovskii.exam.data.dto.PeriodDto
-import com.bobrovskii.exam.data.dto.RequestExam
-import com.bobrovskii.exam.data.dto.RequestPeriodState
-import com.bobrovskii.exam.data.dto.RequestTicketsRating
-import com.bobrovskii.exam.data.dto.StudentDto
-import com.bobrovskii.exam.data.dto.TicketDto
+import com.bobrovskii.exam.data.dto.RequestAddExam
+import com.bobrovskii.exam.data.dto.RequestExamState
+import com.bobrovskii.exam.data.dto.RequestUpdateExam
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -19,51 +15,33 @@ import retrofit2.http.Path
 
 interface ExamApi {
 
+	@POST("/exams")
+	suspend fun postExam(@Body requestAddExam: RequestAddExam)
+
 	@GET("/exams")
 	suspend fun getExams(): List<ExamDto>
-
-	@GET("/exams/{examid}/periods")
-	suspend fun getPeriodsByExam(@Path("examid") id: Int): List<PeriodDto>
-
-	@GET("/teacher/discipline")
-	suspend fun getDisciplines(): List<DisciplineDto>
-
-	@GET("/discipline/{disciplineId}/exam-rule")
-	suspend fun getExamRulesByDiscipline(@Path("disciplineId") disciplineId: Int): List<ExamRuleDto>
-
-	@GET("/discipline/{disciplineId}/group")
-	suspend fun getGroupsByDiscipline(@Path("disciplineId") disciplineId: Int): List<GroupDto>
-
-	@POST("/exams")
-	suspend fun postExam(@Body requestExam: RequestExam)
-
-	@GET("/discipline/{disciplineId}")
-	suspend fun getDisciplineById(@Path("disciplineId") disciplineId: Int): DisciplineDto
-
-	@DELETE("/exams/{examId}")
-	suspend fun deleteExamById(@Path("examId") examId: Int)
 
 	@GET("/exams/{examId}")
 	suspend fun getExamById(@Path("examId") examId: Int): ExamDto
 
-	@GET("/exam-rule/{id}")
-	suspend fun getExamRuleById(@Path("id") examRuleId: Int): ExamRuleDto
+	@GET("/discipline")
+	suspend fun getDisciplines(): List<DisciplineDto>
 
-	@GET("/exams/{examId}/last-period")
-	suspend fun getLastPeriodByExam(@Path("examId") examId: Int): PeriodDto
+	@GET("/discipline/{disciplineId}")
+	suspend fun getDisciplineById(@Path("disciplineId") disciplineId: Int): DisciplineDto
 
-	@PUT("exams/{examId}")
-	suspend fun updateExam(@Path("examId") examId: Int, @Body requestExam: RequestExam)
+	@GET("/groups")
+	suspend fun getGroups(): List<GroupDto>
 
-	@PUT("/periods/{periodId}")
-	suspend fun updatePeriodState(@Path("periodId") periodId: Int, @Body state: RequestPeriodState)
+	@GET("/groups/{groupId}")
+	suspend fun getGroupById(@Path("groupId") groupId: Int): GroupDto
 
-	@GET("/exams/{examId}/un-passed")
-	suspend fun getUnpassedTickets(@Path("examId") examId: Int): List<TicketDto>
+	@PUT("/exams")
+	suspend fun updateExam(@Body requestUpdateExam: RequestUpdateExam)
 
-	@GET("/student/{studentId}")
-	suspend fun getStudentById(@Path("studentId") studentId: Int): StudentDto
+	@PUT("/exams/state")
+	suspend fun updateExamState(@Body state: RequestExamState)
 
-	@PUT("/ticket/rating")
-	suspend fun updateTicketsRating(@Body requestTicketsRating: List<RequestTicketsRating>)
+	@DELETE("/exams/{examId}")
+	suspend fun deleteExamById(@Path("examId") examId: Int)
 }

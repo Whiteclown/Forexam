@@ -62,15 +62,32 @@
 		</com.google.android.material.appbar.AppBarLayout>
 
 		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/editTextDiscipline"
-			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+			android:id="@+id/et_layout_name"
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 			android:layout_width="290dp"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="100dp"
 			android:ems="10">
 
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/et_name"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="Название"
+				android:inputType="text" />
+
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/et_layout_discipline"
+			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+			android:layout_width="290dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="24dp"
+			android:ems="10">
+
 			<AutoCompleteTextView
-				android:id="@+id/autoCompleteDiscipline"
+				android:id="@+id/ac_discipline"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:hint="Дисциплина"
@@ -78,71 +95,36 @@
 
 		</com.google.android.material.textfield.TextInputLayout>
 
-		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/editTextExamRule"
-			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+		<com.google.android.material.switchmaterial.SwitchMaterial
+			android:id="@+id/sw_repass"
 			android:layout_width="290dp"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="24dp"
-			android:ems="10">
-
-			<AutoCompleteTextView
-				android:id="@+id/autoCompleteExamRule"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:hint="Регламент"
-				android:inputType="none" />
-
-		</com.google.android.material.textfield.TextInputLayout>
-
-		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/editTextStartDateLayout"
-			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-			android:layout_width="290dp"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="24dp"
-			android:ems="10">
-
-			<com.google.android.material.textfield.TextInputEditText
-				android:id="@+id/editTextStartDate"
-				android:focusable="false"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:cursorVisible="false"
-				android:hint="Время начала"
-				android:inputType="textPersonName" />
-
-		</com.google.android.material.textfield.TextInputLayout>
+			android:layout_marginTop="16dp"
+			android:text="Пересдача:" />
 
 		<TextView
-			android:id="@+id/textView"
+			android:id="@+id/tv_groups"
 			android:layout_width="290dp"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="24dp"
+			android:layout_marginTop="16dp"
 			android:textStyle="bold"
-			android:text="Группы:" />
-
-		<TextView
-			android:id="@+id/insteadGroupsChips"
-			android:layout_width="290dp"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="0dp"
-			android:text="Пожалуйста, выберите дисциплину." />
+			android:text="Группа:" />
 
 		<com.google.android.material.chip.ChipGroup
-			android:id="@+id/chip_group"
+			android:id="@+id/cg_groups"
 			android:layout_width="290dp"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+			app:singleSelection="true">
 
 		</com.google.android.material.chip.ChipGroup>
 
 		<Space
 			android:layout_width="wrap_content"
 			android:layout_height="0dp"
-			android:layout_weight="1"/>
+			android:layout_weight="1" />
 
 		<Button
-			android:id="@+id/buttonAddExam"
+			android:id="@+id/btn_add_exam"
 			android:layout_width="290dp"
 			android:layout_height="48dp"
 			android:layout_marginBottom="20dp"

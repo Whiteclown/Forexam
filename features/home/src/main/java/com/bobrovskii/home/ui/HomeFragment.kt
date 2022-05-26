@@ -1,7 +1,6 @@
 package com.bobrovskii.home.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +12,16 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bobrovskii.home.databinding.FragmentHomeBinding
 import com.bobrovskii.home.presentation.HomeViewModel
-import com.bobrovskii.home.presentation.periodsAdapter.PeriodsAdapter
+import com.bobrovskii.home.ui.examsAdapter.ExamsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), DeleteDialogFragment.DeleteDialogListener, StartExamDialogFragment.StartExamDialogListener {
+class HomeFragment : Fragment(),
+					 DeleteDialogFragment.DeleteDialogListener,
+					 SetExamTimeDialogFragment.SetExamTimeDialogListener,
+					 StartExamDialogFragment.StartExamDialogListener {
 
 	private var _binding: FragmentHomeBinding? = null
 	private val binding get() = _binding!!
@@ -40,7 +42,6 @@ class HomeFragment : Fragment(), DeleteDialogFragment.DeleteDialogListener, Star
 	override fun onStart() {
 		super.onStart()
 		viewModel.getPeriods()
-		Log.d("debug", "start!")
 	}
 
 	override fun onDestroy() {
@@ -51,7 +52,7 @@ class HomeFragment : Fragment(), DeleteDialogFragment.DeleteDialogListener, Star
 	private fun initRecyclerView() {
 		binding.periodsRV.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-		val adapterEditPeriods = PeriodsAdapter(
+		val adapterEditPeriods = ExamsAdapter(
 			onItemClicked = { examId ->
 				viewModel.openEditExam(examId)
 			},
@@ -61,16 +62,17 @@ class HomeFragment : Fragment(), DeleteDialogFragment.DeleteDialogListener, Star
 			},
 		)
 		viewModel.viewModelScope.launch {
-			viewModel.periodsEdit.collect {
+			viewModel.examsEdit.collect {
 				adapterEditPeriods.submitList(it)
 				adapterEditPeriods.notifyDataSetChanged()
 				binding.swipe.isRefreshing = false
 			}
 		}
 
-		val adapterAllowancePeriods = PeriodsAdapter(
+		val adapterReadyPeriods = ExamsAdapter(
 			onItemClicked = { examId ->
-				viewModel.openAccessExam(examId)
+				viewModel.setExamId(examId)
+				showSetExamTimeDialog()
 			},
 			onDeleteClicked = { examId ->
 				viewModel.setExamId(examId)
@@ -78,14 +80,14 @@ class HomeFragment : Fragment(), DeleteDialogFragment.DeleteDialogListener, Star
 			},
 		)
 		viewModel.viewModelScope.launch {
-			viewModel.periodsAllowance.collect {
-				adapterAllowancePeriods.submitList(it)
-				adapterAllowancePeriods.notifyDataSetChanged()
+			viewModel.examsReady.collect {
+				adapterReadyPeriods.submitList(it)
+				adapterReadyPeriods.notifyDataSetChanged()
 				binding.swipe.isRefreshing = false
 			}
 		}
 
-		val adapterReadyPeriods = PeriodsAdapter(
+		val adapterTimesetPeriods = ExamsAdapter(
 			onItemClicked = { examId ->
 				viewModel.setExamId(examId)
 				showStartExamDialog()
@@ -96,16 +98,16 @@ class HomeFragment : Fragment(), DeleteDialogFragment.DeleteDialogListener, Star
 			},
 		)
 		viewModel.viewModelScope.launch {
-			viewModel.periodsReady.collect {
-				adapterReadyPeriods.submitList(it)
-				adapterReadyPeriods.notifyDataSetChanged()
+			viewModel.examsTimeset.collect {
+				adapterTimesetPeriods.submitList(it)
+				adapterTimesetPeriods.notifyDataSetChanged()
 				binding.swipe.isRefreshing = false
 			}
 		}
 
-		val adapterProgressPeriods = PeriodsAdapter(
+		val adapterProgressPeriods = ExamsAdapter(
 			onItemClicked = { examId ->
-				//viewModel.openEditExam(examId)
+				viewModel.openProgressExam(examId)
 			},
 			onDeleteClicked = { examId ->
 				viewModel.setExamId(examId)
@@ -113,14 +115,14 @@ class HomeFragment : Fragment(), DeleteDialogFragment.DeleteDialogListener, Star
 			},
 		)
 		viewModel.viewModelScope.launch {
-			viewModel.periodsProgress.collect {
+			viewModel.examsProgress.collect {
 				adapterProgressPeriods.submitList(it)
 				adapterProgressPeriods.notifyDataSetChanged()
 				binding.swipe.isRefreshing = false
 			}
 		}
 
-		val adapterFinishedPeriods = PeriodsAdapter(
+		val adapterFinishedPeriods = ExamsAdapter(
 			onItemClicked = { examId ->
 				//viewModel.openEditExam(examId)
 			},
@@ -130,14 +132,14 @@ class HomeFragment : Fragment(), DeleteDialogFragment.DeleteDialogListener, Star
 			},
 		)
 		viewModel.viewModelScope.launch {
-			viewModel.periodsFinished.collect {
+			viewModel.examsFinished.collect {
 				adapterFinishedPeriods.submitList(it)
 				adapterFinishedPeriods.notifyDataSetChanged()
 				binding.swipe.isRefreshing = false
 			}
 		}
 
-		val adapterClosedPeriods = PeriodsAdapter(
+		val adapterClosedPeriods = ExamsAdapter(
 			onItemClicked = { examId ->
 				//viewModel.openEditExam(examId)
 			},
@@ -147,7 +149,7 @@ class HomeFragment : Fragment(), DeleteDialogFragment.DeleteDialogListener, Star
 			},
 		)
 		viewModel.viewModelScope.launch {
-			viewModel.periodsClosed.collect {
+			viewModel.examsClosed.collect {
 				adapterClosedPeriods.submitList(it)
 				adapterClosedPeriods.notifyDataSetChanged()
 				binding.swipe.isRefreshing = false
@@ -158,7 +160,7 @@ class HomeFragment : Fragment(), DeleteDialogFragment.DeleteDialogListener, Star
 			adapterProgressPeriods,
 			adapterFinishedPeriods,
 			adapterReadyPeriods,
-			adapterAllowancePeriods,
+			adapterTimesetPeriods,
 			adapterEditPeriods,
 			adapterClosedPeriods,
 		)
@@ -183,12 +185,22 @@ class HomeFragment : Fragment(), DeleteDialogFragment.DeleteDialogListener, Star
 		dialog.show(childFragmentManager, "DeleteDialogFragment")
 	}
 
+	private fun showSetExamTimeDialog() {
+		val dialog = SetExamTimeDialogFragment()
+		dialog.show(childFragmentManager, "SetExamTimeDialogFragment")
+	}
+
 	private fun showStartExamDialog() {
 		val dialog = StartExamDialogFragment()
 		dialog.show(childFragmentManager, "StartExamDialogFragment")
 	}
 
 	override fun onDialogNegativeClick(dialog: DialogFragment) {
+		dialog.dismiss()
+	}
+
+	override fun onDialogSetTimeClick(dialog: DialogFragment, date: String) {
+		viewModel.changeStateToTimeset(date)
 		dialog.dismiss()
 	}
 

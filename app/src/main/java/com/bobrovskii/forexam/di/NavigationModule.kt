@@ -1,6 +1,5 @@
 package com.bobrovskii.forexam.di
 
-import com.bobrovskii.accessexamination.presentation.AccessExamNavigation
 import com.bobrovskii.addexamination.presentation.AddExamRouter
 import com.bobrovskii.editexamination.presentation.EditExaminationNavigation
 import com.bobrovskii.forexam.navigation.Navigator
@@ -45,10 +44,5 @@ class NavigationModule {
 	@Provides
 	@Singleton
 	fun provideEditExaminationNavigation(navigator: Navigator): EditExaminationNavigation =
-		navigator
-
-	@Provides
-	@Singleton
-	fun provideAccessExaminationNavigation(navigator: Navigator): AccessExamNavigation =
 		navigator
 }

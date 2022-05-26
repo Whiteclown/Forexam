@@ -5,7 +5,7 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.text.format.DateFormat
 import android.view.View
-import android.widget.EditText
+import android.widget.Button
 import java.util.Calendar
 
 fun ShowDateAndTimePicker(context: Context, view: View?) {
@@ -27,7 +27,7 @@ fun ShowDateAndTimePicker(context: Context, view: View?) {
 					val dayStr = if (dayPicked < 10) "0$dayPicked" else dayPicked.toString()
 					val hourStr = if (hourPicked < 10) "0$hourPicked" else hourPicked.toString()
 					val minuteStr = if (minutePicked < 10) "0$minutePicked" else minutePicked.toString()
-					(view as EditText).setText(context.getString(R.string.date_picker_text, yearPicked, monthStr, dayStr, hourStr, minuteStr))
+					(view as Button).text = context.getString(R.string.date_picker_text, yearPicked, monthStr, dayStr, hourStr, minuteStr)
 				},
 				hour,
 				minute,

@@ -6,14 +6,11 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
-import com.bobrovskii.core.ShowDateAndTimePicker
-import com.bobrovskii.core.toDate
 import com.bobrovskii.editexamination.R
 import com.bobrovskii.editexamination.databinding.FragmentEditExaminationBinding
 import com.bobrovskii.editexamination.presentation.EditExaminationState
 import com.bobrovskii.editexamination.presentation.EditExaminationViewModel
 import com.bobrovskii.exam.domain.entity.Discipline
-import com.bobrovskii.exam.domain.entity.ExamRule
 import com.bobrovskii.exam.domain.entity.Group
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,20 +49,29 @@ class EditExaminationFragment : Fragment(R.layout.fragment_edit_examination) {
 
 	private fun initListeners() {
 		with(binding) {
-			autoCompleteDiscipline.setOnItemClickListener { _, _, i, _ ->
-				viewModel.loadExamRulesAndGroups(i)
+			btnSave.setOnClickListener {
+				viewModel.updateExam(
+					binding.etName.text.toString(),
+					binding.acDiscipline.text.toString(),
+					binding.cgGroups.checkedChipId,
+					!binding.swRepass.isChecked,
+					false
+				)
 			}
-			autoCompleteExamRule.setOnItemClickListener { _, _, i, _ ->
-				viewModel.setSelectedExamRule(i)
+			btnSaveAndChangeState.setOnClickListener {
+				viewModel.updateExam(
+					binding.etName.text.toString(),
+					binding.acDiscipline.text.toString(),
+					binding.cgGroups.checkedChipId,
+					!binding.swRepass.isChecked,
+					true
+				)
 			}
-			buttonSave.setOnClickListener {
-				viewModel.updateExam(binding.chipGroup.checkedChipIds, binding.editTextStartDate.editableText.toString(), false)
-			}
-			buttonSaveAndChangeState.setOnClickListener {
-				viewModel.updateExam(binding.chipGroup.checkedChipIds, binding.editTextStartDate.editableText.toString(), true)
-			}
-			editTextStartDate.setOnClickListener { context?.let { it1 -> ShowDateAndTimePicker(context = it1, view = binding.editTextStartDate) } }
 			imageButtonBack.setOnClickListener { viewModel.navigateBack() }
+			swRepass.setOnCheckedChangeListener { _, isChecked ->
+				binding.tvGroups.visibility = if (isChecked) View.INVISIBLE else View.VISIBLE
+				binding.cgGroups.visibility = if (isChecked) View.INVISIBLE else View.VISIBLE
+			}
 		}
 	}
 
@@ -87,47 +93,34 @@ class EditExaminationFragment : Fragment(R.layout.fragment_edit_examination) {
 
 	private fun renderContentState(
 		disciplines: List<Discipline>?,
-		examRules: List<ExamRule>?,
 		groups: List<Group>?,
 		selectedDiscipline: Discipline?,
-		selectedExamRule: ExamRule?,
 	) {
 
 	}
 
 	private fun initSpinners(content: EditExaminationState.Content) {
-		val adapterDiscipline = ArrayAdapter<String>(binding.autoCompleteDiscipline.context, R.layout.item_discipline)
+		binding.etName.setText(content.exam.name)
+		binding.swRepass.isChecked = !content.exam.oneGroup
+
+		val adapterDiscipline = ArrayAdapter<String>(binding.acDiscipline.context, R.layout.item_discipline)
 		adapterDiscipline.clear()
-		content.disciplines?.let { list ->
+		content.disciplines.let { list ->
 			adapterDiscipline.addAll(list.map { it.name })
 		}
-		content.selectedDiscipline?.let {
-			binding.autoCompleteDiscipline.setText(it.name)
-		} ?: binding.autoCompleteExamRule.setText("Пожалуйста, выберите дисциплину!")
-		binding.autoCompleteDiscipline.setAdapter(adapterDiscipline)
-
-		val adapterExamRule = ArrayAdapter<String>(binding.autoCompleteExamRule.context, R.layout.item_discipline)
-		adapterExamRule.clear()
-		content.examRules?.let { list ->
-			adapterExamRule.addAll(list.map { it.name })
+		content.selectedDiscipline.let {
+			binding.acDiscipline.setText(it.name)
 		}
-		content.selectedExamRule?.let {
-			binding.autoCompleteExamRule.setText(it.name)
-		}
-		binding.autoCompleteExamRule.setAdapter(adapterExamRule)
+		binding.acDiscipline.setAdapter(adapterDiscipline)
 
-		content.selectedStartTime?.let {
-			binding.editTextStartDate.setText(it.toDate())
-		}
-
-		binding.chipGroup.removeAllViews()
-		content.groups?.map {
-			val chip = Chip(binding.chipGroup.context)
+		binding.cgGroups.removeAllViews()
+		content.groups.map {
+			val chip = Chip(binding.cgGroups.context)
 			chip.text = it.name
 			chip.id = it.id
 			chip.isCheckable = true
-			chip.isChecked = content.selectedGroups?.contains(chip.id) ?: false
-			binding.chipGroup.addView(chip)
+			chip.isChecked = content.selectedGroup?.id == it.id
+			binding.cgGroups.addView(chip)
 		}
 	}
 }

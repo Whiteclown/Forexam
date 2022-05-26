@@ -21,7 +21,6 @@ include(
 	":features:home",
 	":features:editexamination",
 	":features:addexamination",
-	":features:accessexamination",
 	":features:progressexamination",
 	":shared:session",
 	":shared:exam",

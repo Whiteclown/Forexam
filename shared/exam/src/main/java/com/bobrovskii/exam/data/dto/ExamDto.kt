@@ -5,29 +5,11 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ExamDto(
 	val id: Int,
-	val examRuleId: Int,
+	val name: String,
 	val disciplineId: Int,
-	val groupIds: List<Int>,
+	val groupId: Int?,
+	val oneGroup: Boolean,
+	val start: String,
+	val end: String,
+	val state: String,
 )
-
-
-/*{
-	@JsonClass(generateAdapter = true)
-	data class Teacher(
-		val id: Int,
-		val account: Account,
-		//val discipline: Discipline
-	) {
-
-		@JsonClass(generateAdapter = true)
-		data class Account(
-			val id: Int,
-			val username: String,
-			//val password: String,
-			val name: String,
-			val surname: String,
-			val roles: List<String>
-		)
-	}
-}
-*/

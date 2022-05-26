@@ -6,7 +6,7 @@ interface HomeNavigation {
 
 	fun openEditExamination(examId: Int)
 
-	fun routeToAccessExam(examId: Int)
-
 	fun routeToAddExam()
+
+	fun routeToProgressExam(examId: Int)
 }

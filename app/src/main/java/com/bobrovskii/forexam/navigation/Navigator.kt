@@ -1,17 +1,16 @@
 package com.bobrovskii.forexam.navigation
 
 import androidx.navigation.NavController
-import com.bobrovskii.accessexamination.presentation.AccessExamNavigation
-import com.bobrovskii.accessexamination.ui.AccessExamFragment
 import com.bobrovskii.addexamination.presentation.AddExamRouter
 import com.bobrovskii.editexamination.presentation.EditExaminationNavigation
 import com.bobrovskii.editexamination.ui.EditExaminationFragment
 import com.bobrovskii.forexam.R
 import com.bobrovskii.home.presentation.navigation.HomeNavigation
+import com.bobrovskii.progressexamination.ui.ProgressExaminationFragment
 import com.bobrovskii.signin.presentation.SignInNavigation
 import com.bobrovskii.signup.presentation.SignUpNavigation
 
-class Navigator : SignInNavigation, SignUpNavigation, HomeNavigation, EditExaminationNavigation, AddExamRouter, AccessExamNavigation {
+class Navigator : SignInNavigation, SignUpNavigation, HomeNavigation, EditExaminationNavigation, AddExamRouter {
 
 	private var navController: NavController? = null
 
@@ -42,15 +41,15 @@ class Navigator : SignInNavigation, SignUpNavigation, HomeNavigation, EditExamin
 		)
 	}
 
-	override fun routeToAccessExam(examId: Int) {
-		navController?.navigate(
-			R.id.action_homeFragment_to_accessExamFragment,
-			AccessExamFragment.createBundle(examId)
-		)
-	}
-
 	override fun routeToAddExam() {
 		navController?.navigate(R.id.action_homeFragment_to_addExamFragment)
+	}
+
+	override fun routeToProgressExam(examId: Int) {
+		navController?.navigate(
+			R.id.action_homeFragment_to_progressExaminationFragment,
+			ProgressExaminationFragment.createBundle(examId)
+		)
 	}
 
 	fun setToSignIn() {

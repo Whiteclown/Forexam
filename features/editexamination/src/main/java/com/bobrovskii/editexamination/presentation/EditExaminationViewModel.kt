@@ -3,16 +3,13 @@ package com.bobrovskii.editexamination.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bobrovskii.core.ExamStates
-import com.bobrovskii.core.toTimestamp
 import com.bobrovskii.exam.domain.usecase.GetDisciplineByIdUseCase
 import com.bobrovskii.exam.domain.usecase.GetDisciplinesUseCase
 import com.bobrovskii.exam.domain.usecase.GetExamByIdUseCase
-import com.bobrovskii.exam.domain.usecase.GetExamRuleByIdUseCase
-import com.bobrovskii.exam.domain.usecase.GetExamRulesByDisciplineUseCase
-import com.bobrovskii.exam.domain.usecase.GetGroupsByDisciplineUseCase
-import com.bobrovskii.exam.domain.usecase.GetLastPeriodByExamUseCase
+import com.bobrovskii.exam.domain.usecase.GetGroupByIdUseCase
+import com.bobrovskii.exam.domain.usecase.GetGroupsUseCase
+import com.bobrovskii.exam.domain.usecase.UpdateExamStateUseCase
 import com.bobrovskii.exam.domain.usecase.UpdateExamUseCase
-import com.bobrovskii.exam.domain.usecase.UpdatePeriodStateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,14 +19,12 @@ import javax.inject.Inject
 @HiltViewModel
 class EditExaminationViewModel @Inject constructor(
 	private val getDisciplinesUseCase: GetDisciplinesUseCase,
-	private val getExamRulesByDisciplineUseCase: GetExamRulesByDisciplineUseCase,
-	private val getGroupsByDisciplineUseCase: GetGroupsByDisciplineUseCase,
+	private val getGroupsUseCase: GetGroupsUseCase,
 	private val getExamByIdUseCase: GetExamByIdUseCase,
 	private val getDisciplineByIdUseCase: GetDisciplineByIdUseCase,
-	private val getExamRuleByIdUseCase: GetExamRuleByIdUseCase,
-	private val getLastPeriodByExamUseCase: GetLastPeriodByExamUseCase,
 	private val updateExamUseCase: UpdateExamUseCase,
-	private val updatePeriodStateUseCase: UpdatePeriodStateUseCase,
+	private val updateExamStateUseCase: UpdateExamStateUseCase,
+	private val getGroupByIdUseCase: GetGroupByIdUseCase,
 ) : ViewModel() {
 
 	@Inject
@@ -42,69 +37,38 @@ class EditExaminationViewModel @Inject constructor(
 		viewModelScope.launch {
 			_state.value = EditExaminationState.Loading
 			val exam = getExamByIdUseCase(examId)
-			val period = getLastPeriodByExamUseCase(examId)
 			val selectedDiscipline = getDisciplineByIdUseCase(exam.disciplineId)
-			val selectedExamRule = getExamRuleByIdUseCase(exam.examRuleId)
-			val selectedStartTime = period.start
-			val selectedGroups = exam.groupIds
+			val selectedGroup = exam.groupId?.let { getGroupByIdUseCase(it) }
 
 			val disciplines = getDisciplinesUseCase().toMutableList()
-			val groups = getGroupsByDisciplineUseCase(selectedDiscipline.id).toMutableList()
-			val examRules = getExamRulesByDisciplineUseCase(selectedDiscipline.id).toMutableList()
+			val groups = getGroupsUseCase().toMutableList()
 
 			_state.value = EditExaminationState.Content(
 				exam = exam,
-				period = period,
 				disciplines = disciplines,
 				groups = groups,
-				examRules = examRules,
 				selectedDiscipline = selectedDiscipline,
-				selectedExamRule = selectedExamRule,
-				selectedStartTime = selectedStartTime,
-				selectedGroups = selectedGroups,
+				selectedGroup = selectedGroup,
 			)
 		}
 	}
 
-	fun loadExamRulesAndGroups(localDisciplineId: Int) {
-		viewModelScope.launch {
-			val content = (_state.value as EditExaminationState.Content)
-			_state.value = EditExaminationState.Loading
-			val selectedDiscipline = content.disciplines[localDisciplineId]
-			val examRules = getExamRulesByDisciplineUseCase(selectedDiscipline.id).toMutableList()
-			val groups = getGroupsByDisciplineUseCase(selectedDiscipline.id).toMutableList()
-			_state.value = content.copy(
-				groups = groups,
-				examRules = examRules,
-				selectedDiscipline = selectedDiscipline,
-				selectedGroups = null,
-				selectedExamRule = null,
-			)
-		}
-	}
-
-	fun setSelectedExamRule(examRuleId: Int) {
-		val content = (_state.value as EditExaminationState.Content)
-		val selectedExamRule = content.examRules[examRuleId]
-		_state.value = content.copy(selectedExamRule = selectedExamRule)
-	}
-
-	fun updateExam(choseGroupsIds: List<Int>, startTime: String, isGoingToAccessState: Boolean) {
+	fun updateExam(name: String, discipline: String, choseGroupsId: Int, oneGroup: Boolean, isGoingToReadyState: Boolean) {
 		viewModelScope.launch {
 			val content = (_state.value as EditExaminationState.Content)
 			with(content) {
-				if (selectedExamRule != null) {
+				disciplines.find { it.name == discipline }?.let {
 					updateExamUseCase(
 						examId = exam.id,
-						discipline = selectedDiscipline,
-						examRule = selectedExamRule,
-						groups = groups.filter { choseGroupsIds.contains(it.id) },
-						startTime = startTime.toTimestamp()
+						name = name,
+						discipline = it,
+						groupId = choseGroupsId,
+						oneGroup = oneGroup,
 					)
-					if (isGoingToAccessState) {
-						updatePeriodStateUseCase(period.id, ExamStates.ALLOWANCE)
+					if (isGoingToReadyState) {
+						updateExamStateUseCase(exam.id, ExamStates.READY, null)
 					}
-					navigation.goBack()
+					navigateBack()
 				}
 			}
 		}
