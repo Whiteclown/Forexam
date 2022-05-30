@@ -1,28 +1,41 @@
 package com.bobrovskii.exam.data.api
 
+import com.bobrovskii.exam.data.dto.AnswerDto
+import com.bobrovskii.exam.data.dto.AnswerInfoDto
 import com.bobrovskii.exam.data.dto.DisciplineDto
 import com.bobrovskii.exam.data.dto.ExamDto
+import com.bobrovskii.exam.data.dto.FullExamDto
 import com.bobrovskii.exam.data.dto.GroupDto
 import com.bobrovskii.exam.data.dto.RequestAddExam
 import com.bobrovskii.exam.data.dto.RequestExamState
+import com.bobrovskii.exam.data.dto.RequestMessage
 import com.bobrovskii.exam.data.dto.RequestUpdateExam
+import com.bobrovskii.exam.data.dto.StudentDto
+import com.bobrovskii.exam.data.dto.TaskDto
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ExamApi {
 
 	@POST("/exams")
 	suspend fun postExam(@Body requestAddExam: RequestAddExam)
 
+	@POST("/answers/{answerId}/message")
+	suspend fun postMessage(@Path("answerId") answerId: Int, @Body requestMessage: RequestMessage)
+
 	@GET("/exams")
 	suspend fun getExams(): List<ExamDto>
 
 	@GET("/exams/{examId}")
 	suspend fun getExamById(@Path("examId") examId: Int): ExamDto
+
+	@GET("/exams/{examId}/full")
+	suspend fun getFullExamById(@Path("examId") examId: Int, @Query("level") level: Int): FullExamDto
 
 	@GET("/discipline")
 	suspend fun getDisciplines(): List<DisciplineDto>
@@ -35,6 +48,21 @@ interface ExamApi {
 
 	@GET("/groups/{groupId}")
 	suspend fun getGroupById(@Path("groupId") groupId: Int): GroupDto
+
+	@GET("/exams/{examId}/answers")
+	suspend fun getAnswersByExam(@Path("examId") examId: Int): List<AnswerDto>
+
+	@GET("/task/{taskId}")
+	suspend fun getTaskById(@Path("taskId") taskId: Int): TaskDto
+
+//	@GET("/student-rating/{id}/full")
+//	suspend fun getStudentRatingById(@Path("id") id: Int, @Query("level") level: Int): FullStudentRatingDto
+
+	@GET("/students/{studentId}")
+	suspend fun getStudentById(@Path("studentId") studentId: Int): StudentDto
+
+	@GET("/answers/{answerId}/full")
+	suspend fun getFullAnswerById(@Path("answerId") answerId: Int): AnswerInfoDto
 
 	@PUT("/exams")
 	suspend fun updateExam(@Body requestUpdateExam: RequestUpdateExam)

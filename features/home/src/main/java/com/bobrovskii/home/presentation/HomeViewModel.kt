@@ -59,7 +59,7 @@ class HomeViewModel @Inject constructor(
 	val examId = _examId.asStateFlow()
 
 	//todo: надо добавить в адаптер остальные стейты
-	fun getPeriods() {
+	fun getExams() {
 		viewModelScope.launch {
 			try {
 				_exams.value = getExamsUseCase()
@@ -102,7 +102,7 @@ class HomeViewModel @Inject constructor(
 	fun deleteExam() {
 		viewModelScope.launch {
 			deleteExamByIdUseCase(examId.value)
-			_exams.value = _exams.value.toMutableList().apply { remove(_exams.value.find { it.id == examId.value }) }
+			getExams()
 		}
 	}
 
@@ -125,12 +125,14 @@ class HomeViewModel @Inject constructor(
 	fun changeStateToTimeset(startTime: String) {
 		viewModelScope.launch {
 			updateExamStateUseCase(examId.value, ExamStates.TIME_SET, startTime.toTimestamp())
+			getExams()
 		}
 	}
 
 	fun changeStateToProgress() {
 		viewModelScope.launch {
 			updateExamStateUseCase(examId.value, ExamStates.PROGRESS, null)
+			getExams()
 		}
 	}
 }

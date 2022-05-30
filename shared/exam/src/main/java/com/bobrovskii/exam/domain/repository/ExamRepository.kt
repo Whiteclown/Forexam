@@ -1,5 +1,7 @@
 package com.bobrovskii.exam.domain.repository
 
+import com.bobrovskii.exam.domain.entity.Answer
+import com.bobrovskii.exam.domain.entity.AnswerInfo
 import com.bobrovskii.exam.domain.entity.Discipline
 import com.bobrovskii.exam.domain.entity.Exam
 import com.bobrovskii.exam.domain.entity.Group
@@ -7,6 +9,8 @@ import com.bobrovskii.exam.domain.entity.Group
 interface ExamRepository {
 
 	suspend fun postExam(name: String, discipline: Discipline, groupId: Int, oneGroup: Boolean)
+
+	suspend fun postMessage(answerId: Int, text: String)
 
 	suspend fun getExams(): List<Exam>
 
@@ -19,6 +23,10 @@ interface ExamRepository {
 	suspend fun getGroups(): List<Group>
 
 	suspend fun getGroupById(groupId: Int): Group
+
+	suspend fun getAnswersByExam(examId: Int): List<Answer>
+
+	suspend fun getAnswerInfo(answerId: Int): AnswerInfo
 
 	suspend fun updateExam(examId: Int, name: String, discipline: Discipline, groupId: Int, oneGroup: Boolean)
 

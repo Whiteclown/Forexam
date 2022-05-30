@@ -7,8 +7,7 @@ import com.bobrovskii.home.databinding.PeriodClosedItemBinding
 
 class ClosedExamViewHolder(
 	private val binding: PeriodClosedItemBinding,
-) :
-	BaseExamViewHolder(binding.root) {
+) : BaseExamViewHolder(binding.root) {
 
 	fun bind(
 		item: Exam,

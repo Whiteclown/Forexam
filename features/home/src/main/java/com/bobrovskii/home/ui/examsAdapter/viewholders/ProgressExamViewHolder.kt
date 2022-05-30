@@ -21,7 +21,7 @@ class ProgressExamViewHolder(
 			tvTitle.text = item.name
 			tvStartTime.text = "Идет с ${item.start.toDate()}"
 
-			//itemView.setOnClickListener { onItemClicked(item.examId) }
+			itemView.setOnClickListener { onItemClicked(item.id) }
 			imageButtonDelete.setOnClickListener { onDeleteClicked(item.id) }
 		}
 	}

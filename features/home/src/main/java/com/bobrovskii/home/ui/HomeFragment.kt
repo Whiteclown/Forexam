@@ -41,7 +41,7 @@ class HomeFragment : Fragment(),
 
 	override fun onStart() {
 		super.onStart()
-		viewModel.getPeriods()
+		viewModel.getExams()
 	}
 
 	override fun onDestroy() {
@@ -175,7 +175,7 @@ class HomeFragment : Fragment(),
 				viewModel.openAddExam()
 			}
 			swipe.setOnRefreshListener {
-				viewModel.getPeriods()
+				viewModel.getExams()
 			}
 		}
 	}

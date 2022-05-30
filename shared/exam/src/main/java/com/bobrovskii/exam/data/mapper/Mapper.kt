@@ -1,11 +1,18 @@
 package com.bobrovskii.exam.data.mapper
 
+import com.bobrovskii.exam.data.dto.AnswerDto
+import com.bobrovskii.exam.data.dto.AnswerInfoDto
 import com.bobrovskii.exam.data.dto.DisciplineDto
 import com.bobrovskii.exam.data.dto.ExamDto
 import com.bobrovskii.exam.data.dto.GroupDto
+import com.bobrovskii.exam.data.dto.TaskDto
+import com.bobrovskii.exam.domain.entity.Answer
+import com.bobrovskii.exam.domain.entity.AnswerInfo
 import com.bobrovskii.exam.domain.entity.Discipline
 import com.bobrovskii.exam.domain.entity.Exam
 import com.bobrovskii.exam.domain.entity.Group
+import com.bobrovskii.exam.domain.entity.Message
+import com.bobrovskii.exam.domain.entity.Task
 
 fun ExamDto.toEntity() =
 	Exam(
@@ -25,20 +32,39 @@ fun DisciplineDto.toEntity() =
 		name = name
 	)
 
-fun Discipline.toDto() =
-	DisciplineDto(
-		id = id,
-		name = name
-	)
-
 fun GroupDto.toEntity() =
 	Group(
 		id = id,
 		name = name
 	)
 
-fun Group.toDto() =
-	GroupDto(
+fun AnswerDto.toEntity() =
+	Answer(
 		id = id,
-		name = name
+		taskId = taskId,
+		rating = rating,
+		studentRatingId = studentRatingId,
+		number = number,
+		state = state,
+	)
+
+fun TaskDto.toEntity() =
+	Task(
+		id = id,
+		text = text,
+		taskType = taskType,
+	)
+
+fun AnswerInfoDto.toEntity() =
+	AnswerInfo(
+		answer = answer.toEntity(),
+		task = task.task.toEntity(),
+		messages = messages.map {
+			Message(
+				id = it.message.id,
+				text = it.message.text,
+				sendTime = it.message.sendTime,
+				senderName = "${it.account.surname} ${it.account.name}"
+			)
+		}
 	)

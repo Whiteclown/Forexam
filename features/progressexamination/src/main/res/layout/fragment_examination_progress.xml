@@ -57,20 +57,14 @@
 						android:ellipsize="end"
 						android:text="Экзамены" />
 				</LinearLayout>
-
-				<ImageView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:src="@drawable/ic_chat"
-					android:layout_marginEnd="16dp"
-					android:layout_marginTop="16dp"/>
 			</LinearLayout>
 		</com.google.android.material.appbar.MaterialToolbar>
 	</com.google.android.material.appbar.AppBarLayout>
 
 	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/rv_answers"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		tools:listitem="@layout/item_unseen_answer" />
+		tools:listitem="@layout/item_sent_answer" />
 
 </LinearLayout>

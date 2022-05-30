@@ -6,11 +6,21 @@ import com.bobrovskii.editexamination.presentation.EditExaminationNavigation
 import com.bobrovskii.editexamination.ui.EditExaminationFragment
 import com.bobrovskii.forexam.R
 import com.bobrovskii.home.presentation.navigation.HomeNavigation
+import com.bobrovskii.progressexamination.presentation.ProgressExaminationRouter
 import com.bobrovskii.progressexamination.ui.ProgressExaminationFragment
 import com.bobrovskii.signin.presentation.SignInNavigation
 import com.bobrovskii.signup.presentation.SignUpNavigation
+import presentation.AnswerRouter
+import ui.AnswerFragment
 
-class Navigator : SignInNavigation, SignUpNavigation, HomeNavigation, EditExaminationNavigation, AddExamRouter {
+class Navigator :
+	SignInNavigation,
+	SignUpNavigation,
+	HomeNavigation,
+	EditExaminationNavigation,
+	AddExamRouter,
+	ProgressExaminationRouter,
+	AnswerRouter {
 
 	private var navController: NavController? = null
 
@@ -32,6 +42,13 @@ class Navigator : SignInNavigation, SignUpNavigation, HomeNavigation, EditExamin
 
 	override fun goBack() {
 		navController?.popBackStack()
+	}
+
+	override fun routeToAnswer(answerId: Int) {
+		navController?.navigate(
+			R.id.action_progressExaminationFragment_to_answerFragment,
+			AnswerFragment.createBundle(answerId)
+		)
 	}
 
 	override fun openEditExamination(examId: Int) {

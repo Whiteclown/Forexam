@@ -17,7 +17,7 @@ import com.bobrovskii.home.ui.examsAdapter.viewholders.TimesetExamViewHolder
 class ExamsAdapter(
 	private val onItemClicked: (Int) -> Unit,
 	private val onDeleteClicked: (Int) -> Unit,
-) : ListAdapter<Exam, RecyclerView.ViewHolder>(PeriodsDiffCallback()) {
+) : ListAdapter<Exam, RecyclerView.ViewHolder>(ExamsDiffCallback()) {
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
 		when (viewType) {
@@ -84,7 +84,7 @@ class ExamsAdapter(
 	}
 }
 
-private class PeriodsDiffCallback : DiffUtil.ItemCallback<Exam>() {
+private class ExamsDiffCallback : DiffUtil.ItemCallback<Exam>() {
 
 	override fun areItemsTheSame(oldItem: Exam, newItem: Exam) = oldItem.id == newItem.id
 

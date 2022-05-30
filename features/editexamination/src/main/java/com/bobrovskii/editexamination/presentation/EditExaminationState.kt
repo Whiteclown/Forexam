@@ -5,7 +5,6 @@ import com.bobrovskii.exam.domain.entity.Exam
 import com.bobrovskii.exam.domain.entity.Group
 
 sealed interface EditExaminationState {
-
 	object Initial : EditExaminationState
 
 	object Loading : EditExaminationState

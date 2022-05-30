@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/addexamination" />
+            <option value="$PROJECT_DIR$/features/answer" />
             <option value="$PROJECT_DIR$/features/editexamination" />
             <option value="$PROJECT_DIR$/features/home" />
             <option value="$PROJECT_DIR$/features/progressexamination" />
