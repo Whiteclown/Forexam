@@ -28,6 +28,10 @@ class HomeFragment : Fragment(),
 
 	private val viewModel: HomeViewModel by viewModels()
 
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+	}
+
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		_binding = FragmentHomeBinding.inflate(inflater, container, false)
 		return binding.root
@@ -50,9 +54,9 @@ class HomeFragment : Fragment(),
 	}
 
 	private fun initRecyclerView() {
-		binding.periodsRV.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+		binding.rvExams.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-		val adapterEditPeriods = ExamsAdapter(
+		val adapterEditExams = ExamsAdapter(
 			onItemClicked = { examId ->
 				viewModel.openEditExam(examId)
 			},
@@ -63,13 +67,13 @@ class HomeFragment : Fragment(),
 		)
 		viewModel.viewModelScope.launch {
 			viewModel.examsEdit.collect {
-				adapterEditPeriods.submitList(it)
-				adapterEditPeriods.notifyDataSetChanged()
+				adapterEditExams.submitList(it)
+				adapterEditExams.notifyDataSetChanged()
 				binding.swipe.isRefreshing = false
 			}
 		}
 
-		val adapterReadyPeriods = ExamsAdapter(
+		val adapterReadyExams = ExamsAdapter(
 			onItemClicked = { examId ->
 				viewModel.setExamId(examId)
 				showSetExamTimeDialog()
@@ -81,13 +85,13 @@ class HomeFragment : Fragment(),
 		)
 		viewModel.viewModelScope.launch {
 			viewModel.examsReady.collect {
-				adapterReadyPeriods.submitList(it)
-				adapterReadyPeriods.notifyDataSetChanged()
+				adapterReadyExams.submitList(it)
+				adapterReadyExams.notifyDataSetChanged()
 				binding.swipe.isRefreshing = false
 			}
 		}
 
-		val adapterTimesetPeriods = ExamsAdapter(
+		val adapterTimesetExams = ExamsAdapter(
 			onItemClicked = { examId ->
 				viewModel.setExamId(examId)
 				showStartExamDialog()
@@ -99,13 +103,13 @@ class HomeFragment : Fragment(),
 		)
 		viewModel.viewModelScope.launch {
 			viewModel.examsTimeset.collect {
-				adapterTimesetPeriods.submitList(it)
-				adapterTimesetPeriods.notifyDataSetChanged()
+				adapterTimesetExams.submitList(it)
+				adapterTimesetExams.notifyDataSetChanged()
 				binding.swipe.isRefreshing = false
 			}
 		}
 
-		val adapterProgressPeriods = ExamsAdapter(
+		val adapterProgressExams = ExamsAdapter(
 			onItemClicked = { examId ->
 				viewModel.openProgressExam(examId)
 			},
@@ -116,15 +120,15 @@ class HomeFragment : Fragment(),
 		)
 		viewModel.viewModelScope.launch {
 			viewModel.examsProgress.collect {
-				adapterProgressPeriods.submitList(it)
-				adapterProgressPeriods.notifyDataSetChanged()
+				adapterProgressExams.submitList(it)
+				adapterProgressExams.notifyDataSetChanged()
 				binding.swipe.isRefreshing = false
 			}
 		}
 
-		val adapterFinishedPeriods = ExamsAdapter(
+		val adapterFinishedExams = ExamsAdapter(
 			onItemClicked = { examId ->
-				//viewModel.openEditExam(examId)
+
 			},
 			onDeleteClicked = { examId ->
 				viewModel.setExamId(examId)
@@ -133,15 +137,15 @@ class HomeFragment : Fragment(),
 		)
 		viewModel.viewModelScope.launch {
 			viewModel.examsFinished.collect {
-				adapterFinishedPeriods.submitList(it)
-				adapterFinishedPeriods.notifyDataSetChanged()
+				adapterFinishedExams.submitList(it)
+				adapterFinishedExams.notifyDataSetChanged()
 				binding.swipe.isRefreshing = false
 			}
 		}
 
-		val adapterClosedPeriods = ExamsAdapter(
+		val adapterClosedExams = ExamsAdapter(
 			onItemClicked = { examId ->
-				//viewModel.openEditExam(examId)
+
 			},
 			onDeleteClicked = { examId ->
 				viewModel.setExamId(examId)
@@ -150,19 +154,19 @@ class HomeFragment : Fragment(),
 		)
 		viewModel.viewModelScope.launch {
 			viewModel.examsClosed.collect {
-				adapterClosedPeriods.submitList(it)
-				adapterClosedPeriods.notifyDataSetChanged()
+				adapterClosedExams.submitList(it)
+				adapterClosedExams.notifyDataSetChanged()
 				binding.swipe.isRefreshing = false
 			}
 		}
 
-		binding.periodsRV.adapter = ConcatAdapter(
-			adapterProgressPeriods,
-			adapterFinishedPeriods,
-			adapterReadyPeriods,
-			adapterTimesetPeriods,
-			adapterEditPeriods,
-			adapterClosedPeriods,
+		binding.rvExams.adapter = ConcatAdapter(
+			adapterProgressExams,
+			adapterFinishedExams,
+			adapterReadyExams,
+			adapterTimesetExams,
+			adapterEditExams,
+			adapterClosedExams,
 		)
 	}
 

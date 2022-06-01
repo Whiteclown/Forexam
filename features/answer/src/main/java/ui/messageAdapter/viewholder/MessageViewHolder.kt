@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bobrovskii.answer.databinding.ItemMessageBinding
+import com.bobrovskii.core.toTime
 import com.bobrovskii.exam.domain.entity.Message
 
 class MessageViewHolder(
@@ -18,7 +19,7 @@ class MessageViewHolder(
 			//Set data and listeners
 			tvName.text = item.senderName
 			tvMessage.text = item.text
-			tvTime.text = item.sendTime
+			tvTime.text = item.sendTime.toTime()
 
 			//itemView.setOnClickListener { onItemClicked(item.id) }
 			//imageButtonDelete.setOnClickListener { onDeleteClicked(item.id) }

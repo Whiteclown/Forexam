@@ -8,7 +8,6 @@ import com.bobrovskii.exam.domain.entity.Exam
 import com.bobrovskii.exam.domain.usecase.DeleteExamByIdUseCase
 import com.bobrovskii.exam.domain.usecase.GetExamsUseCase
 import com.bobrovskii.exam.domain.usecase.UpdateExamStateUseCase
-import com.bobrovskii.home.presentation.navigation.HomeNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,14 +21,10 @@ class HomeViewModel @Inject constructor(
 	private val getExamsUseCase: GetExamsUseCase,
 	private val deleteExamByIdUseCase: DeleteExamByIdUseCase,
 	private val updateExamStateUseCase: UpdateExamStateUseCase,
+	private val router: HomeRouter,
 ) : ViewModel() {
 
-	@Inject
-	lateinit var navigation: HomeNavigation
-
 	private val _exams = MutableStateFlow<List<Exam>>(emptyList())
-	val exams: Flow<List<Exam>>
-		get() = _exams
 
 	private val _examsEdit = MutableStateFlow<List<Exam>>(emptyList())
 	val examsEdit: Flow<List<Exam>>
@@ -58,7 +53,6 @@ class HomeViewModel @Inject constructor(
 	private val _examId = MutableStateFlow(0)
 	val examId = _examId.asStateFlow()
 
-	//todo: надо добавить в адаптер остальные стейты
 	fun getExams() {
 		viewModelScope.launch {
 			try {
@@ -70,7 +64,6 @@ class HomeViewModel @Inject constructor(
 		}
 	}
 
-	// сортировка на разные состояния
 	private fun sortExams() {
 		_examsEdit.value = _examsEdit.value.toMutableList().apply { clear() }
 		_examsReady.value = _examsReady.value.toMutableList().apply { clear() }
@@ -96,7 +89,7 @@ class HomeViewModel @Inject constructor(
 	}
 
 	fun goBack() {
-		navigation.goBack()
+		router.goBack()
 	}
 
 	fun deleteExam() {
@@ -107,15 +100,15 @@ class HomeViewModel @Inject constructor(
 	}
 
 	fun openAddExam() {
-		navigation.routeToAddExam()
+		router.routeToAddExam()
 	}
 
 	fun openEditExam(examId: Int) {
-		navigation.openEditExamination(examId)
+		router.routeToEditExam(examId)
 	}
 
 	fun openProgressExam(examId: Int) {
-		navigation.routeToProgressExam(examId)
+		router.routeToProgressExam(examId)
 	}
 
 	fun setExamId(examId: Int) {

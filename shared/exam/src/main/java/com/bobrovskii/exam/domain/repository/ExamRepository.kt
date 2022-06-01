@@ -32,5 +32,7 @@ interface ExamRepository {
 
 	suspend fun updateExamState(examId: Int, state: String, startTime: String?)
 
+	suspend fun updateAnswerRating(answerId: Int, rating: Int)
+
 	suspend fun deleteExamById(examId: Int)
 }

@@ -11,14 +11,14 @@ class RatedAnswerViewHolder(
 
 	fun bind(
 		item: Answer,
-		//onItemClicked: (Int) -> Unit,
+		onItemClicked: (Int) -> Unit,
 	) {
 		with(binding) {
 			//Set data and listeners
 			tvStudentName.text = item.studentName
 			tvTaskType.text = item.type
 
-			//itemView.setOnClickListener { onItemClicked(item.id) }
+			itemView.setOnClickListener { onItemClicked(item.id) }
 			//imageButtonDelete.setOnClickListener { onDeleteClicked(item.id) }
 		}
 	}

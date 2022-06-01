@@ -1,6 +1,6 @@
 package com.bobrovskii.editexamination.presentation
 
-interface EditExaminationNavigation {
+interface EditExaminationRouter {
 
 	fun goBack()
 }

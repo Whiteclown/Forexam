@@ -14,10 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
 	private val loginUseCase: LoginUseCase,
+	private val router: SignInRouter,
 ) : ViewModel() {
-
-	@Inject
-	lateinit var navigation: SignInNavigation
 
 	private val _isError = MutableStateFlow(0)
 	val isLogin: StateFlow<Int> = _isError
@@ -38,11 +36,11 @@ class SignInViewModel @Inject constructor(
 	}
 
 	private fun navigateToHome() {
-		navigation.openHome()
+		router.routeToHome()
 	}
 
 	fun navigateToSignUp() {
-		navigation.openSignUp()
+		router.routeToSignUp()
 	}
 
 }

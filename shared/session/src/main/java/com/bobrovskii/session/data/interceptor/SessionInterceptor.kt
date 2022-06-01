@@ -14,8 +14,6 @@ class SessionInterceptor @Inject constructor(
 		val request = chain.request()
 		val token = sessionRepository.get().token
 
-		println("TOKEN971 $token")
-
 		val authRequest = request
 			.newBuilder()
 			.addHeader(Headers.XAccessToken, token)

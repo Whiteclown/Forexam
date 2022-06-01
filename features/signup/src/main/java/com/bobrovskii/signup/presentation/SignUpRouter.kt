@@ -1,6 +1,6 @@
 package com.bobrovskii.signup.presentation
 
-interface SignUpNavigation {
+interface SignUpRouter {
 
 	fun goBack()
 }

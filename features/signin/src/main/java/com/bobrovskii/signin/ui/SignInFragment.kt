@@ -35,6 +35,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 		binding.textViewNoAcc.setOnClickListener {
 			viewModel.navigateToSignUp()
 		}
+
 	}
 
 	private fun initObservers() {

@@ -50,8 +50,12 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 
 	private fun initListeners() {
 		with(binding) {
-			btnSendMessage.setOnClickListener { viewModel.sendMessage(answerId, etMessageText.text.toString()) }
+			btnSendMessage.setOnClickListener {
+				viewModel.sendMessage(answerId, etMessageText.text.toString())
+				etMessageText.text.clear()
+			}
 			btnBack.setOnClickListener { viewModel.navigateBack() }
+			btnRate.setOnClickListener { viewModel.rateAnswer(answerId, etRating.text.toString().toInt()) }
 		}
 	}
 
@@ -66,7 +70,8 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 				tvTitleTask.text = state.answerInfo.task.taskType
 				tvTask.text = state.answerInfo.task.text
 				messageAdapter.messages = state.answerInfo.messages
-				binding.rvMessages.scrollToPosition(messageAdapter.messages.lastIndex)
+				rvMessages.scrollToPosition(messageAdapter.messages.lastIndex)
+				etRating.setText(state.answerInfo.answer.rating.toString())
 			}
 		}
 	}

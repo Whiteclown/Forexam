@@ -9,6 +9,8 @@ sealed interface EditExaminationState {
 
 	object Loading : EditExaminationState
 
+	object Error : EditExaminationState
+
 	data class Content(
 		val exam: Exam,
 		val disciplines: List<Discipline>,
@@ -17,3 +19,5 @@ sealed interface EditExaminationState {
 		val selectedGroup: Group?,
 	) : EditExaminationState
 }
+
+

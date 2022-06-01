@@ -17,6 +17,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+	const val BASE_URL = "http://217.71.129.139:4502"
+
 	@Provides
 	@Singleton
 	fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
@@ -54,7 +56,7 @@ object NetworkModule {
 	fun provideNotAuthorizedRetrofit(@NotAuthorized client: OkHttpClient): Retrofit =
 		Retrofit
 			.Builder()
-			.baseUrl("http://217.71.129.139:4502")
+			.baseUrl(BASE_URL)
 			.addConverterFactory(MoshiConverterFactory.create(moshi))
 			.client(client)
 			.build()
@@ -65,7 +67,7 @@ object NetworkModule {
 	fun provideAuthorizedRetrofit(@Authorized client: OkHttpClient): Retrofit =
 		Retrofit
 			.Builder()
-			.baseUrl("http://217.71.129.139:4502")
+			.baseUrl(BASE_URL)
 			.addConverterFactory(MoshiConverterFactory.create())
 			.client(client)
 			.build()

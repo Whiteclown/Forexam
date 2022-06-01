@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bobrovskii.signup.R
 import com.bobrovskii.signup.databinding.FragmentSignUpBinding
-import com.bobrovskii.signup.presentation.SignUpNavigation
+import com.bobrovskii.signup.presentation.SignUpRouter
 import com.bobrovskii.signup.presentation.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
 
 	@Inject
-	lateinit var navigation: SignUpNavigation
+	lateinit var navigation: SignUpRouter
 
 	private lateinit var binding: FragmentSignUpBinding
 

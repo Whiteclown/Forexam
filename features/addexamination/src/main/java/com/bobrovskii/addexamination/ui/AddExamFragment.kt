@@ -51,12 +51,26 @@ class AddExamFragment : Fragment(R.layout.fragment_add_exam) {
 
 	private fun renderState(state: AddExamState) {
 		when (state) {
-			is AddExamState.Initial -> {}
+			is AddExamState.Initial -> {
+				with(binding) {
+					loadingView.root.visibility = View.VISIBLE
+					mainLayout.visibility = View.GONE
+				}
+			}
 
-			is AddExamState.Loading -> {}
+			is AddExamState.Loading -> {
+				with(binding) {
+					loadingView.root.visibility = View.VISIBLE
+					mainLayout.visibility = View.GONE
+				}
+			}
 
 			is AddExamState.Content -> {
-				initSpinners(state)
+				with(binding) {
+					mainLayout.visibility = View.VISIBLE
+					initSpinners(state)
+					loadingView.root.visibility = View.GONE
+				}
 			}
 		}
 	}

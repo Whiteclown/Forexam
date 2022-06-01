@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bobrovskii.exam.domain.usecase.GetAnswerInfoUseCase
 import com.bobrovskii.exam.domain.usecase.PostMessageUseCase
+import com.bobrovskii.exam.domain.usecase.UpdateAnswerRating
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,6 +15,7 @@ import javax.inject.Inject
 class AnswerViewModel @Inject constructor(
 	private val getAnswerInfoUseCase: GetAnswerInfoUseCase,
 	private val postMessageUseCase: PostMessageUseCase,
+	private val updateAnswerRating: UpdateAnswerRating,
 	private val router: AnswerRouter,
 ) : ViewModel() {
 
@@ -32,10 +34,14 @@ class AnswerViewModel @Inject constructor(
 
 	fun sendMessage(answerId: Int, text: String) {
 		viewModelScope.launch {
-			_state.value = AnswerState.Loading
+			postMessageUseCase(answerId, text)
+			loadData(answerId)
+		}
+	}
 
-			//postMessageUseCase(answerId, text)
-			navigateBack()
+	fun rateAnswer(answerId: Int, rating: Int) {
+		viewModelScope.launch {
+			updateAnswerRating(answerId, rating)
 		}
 	}
 

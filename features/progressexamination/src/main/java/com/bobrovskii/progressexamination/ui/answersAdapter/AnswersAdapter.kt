@@ -55,13 +55,28 @@ class AnswersAdapter(
 		answers?.let {
 			val item = it[position]
 			when (holder) {
-				is CheckingAnswerViewHolder -> {
+				is CheckingAnswerViewHolder   -> {
 					holder.bind(
 						item = item,
+						onItemClicked = onItemClicked,
 					)
 				}
 
-				is SentAnswerViewHolder     -> {
+				is SentAnswerViewHolder       -> {
+					holder.bind(
+						item = item,
+						onItemClicked = onItemClicked,
+					)
+				}
+
+				is InProgressAnswerViewHolder -> {
+					holder.bind(
+						item = item,
+						onItemClicked = onItemClicked,
+					)
+				}
+
+				is RatedAnswerViewHolder      -> {
 					holder.bind(
 						item = item,
 						onItemClicked = onItemClicked,

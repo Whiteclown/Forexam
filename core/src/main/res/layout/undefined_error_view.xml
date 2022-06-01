@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/design_default_color_background"
+	android:orientation="vertical">
+
+	<Space
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1" />
+
+	<ImageView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:src="@drawable/ic_undefined_error" />
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="4dp"
+		android:layout_marginTop="24dp"
+		android:gravity="center"
+		android:text="Something error"
+		android:textColor="#CB4F4F" />
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:text="Check your something"
+		android:textColor="@color/design_default_color_background" />
+
+	<Space
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1" />
+
+	<Button
+		android:id="@+id/btn_refresh"
+		style="@style/primaryButton"
+		android:layout_width="290dp"
+		android:layout_height="48dp"
+		android:layout_gravity="center"
+		android:layout_marginBottom="20dp"
+		android:text="Попробовать снова" />
+
+</LinearLayout>

@@ -2,6 +2,7 @@ package com.bobrovskii.exam.data.repository
 
 import com.bobrovskii.exam.data.api.ExamApi
 import com.bobrovskii.exam.data.dto.RequestAddExam
+import com.bobrovskii.exam.data.dto.RequestAnswerRating
 import com.bobrovskii.exam.data.dto.RequestExamState
 import com.bobrovskii.exam.data.dto.RequestMessage
 import com.bobrovskii.exam.data.dto.RequestUpdateExam
@@ -51,7 +52,7 @@ class ExamRepositoryImpl @Inject constructor(
 
 	override suspend fun getAnswersByExam(examId: Int): List<Answer> {
 		val answers: MutableList<Answer> = mutableListOf()
-		api.getFullExamById(examId, 4).group.groupRatings.forEach { fullGroupRatingDto ->
+		api.getFullExamById(examId, 5).group.groupRatings.forEach { fullGroupRatingDto ->
 			fullGroupRatingDto.studentRatings.forEach { fullStudentsRatingDto ->
 				val acc = fullStudentsRatingDto.student.student.account
 				fullStudentsRatingDto.answers.forEach {
@@ -67,7 +68,7 @@ class ExamRepositoryImpl @Inject constructor(
 	}
 
 	override suspend fun getAnswerInfo(answerId: Int): AnswerInfo =
-		api.getFullAnswerById(answerId).toEntity()
+		api.getFullAnswerById(answerId, 2).toEntity()
 
 	override suspend fun updateExam(examId: Int, name: String, discipline: Discipline, groupId: Int, oneGroup: Boolean) =
 		api.updateExam(
@@ -84,6 +85,9 @@ class ExamRepositoryImpl @Inject constructor(
 		api.updateExamState(
 			state = RequestExamState(examId, startTime, state)
 		)
+
+	override suspend fun updateAnswerRating(answerId: Int, rating: Int) =
+		api.updateAnswerRating(RequestAnswerRating(answerId, rating))
 
 	override suspend fun deleteExamById(examId: Int) =
 		api.deleteExamById(examId)

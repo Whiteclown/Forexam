@@ -7,6 +7,7 @@ import com.bobrovskii.exam.data.dto.ExamDto
 import com.bobrovskii.exam.data.dto.FullExamDto
 import com.bobrovskii.exam.data.dto.GroupDto
 import com.bobrovskii.exam.data.dto.RequestAddExam
+import com.bobrovskii.exam.data.dto.RequestAnswerRating
 import com.bobrovskii.exam.data.dto.RequestExamState
 import com.bobrovskii.exam.data.dto.RequestMessage
 import com.bobrovskii.exam.data.dto.RequestUpdateExam
@@ -62,13 +63,16 @@ interface ExamApi {
 	suspend fun getStudentById(@Path("studentId") studentId: Int): StudentDto
 
 	@GET("/answers/{answerId}/full")
-	suspend fun getFullAnswerById(@Path("answerId") answerId: Int): AnswerInfoDto
+	suspend fun getFullAnswerById(@Path("answerId") answerId: Int, @Query("level") level: Int): AnswerInfoDto
 
 	@PUT("/exams")
 	suspend fun updateExam(@Body requestUpdateExam: RequestUpdateExam)
 
 	@PUT("/exams/state")
 	suspend fun updateExamState(@Body state: RequestExamState)
+
+	@PUT("/answers/state")
+	suspend fun updateAnswerRating(@Body requestAnswerRating: RequestAnswerRating)
 
 	@DELETE("/exams/{examId}")
 	suspend fun deleteExamById(@Path("examId") examId: Int)

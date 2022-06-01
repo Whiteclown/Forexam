@@ -25,16 +25,15 @@ class EditExaminationViewModel @Inject constructor(
 	private val updateExamUseCase: UpdateExamUseCase,
 	private val updateExamStateUseCase: UpdateExamStateUseCase,
 	private val getGroupByIdUseCase: GetGroupByIdUseCase,
+	private val router: EditExaminationRouter,
 ) : ViewModel() {
-
-	@Inject
-	lateinit var navigation: EditExaminationNavigation
 
 	private val _state = MutableStateFlow<EditExaminationState>(EditExaminationState.Initial)
 	val state = _state.asStateFlow()
 
 	fun loadData(examId: Int) {
 		viewModelScope.launch {
+			_state.value = EditExaminationState.Error
 			_state.value = EditExaminationState.Loading
 			val exam = getExamByIdUseCase(examId)
 			val selectedDiscipline = getDisciplineByIdUseCase(exam.disciplineId)
@@ -75,6 +74,6 @@ class EditExaminationViewModel @Inject constructor(
 	}
 
 	fun navigateBack() {
-		navigation.goBack()
+		router.goBack()
 	}
 }

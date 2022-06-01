@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:id="@+id/nested_scroll_view"
+	android:id="@+id/linear_layout"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical"
 	android:fillViewport="true">
 
 	<LinearLayout
+		android:id="@+id/main_layout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
@@ -16,12 +17,10 @@
 		<!--Тулбар-->
 		<com.google.android.material.appbar.AppBarLayout
 			android:id="@+id/toolbar_container"
-
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="90dp">
 
 			<com.google.android.material.appbar.MaterialToolbar
-
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				app:contentInsetLeft="0dp"
@@ -129,8 +128,10 @@
 			android:layout_height="48dp"
 			android:layout_marginBottom="20dp"
 			android:text="Добавить"
-			style="@style/primaryButton"/>
-
+			style="@style/primaryButton" />
 	</LinearLayout>
 
-</androidx.core.widget.NestedScrollView>
+	<include
+		android:id="@+id/loading_view"
+		layout="@layout/loading_view" />
+</LinearLayout>

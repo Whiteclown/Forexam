@@ -14,3 +14,9 @@ fun String.toTimestamp(): String {
 	val date = df.parse(this)
 	return date.time.toString()
 }
+
+fun String.toTime(): String {
+	val date = Date(this.toLong())
+	val df = SimpleDateFormat("HH:mm")
+	return df.format(date)
+}

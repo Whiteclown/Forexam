@@ -6,17 +6,44 @@
 	android:layout_height="match_parent"
 	tools:context=".ui.SignInFragment">
 
-	<TextView
-		android:id="@+id/screenName"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="40dp"
-		android:text="Авторизация"
-		android:textAppearance="@style/TextAppearance.AppCompat.Large"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.152"
+	<!--Тулбар-->
+	<com.google.android.material.appbar.AppBarLayout
+		android:id="@+id/toolbar_container"
+		android:layout_width="match_parent"
+		android:layout_height="90dp"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="parent">
+
+		<com.google.android.material.appbar.MaterialToolbar
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			app:contentInsetLeft="0dp"
+			app:contentInsetStart="0dp">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:paddingHorizontal="20dp"
+				android:paddingVertical="12dp">
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="12dp"
+					android:orientation="vertical">
+
+					<TextView
+						android:id="@+id/screenName"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="24dp"
+						android:text="Авторизация"
+						android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+				</LinearLayout>
+			</LinearLayout>
+		</com.google.android.material.appbar.MaterialToolbar>
+	</com.google.android.material.appbar.AppBarLayout>
 
 	<com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/editTextEmail"
