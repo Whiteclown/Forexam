@@ -20,4 +20,5 @@ dependencies {
 
 	implementation(project(":shared:session"))
 	implementation(project(":shared:exam"))
+	implementation(project(":core"))
 }

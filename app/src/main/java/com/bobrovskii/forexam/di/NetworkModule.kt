@@ -1,11 +1,14 @@
 package com.bobrovskii.forexam.di
 
+import android.content.Context
+import com.bobrovskii.session.data.interceptor.NetworkConnectionInterceptor
 import com.bobrovskii.session.data.interceptor.SessionInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -28,15 +31,22 @@ object NetworkModule {
 
 	@Provides
 	@Singleton
+	fun provideNetworkConnectionInterceptor(@ApplicationContext context: Context): NetworkConnectionInterceptor =
+		NetworkConnectionInterceptor(context)
+
+	@Provides
+	@Singleton
 	@Authorized
 	fun provideAuthorizedOkHttpClient(
 		httpLoggingInterceptor: HttpLoggingInterceptor,
-		sessionInterceptor: SessionInterceptor
+		sessionInterceptor: SessionInterceptor,
+		networkConnectionInterceptor: NetworkConnectionInterceptor,
 	): OkHttpClient =
 		OkHttpClient
 			.Builder()
 			.addInterceptor(httpLoggingInterceptor)
 			.addInterceptor(sessionInterceptor)
+			.addInterceptor(networkConnectionInterceptor)
 			.build()
 
 	@Provides
@@ -44,10 +54,12 @@ object NetworkModule {
 	@NotAuthorized
 	fun provideNotAuthorizedOkHttpClient(
 		httpLoggingInterceptor: HttpLoggingInterceptor,
+		networkConnectionInterceptor: NetworkConnectionInterceptor,
 	): OkHttpClient =
 		OkHttpClient
 			.Builder()
 			.addInterceptor(httpLoggingInterceptor)
+			.addInterceptor(networkConnectionInterceptor)
 			.build()
 
 	@Provides

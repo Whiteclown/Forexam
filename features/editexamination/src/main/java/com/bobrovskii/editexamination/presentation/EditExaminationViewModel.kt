@@ -3,6 +3,7 @@ package com.bobrovskii.editexamination.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bobrovskii.core.ExamStates
+import com.bobrovskii.core.NoNetworkConnectionException
 import com.bobrovskii.exam.domain.usecase.GetDisciplineByIdUseCase
 import com.bobrovskii.exam.domain.usecase.GetDisciplinesUseCase
 import com.bobrovskii.exam.domain.usecase.GetExamByIdUseCase
@@ -55,14 +56,24 @@ class EditExaminationViewModel @Inject constructor(
 					selectedDiscipline = selectedDiscipline,
 					selectedGroup = selectedGroup,
 				)
-			} catch (e: HttpException) {
-				e.response()?.errorBody()?.let { responseBody ->
-					val errorMessage = responseBody.charStream().use { stream ->
-						stream.readText()
+			} catch (e: Exception) {
+				when (e) {
+					is HttpException                -> {
+						e.response()?.errorBody()?.let { responseBody ->
+							val errorMessage = responseBody.charStream().use { stream ->
+								stream.readText()
+							}
+							_actions.send(EditExaminationAction.ShowError(errorMessage))
+						} ?: run {
+							_actions.send(EditExaminationAction.ShowError("Возникла непредвиденная ошибка"))
+						}
 					}
-					_actions.send(EditExaminationAction.ShowError(errorMessage))
-				} ?: run {
-					_actions.send(EditExaminationAction.ShowError("Возникла непредвиденная ошибка"))
+
+					is NoNetworkConnectionException -> {
+						_actions.send(EditExaminationAction.ShowError(e.message))
+					}
+
+					else                            -> _actions.send(EditExaminationAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 				}
 			}
 		}
@@ -85,14 +96,24 @@ class EditExaminationViewModel @Inject constructor(
 							updateExamStateUseCase(exam.id, ExamStates.READY, null)
 						}
 						navigateBack()
-					} catch (e: HttpException) {
-						e.response()?.errorBody()?.let { responseBody ->
-							val errorMessage = responseBody.charStream().use { stream ->
-								stream.readText()
+					} catch (e: Exception) {
+						when (e) {
+							is HttpException                -> {
+								e.response()?.errorBody()?.let { responseBody ->
+									val errorMessage = responseBody.charStream().use { stream ->
+										stream.readText()
+									}
+									_actions.send(EditExaminationAction.ShowError(errorMessage))
+								} ?: run {
+									_actions.send(EditExaminationAction.ShowError("Возникла непредвиденная ошибка"))
+								}
 							}
-							_actions.send(EditExaminationAction.ShowError(errorMessage))
-						} ?: run {
-							_actions.send(EditExaminationAction.ShowError("Возникла непредвиденная ошибка"))
+
+							is NoNetworkConnectionException -> {
+								_actions.send(EditExaminationAction.ShowError(e.message))
+							}
+
+							else                            -> _actions.send(EditExaminationAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 						}
 					}
 				}

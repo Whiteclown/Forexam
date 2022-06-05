@@ -25,7 +25,7 @@ class MainViewModel @Inject constructor(
 				getSessionUseCase()
 			}.onSuccess {
 				sendFirebaseTokenUseCase()
-				navigation.setToHome()
+				navigation.routeToHome()
 			}.onFailure {
 				navigation.setToSignIn()
 			}

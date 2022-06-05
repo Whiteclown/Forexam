@@ -6,6 +6,7 @@ import com.bobrovskii.artefact.domain.usecase.GetArtefactMetaDataUseCase
 import com.bobrovskii.artefact.domain.usecase.GetArtefactUseCase
 import com.bobrovskii.artefact.domain.usecase.PostArtefactUseCase
 import com.bobrovskii.core.AnswerStates
+import com.bobrovskii.core.NoNetworkConnectionException
 import com.bobrovskii.exam.domain.usecase.GetAnswerInfoUseCase
 import com.bobrovskii.exam.domain.usecase.PostMessageUseCase
 import com.bobrovskii.exam.domain.usecase.UpdateAnswerRating
@@ -52,14 +53,24 @@ class AnswerViewModel @Inject constructor(
 					metaData = null,
 					file = null,
 				)
-			} catch (e: HttpException) {
-				e.response()?.errorBody()?.let { responseBody ->
-					val errorMessage = responseBody.charStream().use { stream ->
-						stream.readText()
+			} catch (e: Exception) {
+				when (e) {
+					is HttpException                -> {
+						e.response()?.errorBody()?.let { responseBody ->
+							val errorMessage = responseBody.charStream().use { stream ->
+								stream.readText()
+							}
+							_actions.send(AnswerAction.ShowError(errorMessage))
+						} ?: run {
+							_actions.send(AnswerAction.ShowError("Возникла непредвиденная ошибка"))
+						}
 					}
-					_actions.send(AnswerAction.ShowError(errorMessage))
-				} ?: run {
-					_actions.send(AnswerAction.ShowError("Возникла непредвиденная ошибка"))
+
+					is NoNetworkConnectionException -> {
+						_actions.send(AnswerAction.ShowError(e.message))
+					}
+
+					else                            -> _actions.send(AnswerAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 				}
 			}
 		}
@@ -78,14 +89,24 @@ class AnswerViewModel @Inject constructor(
 							file = null,
 						)
 					}
-				} catch (e: HttpException) {
-					e.response()?.errorBody()?.let { responseBody ->
-						val errorMessage = responseBody.charStream().use { stream ->
-							stream.readText()
+				} catch (e: Exception) {
+					when (e) {
+						is HttpException                -> {
+							e.response()?.errorBody()?.let { responseBody ->
+								val errorMessage = responseBody.charStream().use { stream ->
+									stream.readText()
+								}
+								_actions.send(AnswerAction.ShowError(errorMessage))
+							} ?: run {
+								_actions.send(AnswerAction.ShowError("Возникла непредвиденная ошибка"))
+							}
 						}
-						_actions.send(AnswerAction.ShowError(errorMessage))
-					} ?: run {
-						_actions.send(AnswerAction.ShowError("Возникла непредвиденная ошибка"))
+
+						is NoNetworkConnectionException -> {
+							_actions.send(AnswerAction.ShowError(e.message))
+						}
+
+						else                            -> _actions.send(AnswerAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 					}
 				}
 			}
@@ -102,14 +123,24 @@ class AnswerViewModel @Inject constructor(
 						metaData = null,
 					)
 					loadData(answerId)
-				} catch (e: HttpException) {
-					e.response()?.errorBody()?.let { responseBody ->
-						val errorMessage = responseBody.charStream().use { stream ->
-							stream.readText()
+				} catch (e: Exception) {
+					when (e) {
+						is HttpException                -> {
+							e.response()?.errorBody()?.let { responseBody ->
+								val errorMessage = responseBody.charStream().use { stream ->
+									stream.readText()
+								}
+								_actions.send(AnswerAction.ShowError(errorMessage))
+							} ?: run {
+								_actions.send(AnswerAction.ShowError("Возникла непредвиденная ошибка"))
+							}
 						}
-						_actions.send(AnswerAction.ShowError(errorMessage))
-					} ?: run {
-						_actions.send(AnswerAction.ShowError("Возникла непредвиденная ошибка"))
+
+						is NoNetworkConnectionException -> {
+							_actions.send(AnswerAction.ShowError(e.message))
+						}
+
+						else                            -> _actions.send(AnswerAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 					}
 				}
 			}
@@ -121,14 +152,24 @@ class AnswerViewModel @Inject constructor(
 			try {
 				updateAnswerRating(answerId, AnswerStates.RATED, rating)
 				navigateBack()
-			} catch (e: HttpException) {
-				e.response()?.errorBody()?.let { responseBody ->
-					val errorMessage = responseBody.charStream().use { stream ->
-						stream.readText()
+			} catch (e: Exception) {
+				when (e) {
+					is HttpException                -> {
+						e.response()?.errorBody()?.let { responseBody ->
+							val errorMessage = responseBody.charStream().use { stream ->
+								stream.readText()
+							}
+							_actions.send(AnswerAction.ShowError(errorMessage))
+						} ?: run {
+							_actions.send(AnswerAction.ShowError("Возникла непредвиденная ошибка"))
+						}
 					}
-					_actions.send(AnswerAction.ShowError(errorMessage))
-				} ?: run {
-					_actions.send(AnswerAction.ShowError("Возникла непредвиденная ошибка"))
+
+					is NoNetworkConnectionException -> {
+						_actions.send(AnswerAction.ShowError(e.message))
+					}
+
+					else                            -> _actions.send(AnswerAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 				}
 			}
 		}
@@ -139,14 +180,24 @@ class AnswerViewModel @Inject constructor(
 			try {
 				updateAnswerRating(answerId, AnswerStates.IN_PROGRESS)
 				navigateBack()
-			} catch (e: HttpException) {
-				e.response()?.errorBody()?.let { responseBody ->
-					val errorMessage = responseBody.charStream().use { stream ->
-						stream.readText()
+			} catch (e: Exception) {
+				when (e) {
+					is HttpException                -> {
+						e.response()?.errorBody()?.let { responseBody ->
+							val errorMessage = responseBody.charStream().use { stream ->
+								stream.readText()
+							}
+							_actions.send(AnswerAction.ShowError(errorMessage))
+						} ?: run {
+							_actions.send(AnswerAction.ShowError("Возникла непредвиденная ошибка"))
+						}
 					}
-					_actions.send(AnswerAction.ShowError(errorMessage))
-				} ?: run {
-					_actions.send(AnswerAction.ShowError("Возникла непредвиденная ошибка"))
+
+					is NoNetworkConnectionException -> {
+						_actions.send(AnswerAction.ShowError(e.message))
+					}
+
+					else                            -> _actions.send(AnswerAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 				}
 			}
 		}
@@ -166,14 +217,24 @@ class AnswerViewModel @Inject constructor(
 					_state.value = content.copy(
 						file = uri,
 					)
-				} catch (e: HttpException) {
-					e.response()?.errorBody()?.let { responseBody ->
-						val errorMessage = responseBody.charStream().use { stream ->
-							stream.readText()
+				} catch (e: Exception) {
+					when (e) {
+						is HttpException                -> {
+							e.response()?.errorBody()?.let { responseBody ->
+								val errorMessage = responseBody.charStream().use { stream ->
+									stream.readText()
+								}
+								_actions.send(AnswerAction.ShowError(errorMessage))
+							} ?: run {
+								_actions.send(AnswerAction.ShowError("Возникла непредвиденная ошибка"))
+							}
 						}
-						_actions.send(AnswerAction.ShowError(errorMessage))
-					} ?: run {
-						_actions.send(AnswerAction.ShowError("Возникла непредвиденная ошибка"))
+
+						is NoNetworkConnectionException -> {
+							_actions.send(AnswerAction.ShowError(e.message))
+						}
+
+						else                            -> _actions.send(AnswerAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 					}
 				}
 			}
@@ -188,14 +249,24 @@ class AnswerViewModel @Inject constructor(
 					_state.value = content.copy(
 						metaData = postArtefactUseCase(fileName, file),
 					)
-				} catch (e: HttpException) {
-					e.response()?.errorBody()?.let { responseBody ->
-						val errorMessage = responseBody.charStream().use { stream ->
-							stream.readText()
+				} catch (e: Exception) {
+					when (e) {
+						is HttpException                -> {
+							e.response()?.errorBody()?.let { responseBody ->
+								val errorMessage = responseBody.charStream().use { stream ->
+									stream.readText()
+								}
+								_actions.send(AnswerAction.ShowError(errorMessage))
+							} ?: run {
+								_actions.send(AnswerAction.ShowError("Возникла непредвиденная ошибка"))
+							}
 						}
-						_actions.send(AnswerAction.ShowError(errorMessage))
-					} ?: run {
-						_actions.send(AnswerAction.ShowError("Возникла непредвиденная ошибка"))
+
+						is NoNetworkConnectionException -> {
+							_actions.send(AnswerAction.ShowError(e.message))
+						}
+
+						else                            -> _actions.send(AnswerAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 					}
 				}
 			}

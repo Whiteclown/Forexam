@@ -2,6 +2,7 @@ package com.bobrovskii.addexamination.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bobrovskii.core.NoNetworkConnectionException
 import com.bobrovskii.exam.domain.usecase.GetDisciplinesUseCase
 import com.bobrovskii.exam.domain.usecase.GetGroupsUseCase
 import com.bobrovskii.exam.domain.usecase.PostExamUseCase
@@ -39,14 +40,24 @@ class AddExamViewModel @Inject constructor(
 					disciplines = disciplines,
 					groups = groups,
 				)
-			} catch (e: HttpException) {
-				e.response()?.errorBody()?.let { responseBody ->
-					val errorMessage = responseBody.charStream().use { stream ->
-						stream.readText()
+			} catch (e: Exception) {
+				when (e) {
+					is HttpException                -> {
+						e.response()?.errorBody()?.let { responseBody ->
+							val errorMessage = responseBody.charStream().use { stream ->
+								stream.readText()
+							}
+							_actions.send(AddExamAction.ShowError(errorMessage))
+						} ?: run {
+							_actions.send(AddExamAction.ShowError("Возникла непредвиденная ошибка"))
+						}
 					}
-					_actions.send(AddExamAction.ShowError(errorMessage))
-				} ?: run {
-					_actions.send(AddExamAction.ShowError("Возникла непредвиденная ошибка"))
+
+					is NoNetworkConnectionException -> {
+						_actions.send(AddExamAction.ShowError(e.message))
+					}
+
+					else                            -> _actions.send(AddExamAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 				}
 			}
 		}
@@ -64,14 +75,24 @@ class AddExamViewModel @Inject constructor(
 						oneGroup = oneGroup,
 					)
 					router.routeBack()
-				} catch (e: HttpException) {
-					e.response()?.errorBody()?.let { responseBody ->
-						val errorMessage = responseBody.charStream().use { stream ->
-							stream.readText()
+				} catch (e: Exception) {
+					when (e) {
+						is HttpException                -> {
+							e.response()?.errorBody()?.let { responseBody ->
+								val errorMessage = responseBody.charStream().use { stream ->
+									stream.readText()
+								}
+								_actions.send(AddExamAction.ShowError(errorMessage))
+							} ?: run {
+								_actions.send(AddExamAction.ShowError("Возникла непредвиденная ошибка"))
+							}
 						}
-						_actions.send(AddExamAction.ShowError(errorMessage))
-					} ?: run {
-						_actions.send(AddExamAction.ShowError("Возникла непредвиденная ошибка"))
+
+						is NoNetworkConnectionException -> {
+							_actions.send(AddExamAction.ShowError(e.message))
+						}
+
+						else                            -> _actions.send(AddExamAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 					}
 				}
 			}

@@ -22,5 +22,6 @@ dependencies {
 	implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
 	implementation(project(":shared:exam"))
+	implementation(project(":shared:session"))
 	implementation(project(":core"))
 }

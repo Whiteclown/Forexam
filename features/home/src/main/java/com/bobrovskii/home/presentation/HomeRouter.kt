@@ -9,4 +9,6 @@ interface HomeRouter {
 	fun routeToAddExam()
 
 	fun routeToProgressExam(examId: Int)
+
+	fun routeToSignIn()
 }

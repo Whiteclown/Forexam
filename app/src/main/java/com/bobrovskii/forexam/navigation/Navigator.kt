@@ -9,6 +9,7 @@ import com.bobrovskii.home.presentation.HomeRouter
 import com.bobrovskii.progressexamination.presentation.ProgressExaminationRouter
 import com.bobrovskii.progressexamination.ui.ProgressExaminationFragment
 import com.bobrovskii.signin.presentation.SignInRouter
+import com.bobrovskii.signin.ui.SignInFragmentDirections
 import com.bobrovskii.signup.presentation.SignUpRouter
 import presentation.AnswerRouter
 import ui.AnswerFragment
@@ -37,7 +38,7 @@ class Navigator :
 	}
 
 	override fun routeToHome() {
-		navController?.navigate(R.id.action_signInFragment_to_homeFragment)
+		navController?.navigate(SignInFragmentDirections.actionSignInFragmentToHomeFragment())
 	}
 
 	override fun goBack() {
@@ -67,6 +68,10 @@ class Navigator :
 			R.id.action_homeFragment_to_progressExaminationFragment,
 			ProgressExaminationFragment.createBundle(examId)
 		)
+	}
+
+	override fun routeToSignIn() {
+		navController?.navigate(R.id.action_homeFragment_to_signInFragment)
 	}
 
 	fun setToSignIn() {

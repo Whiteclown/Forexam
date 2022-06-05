@@ -170,7 +170,7 @@ class HomeFragment : Fragment(),
 	private fun initListeners() {
 		with(binding) {
 			imageButtonExit.setOnClickListener {
-				viewModel.goBack()
+				viewModel.logout()
 			}
 			imageButtonAdd.setOnClickListener {
 				viewModel.openAddExam()

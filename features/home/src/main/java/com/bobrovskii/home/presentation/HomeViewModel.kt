@@ -3,11 +3,13 @@ package com.bobrovskii.home.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bobrovskii.core.ExamStates
+import com.bobrovskii.core.NoNetworkConnectionException
 import com.bobrovskii.core.toTimestamp
 import com.bobrovskii.exam.domain.entity.Exam
 import com.bobrovskii.exam.domain.usecase.DeleteExamByIdUseCase
 import com.bobrovskii.exam.domain.usecase.GetExamsUseCase
 import com.bobrovskii.exam.domain.usecase.UpdateExamStateUseCase
+import com.bobrovskii.session.domain.usecase.LogoutUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -23,6 +25,7 @@ class HomeViewModel @Inject constructor(
 	private val getExamsUseCase: GetExamsUseCase,
 	private val deleteExamByIdUseCase: DeleteExamByIdUseCase,
 	private val updateExamStateUseCase: UpdateExamStateUseCase,
+	private val logoutUseCase: LogoutUseCase,
 	private val router: HomeRouter,
 ) : ViewModel() {
 
@@ -63,18 +66,28 @@ class HomeViewModel @Inject constructor(
 			try {
 				_exams.value = getExamsUseCase()
 				sortExams()
-			} catch (e: HttpException) {
-				if (e.code() == 401) {
-					goBack()
-				} else {
-					e.response()?.errorBody()?.let { responseBody ->
-						val errorMessage = responseBody.charStream().use { stream ->
-							stream.readText()
+			} catch (e: Exception) {
+				when (e) {
+					is HttpException                -> {
+						if (e.code() == 401) {
+							routeToSignIn()
+						} else {
+							e.response()?.errorBody()?.let { responseBody ->
+								val errorMessage = responseBody.charStream().use { stream ->
+									stream.readText()
+								}
+								_actions.send(HomeAction.ShowError(errorMessage))
+							} ?: run {
+								_actions.send(HomeAction.ShowError("Возникла непредвиденная ошибка"))
+							}
 						}
-						_actions.send(HomeAction.ShowError(errorMessage))
-					} ?: run {
-						_actions.send(HomeAction.ShowError("Возникла непредвиденная ошибка"))
 					}
+
+					is NoNetworkConnectionException -> {
+						_actions.send(HomeAction.ShowError(e.message))
+					}
+
+					else                            -> _actions.send(HomeAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 				}
 			}
 		}
@@ -101,11 +114,14 @@ class HomeViewModel @Inject constructor(
 	}
 
 	fun logout() {
-		//todo: logout сделать
+		viewModelScope.launch {
+			logoutUseCase()
+			routeToSignIn()
+		}
 	}
 
-	fun goBack() {
-		router.goBack()
+	private fun routeToSignIn() {
+		router.routeToSignIn()
 	}
 
 	fun deleteExam() {
@@ -113,14 +129,24 @@ class HomeViewModel @Inject constructor(
 			try {
 				deleteExamByIdUseCase(examId.value)
 				getExams()
-			} catch (e: HttpException) {
-				e.response()?.errorBody()?.let { responseBody ->
-					val errorMessage = responseBody.charStream().use { stream ->
-						stream.readText()
+			} catch (e: Exception) {
+				when (e) {
+					is HttpException                -> {
+						e.response()?.errorBody()?.let { responseBody ->
+							val errorMessage = responseBody.charStream().use { stream ->
+								stream.readText()
+							}
+							_actions.send(HomeAction.ShowError(errorMessage))
+						} ?: run {
+							_actions.send(HomeAction.ShowError("Возникла непредвиденная ошибка"))
+						}
 					}
-					_actions.send(HomeAction.ShowError(errorMessage))
-				} ?: run {
-					_actions.send(HomeAction.ShowError("Возникла непредвиденная ошибка"))
+
+					is NoNetworkConnectionException -> {
+						_actions.send(HomeAction.ShowError(e.message))
+					}
+
+					else                            -> _actions.send(HomeAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 				}
 			}
 		}
@@ -147,14 +173,24 @@ class HomeViewModel @Inject constructor(
 			try {
 				updateExamStateUseCase(examId.value, ExamStates.TIME_SET, startTime.toTimestamp())
 				getExams()
-			} catch (e: HttpException) {
-				e.response()?.errorBody()?.let { responseBody ->
-					val errorMessage = responseBody.charStream().use { stream ->
-						stream.readText()
+			} catch (e: Exception) {
+				when (e) {
+					is HttpException                -> {
+						e.response()?.errorBody()?.let { responseBody ->
+							val errorMessage = responseBody.charStream().use { stream ->
+								stream.readText()
+							}
+							_actions.send(HomeAction.ShowError(errorMessage))
+						} ?: run {
+							_actions.send(HomeAction.ShowError("Возникла непредвиденная ошибка"))
+						}
 					}
-					_actions.send(HomeAction.ShowError(errorMessage))
-				} ?: run {
-					_actions.send(HomeAction.ShowError("Возникла непредвиденная ошибка"))
+
+					is NoNetworkConnectionException -> {
+						_actions.send(HomeAction.ShowError(e.message))
+					}
+
+					else                            -> _actions.send(HomeAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 				}
 			}
 		}
@@ -165,14 +201,24 @@ class HomeViewModel @Inject constructor(
 			try {
 				updateExamStateUseCase(examId.value, ExamStates.PROGRESS, null)
 				getExams()
-			} catch (e: HttpException) {
-				e.response()?.errorBody()?.let { responseBody ->
-					val errorMessage = responseBody.charStream().use { stream ->
-						stream.readText()
+			} catch (e: Exception) {
+				when (e) {
+					is HttpException                -> {
+						e.response()?.errorBody()?.let { responseBody ->
+							val errorMessage = responseBody.charStream().use { stream ->
+								stream.readText()
+							}
+							_actions.send(HomeAction.ShowError(errorMessage))
+						} ?: run {
+							_actions.send(HomeAction.ShowError("Возникла непредвиденная ошибка"))
+						}
 					}
-					_actions.send(HomeAction.ShowError(errorMessage))
-				} ?: run {
-					_actions.send(HomeAction.ShowError("Возникла непредвиденная ошибка"))
+
+					is NoNetworkConnectionException -> {
+						_actions.send(HomeAction.ShowError(e.message))
+					}
+
+					else                            -> _actions.send(HomeAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 				}
 			}
 		}

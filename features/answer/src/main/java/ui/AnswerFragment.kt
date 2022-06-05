@@ -2,6 +2,7 @@ package ui
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -111,11 +112,22 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 			btnRate.setOnClickListener { viewModel.rateAnswer(answerId, etRating.text.toString().toInt()) }
 			btnAttachFile.setOnClickListener {
 				val supportedMimeTypes = allSupportedDocumentsTypesToExtensions.keys.toTypedArray()
-				Intent(Intent.ACTION_GET_CONTENT).apply {
-					addCategory(Intent.CATEGORY_OPENABLE)
-					type = "*/*"
-					putExtra(Intent.EXTRA_MIME_TYPES, supportedMimeTypes)
-					startActivityForResult(this, OPEN_DOCUMENT_REQUEST_CODE)
+				try {
+					Intent(Intent.ACTION_GET_CONTENT).apply {
+						addCategory(Intent.CATEGORY_OPENABLE)
+						type = "*/*"
+						putExtra(Intent.EXTRA_MIME_TYPES, supportedMimeTypes)
+						startActivityForResult(this, OPEN_DOCUMENT_REQUEST_CODE)
+					}
+				} catch (openableException: ActivityNotFoundException) {
+					context?.let {
+						AlertDialog
+							.Builder(it)
+							.setTitle("Ошибка")
+							.setMessage("Не найдено приложение для открытия данного типа файлов")
+							.setNeutralButton("Ок") { _, _ -> }
+							.show()
+					}
 				}
 			}
 			btnDetach.setOnClickListener {
