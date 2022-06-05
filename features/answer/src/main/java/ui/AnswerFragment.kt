@@ -67,7 +67,6 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 	private val notificationReceiver = object : BroadcastReceiver() {
 
 		override fun onReceive(context: Context?, intent: Intent?) {
-			Log.d("myTag", intent.toString())
 			if (intent != null) {
 				viewModel.refresh(answerId, intent.getIntExtra("accountId", -1))
 			}

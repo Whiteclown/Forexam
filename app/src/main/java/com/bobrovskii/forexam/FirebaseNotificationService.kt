@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.bobrovskii.core.NOTIFICATION_ANSWER_INTENT_ACTION
 import com.bobrovskii.core.NOTIFICATION_MESSAGE_INTENT_ACTION
@@ -49,7 +48,6 @@ class FirebaseNotificationService : FirebaseMessagingService(), CoroutineScope {
 		launch {
 			saveFirebaseTokenUseCase(token)
 		}
-		Log.d("myTag", token)
 	}
 
 	override fun onCreate() {
@@ -80,14 +78,12 @@ class FirebaseNotificationService : FirebaseMessagingService(), CoroutineScope {
 	override fun handleIntent(intent: Intent) {
 		if (intent.isTokenEvent()) {
 			val token = requireNotNull(intent.getStringExtra(NEW_TOKEN))
-			Log.d("TEST_TECH", token)
 			onNewToken(token)
 			return
 		}
 
 		var messageTitle = intent.extras?.getString(NOTIFICATION_TITLE) ?: return
 		var messageBody = intent.extras?.getString(NOTIFICATION_BODY) ?: return
-		Log.d("myTag", messageBody)
 
 		val notifId = messageBody.hashCode().toLong()
 
