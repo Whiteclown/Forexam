@@ -141,7 +141,7 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 	}
 
 	private fun initRV() {
-		binding.rvMessages.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+		binding.rvMessages.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
 		binding.rvMessages.adapter = messageAdapter
 	}
 
@@ -151,6 +151,7 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 				tvTitleTask.text = state.answerInfo.task.taskType
 				tvTask.text = state.answerInfo.task.text
 				messageAdapter.messages = state.answerInfo.messages
+				rvMessages.scrollToPosition(state.answerInfo.messages.lastIndex)
 				etRating.setText(state.answerInfo.answer.rating.toString())
 				state.metaData?.let {
 					tvArtefactName.text = it.fullName.take(20)
