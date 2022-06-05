@@ -12,13 +12,15 @@ class ReadyExamViewHolder(
 
 	fun bind(
 		item: Exam,
-		onItemClicked: (Int) -> Unit
+		onItemClicked: (Int) -> Unit,
+		onDeleteClicked: (Int) -> Unit,
 	) {
 		with(binding) {
 			//Set data and listeners
 			tvTitle.text = item.name
 
-			itemView.setOnClickListener { onItemClicked(absoluteAdapterPosition) }
+			itemView.setOnClickListener { onItemClicked(item.id) }
+			imageButtonDelete.setOnClickListener { onDeleteClicked(item.id) }
 		}
 	}
 

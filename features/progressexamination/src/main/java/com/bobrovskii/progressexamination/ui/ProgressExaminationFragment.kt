@@ -76,7 +76,6 @@ class ProgressExaminationFragment : Fragment(R.layout.fragment_examination_progr
 			viewModel.actions.collect { handleAction(it) }
 		}
 		viewModel.state.onEach(::render).launchIn(viewModel.viewModelScope)
-		viewModel.getAnswers(examId)
 	}
 
 	private fun initListeners() {
@@ -121,12 +120,14 @@ class ProgressExaminationFragment : Fragment(R.layout.fragment_examination_progr
 			inProgressAnswersAdapter?.answers = state.inProgressAnswers
 			ratedAnswersAdapter?.answers = state.ratedAnswers
 		}
+		binding.btnEndExam.visibility = if (state is ProgressExaminationState.Content) View.VISIBLE else View.GONE
 		binding.loadingView.root.visibility = if (state is ProgressExaminationState.Loading) View.VISIBLE else View.GONE
 	}
 
 	override fun onResume() {
 		super.onResume()
 		requireActivity().registerReceiver(notificationReceiver, NOTIFICATION_ANSWER_FILTER)
+		viewModel.getAnswers(examId)
 	}
 
 	override fun onPause() {

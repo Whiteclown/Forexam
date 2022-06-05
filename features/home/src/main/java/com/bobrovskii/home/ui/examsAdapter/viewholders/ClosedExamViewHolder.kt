@@ -17,7 +17,7 @@ class ClosedExamViewHolder(
 			//Set data and listeners
 			tvTitle.text = item.name
 
-			itemView.setOnClickListener { onItemClicked(absoluteAdapterPosition) }
+			itemView.setOnClickListener { onItemClicked(item.id) }
 		}
 	}
 

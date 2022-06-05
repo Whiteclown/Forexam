@@ -21,7 +21,7 @@
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answer/src/main/res/layout/fragment_answer.xml" value="0.33" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answer/src/main/res/layout/item_message.xml" value="0.33" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/editexamination/src/main/res/drawable/baseline_arrow_back_ios_24.xml" value="0.1345" />
-        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/editexamination/src/main/res/layout/fragment_edit_examination.xml" value="0.22864583333333333" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/editexamination/src/main/res/layout/fragment_edit_examination.xml" value="0.1" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/editexamination/src/main/res/layout/item_discipline.xml" value="0.22864583333333333" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/editexamination/src/main/res/layout/page_access_exam.xml" value="0.3374094202898551" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/editexamination/src/main/res/layout/page_add_exam.xml" value="0.22864583333333333" />
@@ -46,6 +46,7 @@
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/item_exam_closed.xml" value="0.246875" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/item_exam_finished.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/item_exam_progress.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/item_timeset_exam.xml" value="0.25" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/period_allowance_item.xml" value="0.3374094202898551" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/period_closed_item.xml" value="0.3374094202898551" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/period_edit_item.xml" value="0.33" />

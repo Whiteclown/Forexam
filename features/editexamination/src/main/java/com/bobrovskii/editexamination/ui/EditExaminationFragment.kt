@@ -109,6 +109,7 @@ class EditExaminationFragment : Fragment(R.layout.fragment_edit_examination) {
 				chip.isChecked = state.selectedGroup?.id == it.id
 				binding.cgGroups.addView(chip)
 			}
+			binding.loadingView.root.visibility = if (state is EditExaminationState.Loading) View.VISIBLE else View.GONE
 		}
 	}
 

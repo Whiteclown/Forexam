@@ -33,7 +33,7 @@ class AnswersAdapter(
 
 		AnswerStates.NO_RATING   -> R.layout.item_no_rating_answer
 
-		else                     -> throw Exception("ai ai ai")
+		else -> throw Exception("Unknown view")
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseAnswerViewHolder =
@@ -48,7 +48,7 @@ class AnswersAdapter(
 
 			R.layout.item_no_rating_answer   -> NoRatingAnswerViewHolder.from(parent)
 
-			else                             -> throw Exception("yao error")
+			else -> throw Exception("Invalid view type")
 		}
 
 	override fun onBindViewHolder(holder: BaseAnswerViewHolder, position: Int) {

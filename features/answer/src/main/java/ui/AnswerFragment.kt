@@ -93,7 +93,6 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 			viewModel.actions.collect { handleAction(it) }
 		}
 		viewModel.state.onEach(::render).launchIn(viewModel.viewModelScope)
-		viewModel.loadData(answerId)
 		permissionsLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
 			readPermissionGranted = it[Manifest.permission.READ_EXTERNAL_STORAGE] ?: readPermissionGranted
 			writePermissionGranted = it[Manifest.permission.WRITE_EXTERNAL_STORAGE] ?: writePermissionGranted
@@ -246,6 +245,7 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 	override fun onResume() {
 		super.onResume()
 		requireActivity().registerReceiver(notificationReceiver, NOTIFICATION_MESSAGE_FILTER)
+		viewModel.loadData(answerId)
 	}
 
 	override fun onPause() {

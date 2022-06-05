@@ -36,7 +36,7 @@ class AddExamFragment : Fragment(R.layout.fragment_add_exam) {
 		super.onViewCreated(view, savedInstanceState)
 		_binding = FragmentAddExamBinding.bind(view)
 		initListeners()
-		viewModel.state.onEach(::renderState).launchIn(viewModel.viewModelScope)
+		viewModel.state.onEach(::render).launchIn(viewModel.viewModelScope)
 		lifecycleScope.launch {
 			viewModel.actions.collect { handleAction(it) }
 		}
@@ -61,30 +61,9 @@ class AddExamFragment : Fragment(R.layout.fragment_add_exam) {
 		}
 	}
 
-	private fun renderState(state: AddExamState) {
-		when (state) {
-			is AddExamState.Initial -> {
-				with(binding) {
-					loadingView.root.visibility = View.GONE
-					mainLayout.visibility = View.GONE
-				}
-			}
-
-			is AddExamState.Loading -> {
-				with(binding) {
-					loadingView.root.visibility = View.VISIBLE
-					mainLayout.visibility = View.GONE
-				}
-			}
-
-			is AddExamState.Content -> {
-				with(binding) {
-					mainLayout.visibility = View.VISIBLE
-					initSpinners(state)
-					loadingView.root.visibility = View.GONE
-				}
-			}
-		}
+	private fun render(state: AddExamState) {
+		if (state is AddExamState.Content) initSpinners(state)
+		binding.loadingView.root.visibility = if (state is AddExamState.Loading) View.VISIBLE else View.GONE
 	}
 
 	private fun initSpinners(content: AddExamState.Content) {

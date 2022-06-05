@@ -13,14 +13,16 @@ class FinishedExamViewHolder(
 
 	fun bind(
 		item: Exam,
-		onItemClicked: (Int) -> Unit
+		onItemClicked: (Int) -> Unit,
+		onRestoreState: (Int) -> Unit,
 	) {
 		with(binding) {
 			//Set data and listeners
 			tvTitle.text = item.name
 			tvEndTime.text = "Закончился: ${item.end.toDate()}"
 
-			itemView.setOnClickListener { onItemClicked(absoluteAdapterPosition) }
+			itemView.setOnClickListener { onItemClicked(item.id) }
+			btnRestoreState.setOnClickListener { onRestoreState(item.id) }
 		}
 	}
 

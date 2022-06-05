@@ -3,6 +3,7 @@ package com.bobrovskii.exam.data.repository
 import android.content.Context
 import com.bobrovskii.core.AnswerStates
 import com.bobrovskii.core.ExamStates
+import com.bobrovskii.core.TaskTypes
 import com.bobrovskii.exam.data.api.ExamApi
 import com.bobrovskii.exam.data.dto.RequestAddExam
 import com.bobrovskii.exam.data.dto.RequestAnswerRating
@@ -83,7 +84,11 @@ class ExamRepositoryImpl @Inject constructor(
 				fullStudentsRatingDto.answers.forEach {
 					answers.add(it.answer.toEntity().apply {
 						studentName = "${acc.surname} ${acc.name}"
-						type = it.task.task.taskType
+						type = when (it.task.task.taskType) {
+							"QUESTION" -> TaskTypes.QUESTION
+							"EXERCISE" -> TaskTypes.EXERCISE
+							else       -> TaskTypes.UNKNOWN
+						}
 					})
 				}
 				fullStudentsRatingDto.student.student.account

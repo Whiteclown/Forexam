@@ -80,7 +80,9 @@ class AnswerViewModel @Inject constructor(
 		if (_state.value is AnswerState.Content) {
 			viewModelScope.launch {
 				try {
-					if ((_state.value as AnswerState.Content).answerInfo.messages.first().accountId == accountId) {
+					if ((_state.value as AnswerState.Content).answerInfo.messages.isNotEmpty() &&
+						(_state.value as AnswerState.Content).answerInfo.messages.first().accountId == accountId
+					) {
 						val answerInfo = getAnswerInfoUseCase(answerId)
 
 						_state.value = AnswerState.Content(

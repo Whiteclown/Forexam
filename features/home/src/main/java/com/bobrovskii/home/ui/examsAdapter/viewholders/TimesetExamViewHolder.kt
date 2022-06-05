@@ -14,6 +14,7 @@ class TimesetExamViewHolder(
 		item: Exam,
 		onItemClicked: (Int) -> Unit,
 		onDeleteClicked: (Int) -> Unit,
+		onRestoreState: (Int) -> Unit,
 	) {
 		with(binding) {
 			//Set data and listeners
@@ -22,6 +23,7 @@ class TimesetExamViewHolder(
 
 			itemView.setOnClickListener { onItemClicked(item.id) }
 			imageButtonDelete.setOnClickListener { onDeleteClicked(item.id) }
+			btnRestoreState.setOnClickListener { onRestoreState(item.id) }
 		}
 	}
 

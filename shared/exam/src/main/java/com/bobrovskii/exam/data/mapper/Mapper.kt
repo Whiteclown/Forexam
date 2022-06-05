@@ -1,5 +1,6 @@
 package com.bobrovskii.exam.data.mapper
 
+import com.bobrovskii.core.TaskTypes
 import com.bobrovskii.exam.data.dto.AccountDto
 import com.bobrovskii.exam.data.dto.AnswerDto
 import com.bobrovskii.exam.data.dto.AnswerInfoDto
@@ -56,7 +57,11 @@ fun TaskDto.toEntity() =
 	Task(
 		id = id,
 		text = text,
-		taskType = taskType,
+		taskType = when (taskType) {
+			"QUESTION" -> TaskTypes.QUESTION
+			"EXERCISE" -> TaskTypes.EXERCISE
+			else       -> TaskTypes.UNKNOWN
+		},
 	)
 
 fun AnswerInfoDto.toEntity() =

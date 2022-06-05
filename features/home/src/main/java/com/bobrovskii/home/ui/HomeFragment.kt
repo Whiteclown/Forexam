@@ -18,10 +18,13 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bobrovskii.home.databinding.FragmentHomeBinding
 import com.bobrovskii.home.presentation.HomeAction
+import com.bobrovskii.home.presentation.HomeState
 import com.bobrovskii.home.presentation.HomeViewModel
 import com.bobrovskii.home.ui.examsAdapter.ExamsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -35,6 +38,63 @@ class HomeFragment : Fragment(),
 
 	private val viewModel: HomeViewModel by viewModels()
 
+	private val adapterEditExams = ExamsAdapter(
+		onItemClicked = { examId ->
+			viewModel.openEditExam(examId)
+		},
+		onDeleteClicked = { examId ->
+			viewModel.setExamId(examId)
+			showDeleteDialog()
+		},
+		onRestoreState = { },
+	)
+
+	private val adapterReadyExams = ExamsAdapter(
+		onItemClicked = { examId ->
+			viewModel.setExamId(examId)
+			showSetExamTimeDialog()
+		},
+		onDeleteClicked = { examId ->
+			viewModel.setExamId(examId)
+			showDeleteDialog()
+		},
+		onRestoreState = { },
+	)
+
+	private val adapterTimesetExams = ExamsAdapter(
+		onItemClicked = { examId ->
+			viewModel.setExamId(examId)
+			showStartExamDialog()
+		},
+		onDeleteClicked = { examId ->
+			viewModel.setExamId(examId)
+			showDeleteDialog()
+		},
+		onRestoreState = { viewModel.restoreFromTimeset(it) },
+	)
+
+	private val adapterProgressExams = ExamsAdapter(
+		onItemClicked = { examId ->
+			viewModel.openProgressExam(examId)
+		},
+		onDeleteClicked = { },
+		onRestoreState = { },
+	)
+
+	private val adapterFinishedExams = ExamsAdapter(
+		onItemClicked = { examId ->
+			viewModel.openProgressExam(examId)
+		},
+		onDeleteClicked = { },
+		onRestoreState = { viewModel.restoreFromFinished(it) },
+	)
+
+	private val adapterClosedExams = ExamsAdapter(
+		onItemClicked = { },
+		onDeleteClicked = { },
+		onRestoreState = { },
+	)
+
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		_binding = FragmentHomeBinding.inflate(inflater, container, false)
 		return binding.root
@@ -45,118 +105,25 @@ class HomeFragment : Fragment(),
 		lifecycleScope.launch {
 			viewModel.actions.collect { handleAction(it) }
 		}
+		viewModel.state.onEach(::render).launchIn(viewModel.viewModelScope)
 		initRecyclerView()
 		initListeners()
 	}
 
-	override fun onStart() {
-		super.onStart()
-		viewModel.getExams()
-	}
-
-	override fun onDestroy() {
-		super.onDestroy()
-		_binding = null
+	private fun render(state: HomeState) {
+		if (state is HomeState.Content) {
+			adapterEditExams.exams = state.examsEdit
+			adapterReadyExams.exams = state.examsReady
+			adapterTimesetExams.exams = state.examsTimeset
+			adapterProgressExams.exams = state.examsProgress
+			adapterFinishedExams.exams = state.examsFinished
+			adapterClosedExams.exams = state.examsClosed
+			binding.swipe.isRefreshing = false
+		}
 	}
 
 	private fun initRecyclerView() {
 		binding.rvExams.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
-		val adapterEditExams = ExamsAdapter(
-			onItemClicked = { examId ->
-				viewModel.openEditExam(examId)
-			},
-			onDeleteClicked = { examId ->
-				viewModel.setExamId(examId)
-				showDeleteDialog()
-			},
-		)
-		viewModel.viewModelScope.launch {
-			viewModel.examsEdit.collect {
-				adapterEditExams.submitList(it)
-				adapterEditExams.notifyDataSetChanged()
-				binding.swipe.isRefreshing = false
-			}
-		}
-
-		val adapterReadyExams = ExamsAdapter(
-			onItemClicked = { examId ->
-				viewModel.setExamId(examId)
-				showSetExamTimeDialog()
-			},
-			onDeleteClicked = { examId ->
-				viewModel.setExamId(examId)
-				showDeleteDialog()
-			},
-		)
-		viewModel.viewModelScope.launch {
-			viewModel.examsReady.collect {
-				adapterReadyExams.submitList(it)
-				adapterReadyExams.notifyDataSetChanged()
-				binding.swipe.isRefreshing = false
-			}
-		}
-
-		val adapterTimesetExams = ExamsAdapter(
-			onItemClicked = { examId ->
-				viewModel.setExamId(examId)
-				showStartExamDialog()
-			},
-			onDeleteClicked = { examId ->
-				viewModel.setExamId(examId)
-				showDeleteDialog()
-			},
-		)
-		viewModel.viewModelScope.launch {
-			viewModel.examsTimeset.collect {
-				adapterTimesetExams.submitList(it)
-				adapterTimesetExams.notifyDataSetChanged()
-				binding.swipe.isRefreshing = false
-			}
-		}
-
-		val adapterProgressExams = ExamsAdapter(
-			onItemClicked = { examId ->
-				viewModel.openProgressExam(examId)
-			},
-			onDeleteClicked = { },
-		)
-		viewModel.viewModelScope.launch {
-			viewModel.examsProgress.collect {
-				adapterProgressExams.submitList(it)
-				adapterProgressExams.notifyDataSetChanged()
-				binding.swipe.isRefreshing = false
-			}
-		}
-
-		val adapterFinishedExams = ExamsAdapter(
-			onItemClicked = { examId ->
-				viewModel.openProgressExam(examId)
-			},
-			onDeleteClicked = { },
-		)
-		viewModel.viewModelScope.launch {
-			viewModel.examsFinished.collect {
-				adapterFinishedExams.submitList(it)
-				adapterFinishedExams.notifyDataSetChanged()
-				binding.swipe.isRefreshing = false
-			}
-		}
-
-		val adapterClosedExams = ExamsAdapter(
-			onItemClicked = { examId ->
-
-			},
-			onDeleteClicked = { },
-		)
-		viewModel.viewModelScope.launch {
-			viewModel.examsClosed.collect {
-				adapterClosedExams.submitList(it)
-				adapterClosedExams.notifyDataSetChanged()
-				binding.swipe.isRefreshing = false
-			}
-		}
-
 		binding.rvExams.adapter = ConcatAdapter(
 			adapterProgressExams,
 			adapterFinishedExams,
@@ -179,6 +146,11 @@ class HomeFragment : Fragment(),
 				viewModel.getExams()
 			}
 		}
+	}
+
+	override fun onStart() {
+		super.onStart()
+		viewModel.getExams()
 	}
 
 	private fun showDeleteDialog() {
