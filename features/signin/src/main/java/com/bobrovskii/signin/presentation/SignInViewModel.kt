@@ -2,6 +2,7 @@ package com.bobrovskii.signin.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bobrovskii.exam.domain.usecase.SendFirebaseTokenUseCase
 import com.bobrovskii.session.domain.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,6 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
 	private val loginUseCase: LoginUseCase,
+	private val sendFirebaseTokenUseCase: SendFirebaseTokenUseCase,
 	private val router: SignInRouter,
 ) : ViewModel() {
 
@@ -24,6 +26,7 @@ class SignInViewModel @Inject constructor(
 		viewModelScope.launch {
 			try {
 				loginUseCase(username = email, password = password)
+				sendFirebaseTokenUseCase()
 				navigateToHome()
 			} catch (e: HttpException) {
 				_isError.value = e.code()

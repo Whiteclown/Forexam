@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
@@ -10,7 +10,8 @@
 	<com.google.android.material.appbar.AppBarLayout
 		android:id="@+id/toolbar_container"
 		android:layout_width="match_parent"
-		android:layout_height="90dp">
+		android:layout_height="90dp"
+		app:layout_constraintTop_toTopOf="parent">
 
 		<com.google.android.material.appbar.MaterialToolbar
 			android:layout_width="match_parent"
@@ -59,6 +60,7 @@
 		android:background="#C1C1C1"
 		android:paddingStart="16dp"
 		android:paddingTop="8dp"
+		app:layout_constraintTop_toBottomOf="@id/toolbar_container"
 		tools:text="Task" />
 
 	<TextView
@@ -70,6 +72,7 @@
 		android:paddingEnd="16dp"
 		android:paddingStart="16dp"
 		android:paddingTop="4dp"
+		app:layout_constraintTop_toBottomOf="@id/tv_title_task"
 		tools:text="texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttextvv" />
 
 	<androidx.recyclerview.widget.RecyclerView
@@ -77,18 +80,21 @@
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
 		android:layout_weight="1"
+		app:layout_constraintTop_toBottomOf="@id/tv_task"
 		tools:listitem="@layout/item_message" />
 
 	<LinearLayout
+		android:id="@+id/ll_upper_panel"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:background="#C1C1C1"
-		android:orientation="horizontal">
+		android:orientation="horizontal"
+		app:layout_constraintBottom_toTopOf="@id/ll_artefact">
 
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:paddingStart="16dp"
+			android:paddingStart="8dp"
 			android:text="Баллы:"
 			android:textColor="#000000"
 			android:textSize="20sp" />
@@ -97,7 +103,7 @@
 			android:id="@+id/et_rating"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
+			android:layout_weight="0.5"
 			android:inputType="numberDecimal"
 			tools:text="25" />
 
@@ -106,17 +112,58 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
+			android:layout_marginEnd="4dp"
 			android:textColor="@color/design_default_color_on_secondary"
 			android:text="Оценить" />
 
-
+		<Button
+			android:id="@+id/btn_return"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="8dp"
+			android:layout_weight="1"
+			android:backgroundTint="@color/design_default_color_error"
+			android:text="Вернуть"
+			android:textColor="@color/design_default_color_on_primary" />
 	</LinearLayout>
 
 	<LinearLayout
+		android:id="@+id/ll_artefact"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:background="#C1C1C1"
+		android:visibility="gone"
+		app:layout_constraintBottom_toTopOf="@id/ll_lower_panel">
+
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/ic_attach_file" />
+
+		<TextView
+			android:id="@+id/tv_artefact_name"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:background="#C1C1C1"
+			android:src="@drawable/ic_send"
+			tools:text="image.jpg" />
+
+		<ImageButton
+			android:id="@+id/btn_detach"
+			style="@style/Widget.Material3.Button.OutlinedButton"
+			android:layout_width="24dp"
+			android:layout_height="24dp"
+			android:src="@drawable/ic_detach" />
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/ll_lower_panel"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:background="#C1C1C1"
-		android:orientation="horizontal">
+		android:orientation="horizontal"
+		app:layout_constraintBottom_toBottomOf="parent">
 
 		<EditText
 			android:id="@+id/et_message_text"
@@ -142,4 +189,8 @@
 			android:background="#C1C1C1"
 			android:src="@drawable/ic_send" />
 	</LinearLayout>
-</LinearLayout>
+
+	<include
+		android:id="@+id/loading_view"
+		layout="@layout/loading_view" />
+</androidx.constraintlayout.widget.ConstraintLayout>

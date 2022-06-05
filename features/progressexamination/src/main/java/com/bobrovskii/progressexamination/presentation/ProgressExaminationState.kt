@@ -1,5 +1,6 @@
 package com.bobrovskii.progressexamination.presentation
 
+import com.bobrovskii.core.ExamStates
 import com.bobrovskii.exam.domain.entity.Answer
 
 sealed interface ProgressExaminationState {
@@ -14,5 +15,6 @@ sealed interface ProgressExaminationState {
 		val checkingAnswers: List<Answer>,
 		val ratedAnswers: List<Answer>,
 		val noRatingAnswers: List<Answer>,
+		val examState: ExamStates,
 	) : ProgressExaminationState
 }

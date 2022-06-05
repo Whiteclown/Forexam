@@ -19,4 +19,5 @@ dependencies {
 	implementation(Dependencies.Navigation.FRAGMENT)
 
 	implementation(project(":shared:session"))
+	implementation(project(":shared:exam"))
 }

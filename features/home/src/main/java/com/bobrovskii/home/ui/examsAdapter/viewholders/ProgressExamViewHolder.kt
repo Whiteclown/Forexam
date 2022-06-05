@@ -4,17 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bobrovskii.core.toDate
 import com.bobrovskii.exam.domain.entity.Exam
-import com.bobrovskii.home.databinding.PeriodProgressItemBinding
+import com.bobrovskii.home.databinding.ItemExamProgressBinding
 
 class ProgressExamViewHolder(
-	private val binding: PeriodProgressItemBinding,
+	private val binding: ItemExamProgressBinding,
 ) :
 	BaseExamViewHolder(binding.root) {
 
 	fun bind(
 		item: Exam,
 		onItemClicked: (Int) -> Unit,
-		onDeleteClicked: (Int) -> Unit,
 	) {
 		with(binding) {
 			//Set data and listeners
@@ -22,7 +21,6 @@ class ProgressExamViewHolder(
 			tvStartTime.text = "Идет с ${item.start.toDate()}"
 
 			itemView.setOnClickListener { onItemClicked(item.id) }
-			imageButtonDelete.setOnClickListener { onDeleteClicked(item.id) }
 		}
 	}
 
@@ -30,7 +28,7 @@ class ProgressExamViewHolder(
 
 		fun from(parent: ViewGroup): ProgressExamViewHolder {
 			val layoutInflater = LayoutInflater.from(parent.context)
-			val binding = PeriodProgressItemBinding.inflate(layoutInflater, parent, false)
+			val binding = ItemExamProgressBinding.inflate(layoutInflater, parent, false)
 			return ProgressExamViewHolder(binding)
 		}
 	}

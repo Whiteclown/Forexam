@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/app/src/main/res/drawable/ic_launcher_background.xml" value="0.196" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/app/src/main/res/layout/activity_main.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/app/src/main/res/xml/network_security_config.xml" value="0.2375" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/core/src/main/res/drawable/ic_arrow_back.xml" value="0.329" />
@@ -14,9 +15,11 @@
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/addexamination/src/main/res/layout/fragment_add_exam.xml" value="0.17760416666666667" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/addexamination/src/main/res/layout/item_discipline.xml" value="0.28020833333333334" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/addexamination/src/main/res/layout/page_add_exam.xml" value="0.28020833333333334" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answer/src/main/res/drawable/ic_attach_file.xml" value="0.2395" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answer/src/main/res/drawable/ic_dettach.xml" value="0.2395" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answer/src/main/res/layout/answer_fragment.xml" value="0.24166666666666667" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answer/src/main/res/layout/fragment_answer.xml" value="0.33" />
-        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answer/src/main/res/layout/item_message.xml" value="0.5" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answer/src/main/res/layout/item_message.xml" value="0.33" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/editexamination/src/main/res/drawable/baseline_arrow_back_ios_24.xml" value="0.1345" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/editexamination/src/main/res/layout/fragment_edit_examination.xml" value="0.22864583333333333" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/editexamination/src/main/res/layout/item_discipline.xml" value="0.22864583333333333" />
@@ -40,6 +43,9 @@
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/fragment_dialog_start_exam.xml" value="0.5" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/item_discipline.xml" value="0.25729166666666664" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/item_exam_closed.xml" value="0.246875" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/item_exam_finished.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/item_exam_progress.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/period_allowance_item.xml" value="0.3374094202898551" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/period_closed_item.xml" value="0.3374094202898551" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/home/src/main/res/layout/period_edit_item.xml" value="0.33" />
@@ -51,10 +57,10 @@
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/progressexamination/src/main/res/drawable/ic_in_progress_answer.xml" value="0.243" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/progressexamination/src/main/res/drawable/ic_unseen_answer.xml" value="0.2225" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/progressexamination/src/main/res/drawable/layout_bg.xml" value="0.243" />
-        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/progressexamination/src/main/res/layout/fragment_examination_progress.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/progressexamination/src/main/res/layout/fragment_examination_progress.xml" value="0.1" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/progressexamination/src/main/res/layout/item_answer.xml" value="0.33" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/progressexamination/src/main/res/layout/item_answered_answer.xml" value="0.33" />
-        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/progressexamination/src/main/res/layout/item_checking_answer.xml" value="0.33" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/progressexamination/src/main/res/layout/item_checking_answer.xml" value="0.2288135593220339" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/progressexamination/src/main/res/layout/item_in_progress_answer.xml" value="0.1" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/progressexamination/src/main/res/layout/item_no_rating_answer.xml" value="0.5" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/progressexamination/src/main/res/layout/item_rated_answer.xml" value="0.1" />

@@ -1,10 +1,11 @@
 package ui.messageAdapter.viewholder
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bobrovskii.answer.databinding.ItemMessageBinding
-import com.bobrovskii.core.toTime
+import com.bobrovskii.core.toDate
 import com.bobrovskii.exam.domain.entity.Message
 
 class MessageViewHolder(
@@ -13,16 +14,28 @@ class MessageViewHolder(
 
 	fun bind(
 		item: Message,
-		//onItemClicked: (Int) -> Unit,
+		onItemClicked: (Int) -> Unit,
 	) {
 		with(binding) {
 			//Set data and listeners
 			tvName.text = item.senderName
-			tvMessage.text = item.text
-			tvTime.text = item.sendTime.toTime()
-
-			//itemView.setOnClickListener { onItemClicked(item.id) }
-			//imageButtonDelete.setOnClickListener { onDeleteClicked(item.id) }
+			item.text?.let {
+				tvMessage.text = item.text
+			} ?: run {
+				tvMessage.visibility = View.GONE
+			}
+			tvTime.text = item.sendTime.toDate()
+			item.artefact?.let { artefact ->
+				btnAttachment.visibility = View.VISIBLE
+				tvId.apply {
+					text = artefact.fileName.take(20).padEnd(23, '.')
+					visibility = View.VISIBLE
+				}
+				btnAttachment.setOnClickListener { onItemClicked(artefact.id) }
+			} ?: run {
+				tvId.visibility = View.GONE
+				btnAttachment.visibility = View.GONE
+			}
 		}
 	}
 

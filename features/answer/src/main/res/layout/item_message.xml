@@ -38,4 +38,25 @@
 		app:layout_constraintTop_toBottomOf="@+id/tv_message"
 		tools:text="10:10" />
 
+	<ImageButton
+		android:id="@+id/btn_attachment"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:visibility="gone"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tv_message"
+		app:srcCompat="@drawable/ic_attach_file" />
+
+	<TextView
+		android:id="@+id/tv_id"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:text="TextView"
+		android:visibility="gone"
+		app:layout_constraintStart_toEndOf="@+id/btn_attachment"
+		app:layout_constraintTop_toBottomOf="@+id/tv_message" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,9 +2,9 @@ package com.bobrovskii.progressexamination.ui.answersAdapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bobrovskii.core.AnswerStates
 import com.bobrovskii.exam.domain.entity.Answer
 import com.bobrovskii.progressexamination.R
-import com.bobrovskii.progressexamination.presentation.AnswersState
 import com.bobrovskii.progressexamination.ui.answersAdapter.viewholder.BaseAnswerViewHolder
 import com.bobrovskii.progressexamination.ui.answersAdapter.viewholder.CheckingAnswerViewHolder
 import com.bobrovskii.progressexamination.ui.answersAdapter.viewholder.InProgressAnswerViewHolder
@@ -23,15 +23,15 @@ class AnswersAdapter(
 		}
 
 	override fun getItemViewType(position: Int): Int = when (answers?.get(position)?.state) {
-		AnswersState.CHECKING    -> R.layout.item_checking_answer
+		AnswerStates.CHECKING    -> R.layout.item_checking_answer
 
-		AnswersState.SENT        -> R.layout.item_sent_answer
+		AnswerStates.SENT        -> R.layout.item_sent_answer
 
-		AnswersState.RATED       -> R.layout.item_rated_answer
+		AnswerStates.RATED       -> R.layout.item_rated_answer
 
-		AnswersState.IN_PROGRESS -> R.layout.item_in_progress_answer
+		AnswerStates.IN_PROGRESS -> R.layout.item_in_progress_answer
 
-		AnswersState.NO_RATING   -> R.layout.item_no_rating_answer
+		AnswerStates.NO_RATING   -> R.layout.item_no_rating_answer
 
 		else                     -> throw Exception("ai ai ai")
 	}
@@ -76,7 +76,7 @@ class AnswersAdapter(
 					)
 				}
 
-				is RatedAnswerViewHolder      -> {
+				is RatedAnswerViewHolder -> {
 					holder.bind(
 						item = item,
 						onItemClicked = onItemClicked,

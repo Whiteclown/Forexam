@@ -1,5 +1,7 @@
 package com.bobrovskii.exam.domain.entity
 
+import com.bobrovskii.core.ExamStates
+
 data class Exam(
 	val id: Int,
 	val name: String,
@@ -8,5 +10,5 @@ data class Exam(
 	val oneGroup: Boolean,
 	val start: String,
 	val end: String,
-	val state: String,
+	val state: ExamStates,
 )

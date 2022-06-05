@@ -47,6 +47,7 @@ data class StudentDto(
 
 @JsonClass(generateAdapter = true)
 data class AccountDto(
+	val id: Int,
 	val name: String,
 	val surname: String,
 )

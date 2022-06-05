@@ -1,16 +1,23 @@
 package com.bobrovskii.home.ui
 
+import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bobrovskii.home.databinding.FragmentHomeBinding
+import com.bobrovskii.home.presentation.HomeAction
 import com.bobrovskii.home.presentation.HomeViewModel
 import com.bobrovskii.home.ui.examsAdapter.ExamsAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,10 +35,6 @@ class HomeFragment : Fragment(),
 
 	private val viewModel: HomeViewModel by viewModels()
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-	}
-
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		_binding = FragmentHomeBinding.inflate(inflater, container, false)
 		return binding.root
@@ -39,6 +42,9 @@ class HomeFragment : Fragment(),
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		lifecycleScope.launch {
+			viewModel.actions.collect { handleAction(it) }
+		}
 		initRecyclerView()
 		initListeners()
 	}
@@ -113,10 +119,7 @@ class HomeFragment : Fragment(),
 			onItemClicked = { examId ->
 				viewModel.openProgressExam(examId)
 			},
-			onDeleteClicked = { examId ->
-				viewModel.setExamId(examId)
-				showDeleteDialog()
-			},
+			onDeleteClicked = { },
 		)
 		viewModel.viewModelScope.launch {
 			viewModel.examsProgress.collect {
@@ -128,12 +131,9 @@ class HomeFragment : Fragment(),
 
 		val adapterFinishedExams = ExamsAdapter(
 			onItemClicked = { examId ->
-
+				viewModel.openProgressExam(examId)
 			},
-			onDeleteClicked = { examId ->
-				viewModel.setExamId(examId)
-				showDeleteDialog()
-			},
+			onDeleteClicked = { },
 		)
 		viewModel.viewModelScope.launch {
 			viewModel.examsFinished.collect {
@@ -147,10 +147,7 @@ class HomeFragment : Fragment(),
 			onItemClicked = { examId ->
 
 			},
-			onDeleteClicked = { examId ->
-				viewModel.setExamId(examId)
-				showDeleteDialog()
-			},
+			onDeleteClicked = { },
 		)
 		viewModel.viewModelScope.launch {
 			viewModel.examsClosed.collect {
@@ -216,5 +213,27 @@ class HomeFragment : Fragment(),
 	override fun onDialogDeleteClick(dialog: DialogFragment) {
 		viewModel.deleteExam()
 		dialog.dismiss()
+	}
+
+	private fun handleAction(action: HomeAction) {
+		when (action) {
+			is HomeAction.ShowError -> {
+				val message = SpannableString(action.message)
+				message.setSpan(
+					ForegroundColorSpan(Color.BLACK),
+					0,
+					message.length,
+					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+				)
+				context?.let {
+					AlertDialog
+						.Builder(it)
+						.setTitle("Ошибка")
+						.setMessage(message)
+						.setNeutralButton("Ок") { _, _ -> }
+						.show()
+				}
+			}
+		}
 	}
 }

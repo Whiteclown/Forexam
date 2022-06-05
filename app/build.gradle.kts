@@ -4,6 +4,7 @@ plugins {
 	kotlin(Dependencies.Plugins.KAPT)
 	id(Dependencies.Plugins.HILT)
 	id("androidx.navigation.safeargs.kotlin")
+	id("com.google.gms.google-services")
 	`android-kotlin-convention`
 }
 
@@ -37,13 +38,18 @@ dependencies {
 	implementation(Dependencies.Network.OKHTTP)
 	implementation(Dependencies.Network.OKHTTP_LOGGING_INTERCEPTOR)
 
+	implementation(platform("com.google.firebase:firebase-bom:30.1.0"))
+	implementation("com.google.firebase:firebase-messaging-ktx:23.0.5")
+
 	implementation(project(":features:signin"))
 	implementation(project(":features:signup"))
 	implementation(project(":features:home"))
+	implementation(project(":core"))
 	implementation(project(":features:editexamination"))
 	implementation(project(":features:addexamination"))
 	implementation(project(":features:progressexamination"))
 	implementation(project(":features:answer"))
 	implementation(project(":shared:session"))
 	implementation(project(":shared:exam"))
+	implementation(project(":shared:artefact"))
 }

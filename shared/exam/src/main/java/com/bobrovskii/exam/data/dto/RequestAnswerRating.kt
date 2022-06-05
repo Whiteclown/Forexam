@@ -1,10 +1,11 @@
 package com.bobrovskii.exam.data.dto
 
+import com.bobrovskii.core.AnswerStates
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class RequestAnswerRating(
 	val id: Int,
-	val rating: Int,
-	val state: String = "RATED"
+	val state: AnswerStates,
+	val rating: Int?,
 )

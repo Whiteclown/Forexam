@@ -21,22 +21,22 @@ class ExamsAdapter(
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
 		when (viewType) {
-			R.layout.period_edit_item     -> EditExamViewHolder.from(parent)
-			R.layout.period_timeset_item  -> TimesetExamViewHolder.from(parent)
-			R.layout.period_ready_item    -> ReadyExamViewHolder.from(parent)
-			R.layout.period_progress_item -> ProgressExamViewHolder.from(parent)
-			R.layout.period_finished_item -> FinishedExamViewHolder.from(parent)
-			R.layout.period_closed_item   -> ClosedExamViewHolder.from(parent)
-			else                          -> throw IllegalArgumentException("Invalid view type")
+			R.layout.item_exam_edit     -> EditExamViewHolder.from(parent)
+			R.layout.item_timeset_exam  -> TimesetExamViewHolder.from(parent)
+			R.layout.item_exam_ready    -> ReadyExamViewHolder.from(parent)
+			R.layout.item_exam_progress -> ProgressExamViewHolder.from(parent)
+			R.layout.item_exam_finished -> FinishedExamViewHolder.from(parent)
+			R.layout.item_exam_closed   -> ClosedExamViewHolder.from(parent)
+			else                        -> throw IllegalArgumentException("Invalid view type")
 		}
 
 	override fun getItemViewType(position: Int) = when (getItem(position).state) {
-		ExamStates.REDACTION -> R.layout.period_edit_item
-		ExamStates.TIME_SET  -> R.layout.period_timeset_item
-		ExamStates.READY     -> R.layout.period_ready_item
-		ExamStates.PROGRESS  -> R.layout.period_progress_item
-		ExamStates.FINISHED  -> R.layout.period_finished_item
-		ExamStates.CLOSED    -> R.layout.period_closed_item
+		ExamStates.REDACTION -> R.layout.item_exam_edit
+		ExamStates.TIME_SET  -> R.layout.item_timeset_exam
+		ExamStates.READY     -> R.layout.item_exam_ready
+		ExamStates.PROGRESS  -> R.layout.item_exam_progress
+		ExamStates.FINISHED  -> R.layout.item_exam_finished
+		ExamStates.CLOSED    -> R.layout.item_exam_closed
 		else                 -> throw IllegalStateException("Unknown view")
 	}
 
@@ -64,11 +64,7 @@ class ExamsAdapter(
 			}
 
 			is ProgressExamViewHolder -> {
-				holder.bind(
-					item = item,
-					onItemClicked = onItemClicked,
-					onDeleteClicked = onDeleteClicked,
-				)
+				holder.bind(item = item) { onItemClicked(item.id) }
 			}
 
 			is FinishedExamViewHolder -> {

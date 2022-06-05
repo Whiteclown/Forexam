@@ -7,6 +7,6 @@ class PostMessageUseCase @Inject constructor(
 	private val repository: ExamRepository,
 ) {
 
-	suspend operator fun invoke(answerId: Int, text: String) =
-		repository.postMessage(answerId, text)
+	suspend operator fun invoke(answerId: Int, text: String, artefactId: Int?) =
+		repository.postMessage(answerId, text, artefactId)
 }

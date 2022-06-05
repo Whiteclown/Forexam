@@ -1,5 +1,6 @@
 package com.bobrovskii.exam.data.dto
 
+import com.bobrovskii.core.ExamStates
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
@@ -11,5 +12,5 @@ data class ExamDto(
 	val oneGroup: Boolean,
 	val start: String,
 	val end: String,
-	val state: String,
+	val state: ExamStates,
 )

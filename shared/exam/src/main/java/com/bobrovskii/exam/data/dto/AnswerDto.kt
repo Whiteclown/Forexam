@@ -1,5 +1,6 @@
 package com.bobrovskii.exam.data.dto
 
+import com.bobrovskii.core.AnswerStates
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
@@ -9,5 +10,5 @@ data class AnswerDto(
 	val rating: Int,
 	val studentRatingId: Int,
 	val number: Int,
-	val state: String,
+	val state: AnswerStates,
 )

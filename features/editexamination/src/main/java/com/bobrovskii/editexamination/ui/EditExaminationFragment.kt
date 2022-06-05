@@ -1,21 +1,28 @@
 package com.bobrovskii.editexamination.ui
 
+import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.bobrovskii.editexamination.R
 import com.bobrovskii.editexamination.databinding.FragmentEditExaminationBinding
+import com.bobrovskii.editexamination.presentation.EditExaminationAction
 import com.bobrovskii.editexamination.presentation.EditExaminationState
 import com.bobrovskii.editexamination.presentation.EditExaminationViewModel
-import com.bobrovskii.exam.domain.entity.Discipline
-import com.bobrovskii.exam.domain.entity.Group
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class EditExaminationFragment : Fragment(R.layout.fragment_edit_examination) {
@@ -43,6 +50,9 @@ class EditExaminationFragment : Fragment(R.layout.fragment_edit_examination) {
 		super.onViewCreated(view, savedInstanceState)
 		_binding = FragmentEditExaminationBinding.bind(view)
 		initListeners()
+		lifecycleScope.launch {
+			viewModel.actions.collect { handleAction(it) }
+		}
 		viewModel.loadData(examId)
 		viewModel.state.onEach(::render).launchIn(viewModel.viewModelScope)
 	}
@@ -76,51 +86,51 @@ class EditExaminationFragment : Fragment(R.layout.fragment_edit_examination) {
 	}
 
 	private fun render(state: EditExaminationState) {
-		when (state) {
-			is EditExaminationState.Initial -> {}
+		if (state is EditExaminationState.Content) {
+			binding.etName.setText(state.exam.name)
+			binding.swRepass.isChecked = !state.exam.oneGroup
 
-			is EditExaminationState.Loading -> renderLoadingState()
+			val adapterDiscipline = ArrayAdapter<String>(binding.acDiscipline.context, R.layout.item_discipline)
+			adapterDiscipline.clear()
+			state.disciplines.let { list ->
+				adapterDiscipline.addAll(list.map { it.name })
+			}
+			state.selectedDiscipline.let {
+				binding.acDiscipline.setText(it.name)
+			}
+			binding.acDiscipline.setAdapter(adapterDiscipline)
 
-			is EditExaminationState.Content -> {
-				initSpinners(state)
+			binding.cgGroups.removeAllViews()
+			state.groups.map {
+				val chip = Chip(binding.cgGroups.context)
+				chip.text = it.name
+				chip.id = it.id
+				chip.isCheckable = true
+				chip.isChecked = state.selectedGroup?.id == it.id
+				binding.cgGroups.addView(chip)
 			}
 		}
 	}
 
-	private fun renderLoadingState() {
-
-	}
-
-	private fun renderContentState(
-		disciplines: List<Discipline>?,
-		groups: List<Group>?,
-		selectedDiscipline: Discipline?,
-	) {
-
-	}
-
-	private fun initSpinners(content: EditExaminationState.Content) {
-		binding.etName.setText(content.exam.name)
-		binding.swRepass.isChecked = !content.exam.oneGroup
-
-		val adapterDiscipline = ArrayAdapter<String>(binding.acDiscipline.context, R.layout.item_discipline)
-		adapterDiscipline.clear()
-		content.disciplines.let { list ->
-			adapterDiscipline.addAll(list.map { it.name })
-		}
-		content.selectedDiscipline.let {
-			binding.acDiscipline.setText(it.name)
-		}
-		binding.acDiscipline.setAdapter(adapterDiscipline)
-
-		binding.cgGroups.removeAllViews()
-		content.groups.map {
-			val chip = Chip(binding.cgGroups.context)
-			chip.text = it.name
-			chip.id = it.id
-			chip.isCheckable = true
-			chip.isChecked = content.selectedGroup?.id == it.id
-			binding.cgGroups.addView(chip)
+	private fun handleAction(action: EditExaminationAction) {
+		when (action) {
+			is EditExaminationAction.ShowError -> {
+				val message = SpannableString(action.message)
+				message.setSpan(
+					ForegroundColorSpan(Color.BLACK),
+					0,
+					message.length,
+					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+				)
+				context?.let {
+					AlertDialog
+						.Builder(it)
+						.setTitle("Ошибка")
+						.setMessage(message)
+						.setNeutralButton("Ок") { _, _ -> }
+						.show()
+				}
+			}
 		}
 	}
 }

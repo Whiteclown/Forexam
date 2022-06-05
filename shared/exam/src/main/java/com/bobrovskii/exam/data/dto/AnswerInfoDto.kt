@@ -12,12 +12,20 @@ data class AnswerInfoDto(
 @JsonClass(generateAdapter = true)
 data class FullMessageDto(
 	val message: MessageDto,
+	val artefact: ArtefactDto?,
 	val account: AccountDto,
+)
+
+@JsonClass(generateAdapter = true)
+data class ArtefactDto(
+	val id: Int,
+	val artefactType: String,
+	val fileName: String,
 )
 
 @JsonClass(generateAdapter = true)
 data class MessageDto(
 	val id: Int,
-	val text: String,
+	val text: String?,
 	val sendTime: String,
 )

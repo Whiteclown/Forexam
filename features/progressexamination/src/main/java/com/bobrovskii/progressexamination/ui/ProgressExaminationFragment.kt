@@ -1,12 +1,19 @@
 package com.bobrovskii.progressexamination.ui
 
+import android.app.AlertDialog
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bobrovskii.core.ExamStates
+import com.bobrovskii.core.NOTIFICATION_ANSWER_FILTER
 import com.bobrovskii.progressexamination.R
 import com.bobrovskii.progressexamination.databinding.FragmentExaminationProgressBinding
 import com.bobrovskii.progressexamination.presentation.ProgressExaminationState
@@ -24,7 +31,6 @@ class ProgressExaminationFragment : Fragment(R.layout.fragment_examination_progr
 
 	private val viewModel: ProgressExaminationViewModel by viewModels()
 
-	private var noAnswerAnswersAdapter: AnswersAdapter? = null
 	private var inProgressAnswersAdapter: AnswersAdapter? = null
 	private var sentAnswersAdapter: AnswersAdapter? = null
 	private var checkingAnswersAdapter: AnswersAdapter? = null
@@ -33,6 +39,14 @@ class ProgressExaminationFragment : Fragment(R.layout.fragment_examination_progr
 
 	private val examId: Int by lazy {
 		arguments?.getInt(EXAM_ID) ?: throw IllegalStateException("no exam id")
+	}
+
+	private val notificationReceiver = object : BroadcastReceiver() {
+
+		override fun onReceive(context: Context?, intent: Intent?) {
+			Log.d("myTag", intent.toString())
+			viewModel.refresh(examId)
+		}
 	}
 
 	companion object {
@@ -56,11 +70,23 @@ class ProgressExaminationFragment : Fragment(R.layout.fragment_examination_progr
 
 	private fun initListeners() {
 		binding.imageButtonBack.setOnClickListener { viewModel.navigateBack() }
+		binding.btnEndExam.setOnClickListener {
+			context?.let {
+				AlertDialog
+					.Builder(it)
+					.setTitle("Внимание!")
+					.setMessage("Вы уверены, что хотите ${binding.btnEndExam.text}?")
+					.setNeutralButton("Нет") { _, _ -> }
+					.setPositiveButton("Да") { _, _ ->
+						viewModel.finishExam(examId)
+					}
+					.show()
+			}
+		}
 	}
 
 	private fun initRV() {
 		binding.rvAnswers.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-		noAnswerAnswersAdapter = AnswersAdapter(onItemClicked = { viewModel.navigateToAnswer(it) })
 		inProgressAnswersAdapter = AnswersAdapter(onItemClicked = { viewModel.navigateToAnswer(it) })
 		sentAnswersAdapter = AnswersAdapter(onItemClicked = { viewModel.navigateToAnswer(it) })
 		checkingAnswersAdapter = AnswersAdapter(onItemClicked = { viewModel.navigateToAnswer(it) })
@@ -72,28 +98,28 @@ class ProgressExaminationFragment : Fragment(R.layout.fragment_examination_progr
 			noRatingAnswersAdapter,
 			inProgressAnswersAdapter,
 			ratedAnswersAdapter,
-			noAnswerAnswersAdapter, //todo: убрать
 		)
 	}
 
 	private fun render(state: ProgressExaminationState) {
-		when (state) {
-			is ProgressExaminationState.Initial -> {}
-
-			is ProgressExaminationState.Loading -> {}
-
-			is ProgressExaminationState.Content -> {
-				renderContentState(state)
-			}
+		if (state is ProgressExaminationState.Content) {
+			if (state.examState == ExamStates.FINISHED) binding.btnEndExam.text = "закрыть экзамен"
+			checkingAnswersAdapter?.answers = state.checkingAnswers
+			sentAnswersAdapter?.answers = state.sentAnswers
+			noRatingAnswersAdapter?.answers = state.noRatingAnswers
+			inProgressAnswersAdapter?.answers = state.inProgressAnswers
+			ratedAnswersAdapter?.answers = state.ratedAnswers
 		}
+		binding.loadingView.root.visibility = if (state is ProgressExaminationState.Loading) View.VISIBLE else View.GONE
 	}
 
-	private fun renderContentState(content: ProgressExaminationState.Content) {
-		checkingAnswersAdapter?.answers = content.checkingAnswers
-		sentAnswersAdapter?.answers = content.sentAnswers
-		noRatingAnswersAdapter?.answers = content.noRatingAnswers
-		inProgressAnswersAdapter?.answers = content.inProgressAnswers
-		ratedAnswersAdapter?.answers = content.ratedAnswers
-		noAnswerAnswersAdapter?.answers = content.noAnswerAnswers
+	override fun onResume() {
+		super.onResume()
+		requireActivity().registerReceiver(notificationReceiver, NOTIFICATION_ANSWER_FILTER)
+	}
+
+	override fun onPause() {
+		super.onPause()
+		requireActivity().unregisterReceiver(notificationReceiver)
 	}
 }

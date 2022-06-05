@@ -16,6 +16,8 @@ dependencies {
 
 	implementation(Dependencies.Navigation.FRAGMENT)
 
+	implementation(Dependencies.Network.RETROFIT)
+
 	implementation(project(":shared:exam"))
 	implementation(project(":core"))
 }

@@ -75,7 +75,7 @@
 			android:id="@+id/rv_exams"
 			android:layout_width="match_parent"
 			android:layout_height="0dp"
-			tools:listitem="@layout/period_edit_item" />
+			tools:listitem="@layout/item_exam_edit" />
 	</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 	<ImageButton

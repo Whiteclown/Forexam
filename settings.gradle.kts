@@ -25,4 +25,5 @@ include(
 	":features:answer",
 	":shared:session",
 	":shared:exam",
+	":shared:artefact",
 )

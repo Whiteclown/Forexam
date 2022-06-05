@@ -8,7 +8,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class SessionRepositoryImpl @Inject constructor(
-	//@ioDispatcher private val ioDispatcher: CoroutineDispatcher,
 	@ApplicationContext private val context: Context
 ) : SessionRepository {
 

@@ -18,6 +18,9 @@ dependencies {
 
 	implementation(Dependencies.Layout.RECYCLER_VIEW)
 
+	implementation(Dependencies.Network.RETROFIT)
+
 	implementation(project(":shared:exam"))
 	implementation(project(":core"))
+	implementation(project(":shared:artefact"))
 }

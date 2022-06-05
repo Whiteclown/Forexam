@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bobrovskii.core.toDate
 import com.bobrovskii.exam.domain.entity.Exam
-import com.bobrovskii.home.databinding.PeriodTimesetItemBinding
+import com.bobrovskii.home.databinding.ItemTimesetExamBinding
 
 class TimesetExamViewHolder(
-	private val binding: PeriodTimesetItemBinding,
+	private val binding: ItemTimesetExamBinding,
 ) : BaseExamViewHolder(binding.root) {
 
 	fun bind(
@@ -29,7 +29,7 @@ class TimesetExamViewHolder(
 
 		fun from(parent: ViewGroup): TimesetExamViewHolder {
 			val layoutInflater = LayoutInflater.from(parent.context)
-			val binding = PeriodTimesetItemBinding.inflate(layoutInflater, parent, false)
+			val binding = ItemTimesetExamBinding.inflate(layoutInflater, parent, false)
 			return TimesetExamViewHolder(binding)
 		}
 	}

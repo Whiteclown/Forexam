@@ -1,6 +1,6 @@
 package com.bobrovskii.exam.data.api
 
-import com.bobrovskii.exam.data.dto.AnswerDto
+import com.bobrovskii.exam.data.dto.AccountDto
 import com.bobrovskii.exam.data.dto.AnswerInfoDto
 import com.bobrovskii.exam.data.dto.DisciplineDto
 import com.bobrovskii.exam.data.dto.ExamDto
@@ -11,8 +11,7 @@ import com.bobrovskii.exam.data.dto.RequestAnswerRating
 import com.bobrovskii.exam.data.dto.RequestExamState
 import com.bobrovskii.exam.data.dto.RequestMessage
 import com.bobrovskii.exam.data.dto.RequestUpdateExam
-import com.bobrovskii.exam.data.dto.StudentDto
-import com.bobrovskii.exam.data.dto.TaskDto
+import com.bobrovskii.exam.data.dto.Token
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -28,6 +27,12 @@ interface ExamApi {
 
 	@POST("/answers/{answerId}/message")
 	suspend fun postMessage(@Path("answerId") answerId: Int, @Body requestMessage: RequestMessage)
+
+	@POST("/account/firebase-token")
+	suspend fun sendFirebaseToken(@Body token: Token)
+
+	@GET("/account/{accountId}")
+	suspend fun getAccountById(@Path("accountId") accountId: Int): AccountDto
 
 	@GET("/exams")
 	suspend fun getExams(): List<ExamDto>
@@ -49,18 +54,6 @@ interface ExamApi {
 
 	@GET("/groups/{groupId}")
 	suspend fun getGroupById(@Path("groupId") groupId: Int): GroupDto
-
-	@GET("/exams/{examId}/answers")
-	suspend fun getAnswersByExam(@Path("examId") examId: Int): List<AnswerDto>
-
-	@GET("/task/{taskId}")
-	suspend fun getTaskById(@Path("taskId") taskId: Int): TaskDto
-
-//	@GET("/student-rating/{id}/full")
-//	suspend fun getStudentRatingById(@Path("id") id: Int, @Query("level") level: Int): FullStudentRatingDto
-
-	@GET("/students/{studentId}")
-	suspend fun getStudentById(@Path("studentId") studentId: Int): StudentDto
 
 	@GET("/answers/{answerId}/full")
 	suspend fun getFullAnswerById(@Path("answerId") answerId: Int, @Query("level") level: Int): AnswerInfoDto

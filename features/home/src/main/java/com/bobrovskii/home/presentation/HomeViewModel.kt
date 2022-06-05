@@ -9,9 +9,11 @@ import com.bobrovskii.exam.domain.usecase.DeleteExamByIdUseCase
 import com.bobrovskii.exam.domain.usecase.GetExamsUseCase
 import com.bobrovskii.exam.domain.usecase.UpdateExamStateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -53,14 +55,28 @@ class HomeViewModel @Inject constructor(
 	private val _examId = MutableStateFlow(0)
 	val examId = _examId.asStateFlow()
 
+	private val _actions: Channel<HomeAction> = Channel(Channel.BUFFERED)
+	val actions: Flow<HomeAction> = _actions.receiveAsFlow()
+
 	fun getExams() {
 		viewModelScope.launch {
 			try {
 				_exams.value = getExamsUseCase()
+				sortExams()
 			} catch (e: HttpException) {
-				goBack()
+				if (e.code() == 401) {
+					goBack()
+				} else {
+					e.response()?.errorBody()?.let { responseBody ->
+						val errorMessage = responseBody.charStream().use { stream ->
+							stream.readText()
+						}
+						_actions.send(HomeAction.ShowError(errorMessage))
+					} ?: run {
+						_actions.send(HomeAction.ShowError("Возникла непредвиденная ошибка"))
+					}
+				}
 			}
-			sortExams()
 		}
 	}
 
@@ -94,8 +110,19 @@ class HomeViewModel @Inject constructor(
 
 	fun deleteExam() {
 		viewModelScope.launch {
-			deleteExamByIdUseCase(examId.value)
-			getExams()
+			try {
+				deleteExamByIdUseCase(examId.value)
+				getExams()
+			} catch (e: HttpException) {
+				e.response()?.errorBody()?.let { responseBody ->
+					val errorMessage = responseBody.charStream().use { stream ->
+						stream.readText()
+					}
+					_actions.send(HomeAction.ShowError(errorMessage))
+				} ?: run {
+					_actions.send(HomeAction.ShowError("Возникла непредвиденная ошибка"))
+				}
+			}
 		}
 	}
 
@@ -117,15 +144,37 @@ class HomeViewModel @Inject constructor(
 
 	fun changeStateToTimeset(startTime: String) {
 		viewModelScope.launch {
-			updateExamStateUseCase(examId.value, ExamStates.TIME_SET, startTime.toTimestamp())
-			getExams()
+			try {
+				updateExamStateUseCase(examId.value, ExamStates.TIME_SET, startTime.toTimestamp())
+				getExams()
+			} catch (e: HttpException) {
+				e.response()?.errorBody()?.let { responseBody ->
+					val errorMessage = responseBody.charStream().use { stream ->
+						stream.readText()
+					}
+					_actions.send(HomeAction.ShowError(errorMessage))
+				} ?: run {
+					_actions.send(HomeAction.ShowError("Возникла непредвиденная ошибка"))
+				}
+			}
 		}
 	}
 
 	fun changeStateToProgress() {
 		viewModelScope.launch {
-			updateExamStateUseCase(examId.value, ExamStates.PROGRESS, null)
-			getExams()
+			try {
+				updateExamStateUseCase(examId.value, ExamStates.PROGRESS, null)
+				getExams()
+			} catch (e: HttpException) {
+				e.response()?.errorBody()?.let { responseBody ->
+					val errorMessage = responseBody.charStream().use { stream ->
+						stream.readText()
+					}
+					_actions.send(HomeAction.ShowError(errorMessage))
+				} ?: run {
+					_actions.send(HomeAction.ShowError("Возникла непредвиденная ошибка"))
+				}
+			}
 		}
 	}
 }
