@@ -60,14 +60,9 @@ class DocumentDataSourceImpl @Inject constructor(
 			}
 		}
 
-	override suspend fun get(artefact: ArtefactMetaData): Uri? =
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-			// version >= 29 (Android 10, 11, ...)
-			null
-		} else {
-			// version < 29 (Android ..., 7,8,9)
-			val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-			val file = downloadDir.listFiles()?.find { it.name.equals(artefact.fullName) }
-			file?.let { FileProvider.getUriForFile(context, context.applicationContext.packageName + ".provider", it) }
-		}
+	override suspend fun get(artefact: ArtefactMetaData): Uri? {
+		val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+		val file = downloadDir.listFiles()?.find { it.name.equals(artefact.fullName) }
+		return file?.let { FileProvider.getUriForFile(context, context.applicationContext.packageName + ".provider", it) }
+	}
 }
