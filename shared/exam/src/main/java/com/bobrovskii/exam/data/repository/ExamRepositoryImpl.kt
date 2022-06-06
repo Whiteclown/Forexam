@@ -78,20 +78,16 @@ class ExamRepositoryImpl @Inject constructor(
 
 	override suspend fun getAnswersByExam(examId: Int): List<Answer> {
 		val answers: MutableList<Answer> = mutableListOf()
-		api.getFullExamById(examId, 5).group.groupRatings.forEach { fullGroupRatingDto ->
-			fullGroupRatingDto.studentRatings.forEach { fullStudentsRatingDto ->
-				val acc = fullStudentsRatingDto.student.student.account
-				fullStudentsRatingDto.answers.forEach {
-					answers.add(it.answer.toEntity().apply {
-						studentName = "${acc.surname} ${acc.name}"
-						type = when (it.task.task.taskType) {
-							"QUESTION" -> TaskTypes.QUESTION
-							"EXERCISE" -> TaskTypes.EXERCISE
-							else       -> TaskTypes.UNKNOWN
-						}
-					})
-				}
-				fullStudentsRatingDto.student.student.account
+		api.getFullExamById(examId, 3).tickets.forEach { ticket ->
+			ticket.answers.forEach { fullAnswer ->
+				answers.add(fullAnswer.answer.toEntity().apply {
+					studentName = "${ticket.student.student.account.surname} ${ticket.student.student.account.name}"
+					type = when (fullAnswer.task.task.taskType) {
+						"QUESTION" -> TaskTypes.QUESTION
+						"EXERCISE" -> TaskTypes.EXERCISE
+						else       -> TaskTypes.UNKNOWN
+					}
+				})
 			}
 		}
 		return answers

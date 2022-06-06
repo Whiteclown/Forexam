@@ -11,6 +11,7 @@ import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -97,11 +98,26 @@ class ProgressExaminationFragment : Fragment(R.layout.fragment_examination_progr
 
 	private fun initRV() {
 		binding.rvAnswers.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-		inProgressAnswersAdapter = AnswersAdapter(onItemClicked = { viewModel.navigateToAnswer(it) })
-		sentAnswersAdapter = AnswersAdapter(onItemClicked = { viewModel.navigateToAnswer(it) })
-		checkingAnswersAdapter = AnswersAdapter(onItemClicked = { viewModel.navigateToAnswer(it) })
-		ratedAnswersAdapter = AnswersAdapter(onItemClicked = { viewModel.navigateToAnswer(it) })
-		noRatingAnswersAdapter = AnswersAdapter(onItemClicked = { viewModel.navigateToAnswer(it) })
+		inProgressAnswersAdapter = AnswersAdapter(
+			onItemClicked = { viewModel.navigateToAnswer(it) },
+			onItemLongClicked = { Toast.makeText(context, "Long", Toast.LENGTH_SHORT).show() },
+		)
+		sentAnswersAdapter = AnswersAdapter(
+			onItemClicked = { viewModel.navigateToAnswer(it) },
+			onItemLongClicked = { },
+		)
+		checkingAnswersAdapter = AnswersAdapter(
+			onItemClicked = { viewModel.navigateToAnswer(it) },
+			onItemLongClicked = { },
+		)
+		ratedAnswersAdapter = AnswersAdapter(
+			onItemClicked = { viewModel.navigateToAnswer(it) },
+			onItemLongClicked = { },
+		)
+		noRatingAnswersAdapter = AnswersAdapter(
+			onItemClicked = { viewModel.navigateToAnswer(it) },
+			onItemLongClicked = { },
+		)
 		binding.rvAnswers.adapter = ConcatAdapter(
 			checkingAnswersAdapter,
 			sentAnswersAdapter,
@@ -119,6 +135,11 @@ class ProgressExaminationFragment : Fragment(R.layout.fragment_examination_progr
 			noRatingAnswersAdapter?.answers = state.noRatingAnswers
 			inProgressAnswersAdapter?.answers = state.inProgressAnswers
 			ratedAnswersAdapter?.answers = state.ratedAnswers
+			with(binding) {
+				tvCounterChecking.text = state.checkingCounter.toString()
+				tvCounterInProgress.text = state.inProgressCounter.toString()
+				tvCounterSent.text = state.sentCounter.toString()
+			}
 		}
 		binding.btnEndExam.visibility = if (state is ProgressExaminationState.Content) View.VISIBLE else View.GONE
 		binding.loadingView.root.visibility = if (state is ProgressExaminationState.Loading) View.VISIBLE else View.GONE

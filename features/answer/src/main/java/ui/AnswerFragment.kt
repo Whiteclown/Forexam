@@ -202,10 +202,8 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 				Manifest.permission.WRITE_EXTERNAL_STORAGE
 			) == PackageManager.PERMISSION_GRANTED
 			val minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-
 			readPermissionGranted = hasReadPermission
 			writePermissionGranted = hasWritePermission || minSdk29
-
 			val permissionsToRequest = mutableListOf<String>()
 			if (!writePermissionGranted) {
 				permissionsToRequest.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)

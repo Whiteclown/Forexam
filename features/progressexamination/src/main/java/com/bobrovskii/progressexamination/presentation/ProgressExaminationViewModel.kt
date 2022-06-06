@@ -39,33 +39,53 @@ class ProgressExaminationViewModel @Inject constructor(
 				_state.value = ProgressExaminationState.Loading
 
 				try {
-					var noAnswerAnswers: List<Answer> = emptyList()
 					var inProgressAnswers: List<Answer> = emptyList()
+					var inProgressCount = 0
+
 					var sentAnswers: List<Answer> = emptyList()
+					var sentCount = 0
+
 					var checkingAnswers: List<Answer> = emptyList()
+					var checkingCount = 0
+
 					var ratedAnswers: List<Answer> = emptyList()
 					var noRatingAnswers: List<Answer> = emptyList()
 
 					val answers = getAnswersByExamUseCase(examId)
 					answers.forEach {
 						when (it.state) {
-							AnswerStates.NO_ANSWER   -> noAnswerAnswers = noAnswerAnswers.toMutableList().apply { add(it) }
-							AnswerStates.IN_PROGRESS -> inProgressAnswers = inProgressAnswers.toMutableList().apply { add(it) }
-							AnswerStates.SENT        -> sentAnswers = sentAnswers.toMutableList().apply { add(it) }
-							AnswerStates.CHECKING    -> checkingAnswers = checkingAnswers.toMutableList().apply { add(it) }
+							AnswerStates.IN_PROGRESS -> {
+								inProgressAnswers = inProgressAnswers.toMutableList().apply { add(it) }
+								inProgressCount++
+							}
+
+							AnswerStates.SENT        -> {
+								sentAnswers = sentAnswers.toMutableList().apply { add(it) }
+								sentCount++
+							}
+
+							AnswerStates.CHECKING    -> {
+								checkingAnswers = checkingAnswers.toMutableList().apply { add(it) }
+								checkingCount++
+							}
+
 							AnswerStates.RATED       -> ratedAnswers = ratedAnswers.toMutableList().apply { add(it) }
+
 							AnswerStates.NO_RATING   -> noRatingAnswers = noRatingAnswers.toMutableList().apply { add(it) }
+
+							AnswerStates.NO_ANSWER   -> {}
 						}
 					}
-
 					_state.value = ProgressExaminationState.Content(
-						noAnswerAnswers = noAnswerAnswers,
 						inProgressAnswers = inProgressAnswers,
 						sentAnswers = sentAnswers,
 						checkingAnswers = checkingAnswers,
 						ratedAnswers = ratedAnswers,
 						noRatingAnswers = noRatingAnswers,
 						examState = getExamByIdUseCase(examId).state,
+						inProgressCounter = inProgressCount,
+						sentCounter = sentCount,
+						checkingCounter = checkingCount,
 					)
 				} catch (e: Exception) {
 					when (e) {
@@ -94,33 +114,53 @@ class ProgressExaminationViewModel @Inject constructor(
 	fun refresh(examId: Int) {
 		viewModelScope.launch {
 			try {
-				var noAnswerAnswers: List<Answer> = emptyList()
 				var inProgressAnswers: List<Answer> = emptyList()
+				var inProgressCount = 0
+
 				var sentAnswers: List<Answer> = emptyList()
+				var sentCount = 0
+
 				var checkingAnswers: List<Answer> = emptyList()
+				var checkingCount = 0
+
 				var ratedAnswers: List<Answer> = emptyList()
 				var noRatingAnswers: List<Answer> = emptyList()
 
 				val answers = getAnswersByExamUseCase(examId)
 				answers.forEach {
 					when (it.state) {
-						AnswerStates.NO_ANSWER   -> noAnswerAnswers = noAnswerAnswers.toMutableList().apply { add(it) }
-						AnswerStates.IN_PROGRESS -> inProgressAnswers = inProgressAnswers.toMutableList().apply { add(it) }
-						AnswerStates.SENT        -> sentAnswers = sentAnswers.toMutableList().apply { add(it) }
-						AnswerStates.CHECKING    -> checkingAnswers = checkingAnswers.toMutableList().apply { add(it) }
+						AnswerStates.IN_PROGRESS -> {
+							inProgressAnswers = inProgressAnswers.toMutableList().apply { add(it) }
+							inProgressCount++
+						}
+
+						AnswerStates.SENT        -> {
+							sentAnswers = sentAnswers.toMutableList().apply { add(it) }
+							sentCount++
+						}
+
+						AnswerStates.CHECKING    -> {
+							checkingAnswers = checkingAnswers.toMutableList().apply { add(it) }
+							checkingCount++
+						}
+
 						AnswerStates.RATED       -> ratedAnswers = ratedAnswers.toMutableList().apply { add(it) }
+
 						AnswerStates.NO_RATING   -> noRatingAnswers = noRatingAnswers.toMutableList().apply { add(it) }
+
+						AnswerStates.NO_ANSWER   -> {}
 					}
 				}
-
 				_state.value = ProgressExaminationState.Content(
-					noAnswerAnswers = noAnswerAnswers,
 					inProgressAnswers = inProgressAnswers,
 					sentAnswers = sentAnswers,
 					checkingAnswers = checkingAnswers,
 					ratedAnswers = ratedAnswers,
 					noRatingAnswers = noRatingAnswers,
 					examState = getExamByIdUseCase(examId).state,
+					inProgressCounter = inProgressCount,
+					sentCounter = sentCount,
+					checkingCounter = checkingCount,
 				)
 			} catch (e: Exception) {
 				when (e) {

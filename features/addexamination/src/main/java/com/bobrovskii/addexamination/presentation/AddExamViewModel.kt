@@ -11,6 +11,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -32,6 +33,8 @@ class AddExamViewModel @Inject constructor(
 
 	fun loadData() {
 		viewModelScope.launch {
+			_state.map { }
+			state.map { }
 			_state.value = AddExamState.Loading
 			try {
 				val disciplines = getDisciplinesUseCase().toMutableList()

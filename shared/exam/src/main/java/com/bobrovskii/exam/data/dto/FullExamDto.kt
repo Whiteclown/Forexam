@@ -5,7 +5,25 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class FullExamDto(
 	val exam: ExamDto,
-	val group: FullGroupDto,
+	val tickets: List<TicketDto>,
+)
+
+@JsonClass(generateAdapter = true)
+data class TicketDto(
+	val studentRating: StudentRatingDto,
+	val answers: List<FullAnswerDto>,
+	val student: FullStudentDto,
+)
+
+@JsonClass(generateAdapter = true)
+data class StudentRatingDto(
+	val id: Int,
+	val semesterRating: Int,
+	val questionRating: Int,
+	val exerciseRating: Int,
+	val examId: Int,
+	val studentId: Int,
+	val groupRatingId: Int,
 )
 
 @JsonClass(generateAdapter = true)

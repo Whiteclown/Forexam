@@ -11,15 +11,19 @@ class NoRatingAnswerViewHolder(
 
 	fun bind(
 		item: Answer,
-		//onItemClicked: (Int) -> Unit,
+		onItemClicked: (Int) -> Unit,
+		onItemLongClicked: (Int) -> Unit,
 	) {
 		with(binding) {
 			//Set data and listeners
 			tvStudentName.text = item.studentName
-			tvTaskType.text = item.type
+			tvTaskType.text = "${item.type} ${item.number}"
 
-			//itemView.setOnClickListener { onItemClicked(item.id) }
-			//imageButtonDelete.setOnClickListener { onDeleteClicked(item.id) }
+			itemView.setOnClickListener { onItemClicked(item.id) }
+			itemView.setOnLongClickListener {
+				onItemLongClicked(item.id)
+				true
+			}
 		}
 	}
 

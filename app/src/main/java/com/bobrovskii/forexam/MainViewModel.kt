@@ -1,5 +1,6 @@
 package com.bobrovskii.forexam
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bobrovskii.exam.domain.usecase.SendFirebaseTokenUseCase
@@ -22,7 +23,8 @@ class MainViewModel @Inject constructor(
 	init {
 		viewModelScope.launch(Dispatchers.Main) {
 			runCatching {
-				getSessionUseCase()
+				val session = getSessionUseCase()
+				Log.d("TOKEN_973", session.token)
 			}.onSuccess {
 				sendFirebaseTokenUseCase()
 				navigation.routeToHome()

@@ -14,6 +14,7 @@ import com.bobrovskii.progressexamination.ui.answersAdapter.viewholder.SentAnswe
 
 class AnswersAdapter(
 	private val onItemClicked: (Int) -> Unit,
+	private val onItemLongClicked: (Int) -> Unit,
 ) : RecyclerView.Adapter<BaseAnswerViewHolder>() {
 
 	var answers: List<Answer>? = null
@@ -59,6 +60,7 @@ class AnswersAdapter(
 					holder.bind(
 						item = item,
 						onItemClicked = onItemClicked,
+						onItemLongClicked = onItemLongClicked,
 					)
 				}
 
@@ -66,6 +68,7 @@ class AnswersAdapter(
 					holder.bind(
 						item = item,
 						onItemClicked = onItemClicked,
+						onItemLongClicked = onItemLongClicked,
 					)
 				}
 
@@ -73,6 +76,7 @@ class AnswersAdapter(
 					holder.bind(
 						item = item,
 						onItemClicked = onItemClicked,
+						onItemLongClicked = onItemLongClicked,
 					)
 				}
 
@@ -80,6 +84,7 @@ class AnswersAdapter(
 					holder.bind(
 						item = item,
 						onItemClicked = onItemClicked,
+						onItemLongClicked = onItemLongClicked,
 					)
 				}
 			}
