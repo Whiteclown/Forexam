@@ -12,7 +12,6 @@ class SentAnswerViewHolder(
 	fun bind(
 		item: Answer,
 		onItemClicked: (Int) -> Unit,
-		onItemLongClicked: (Int, String) -> Unit,
 	) {
 		with(binding) {
 			//Set data and listeners
@@ -20,12 +19,6 @@ class SentAnswerViewHolder(
 			tvTaskType.text = "${item.type} ${item.number}"
 
 			itemView.setOnClickListener { onItemClicked(item.id) }
-			item.studentName?.let { studentName ->
-				itemView.setOnLongClickListener {
-					onItemLongClicked(item.studentRatingId, studentName)
-					true
-				}
-			}
 		}
 	}
 

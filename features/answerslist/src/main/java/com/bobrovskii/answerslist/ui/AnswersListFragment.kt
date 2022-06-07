@@ -6,8 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
 import android.text.SpannableString
 import android.text.Spanned
+import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
@@ -30,6 +32,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @AndroidEntryPoint
 class AnswersListFragment : Fragment(R.layout.fragment_answers_list) {
@@ -93,40 +96,34 @@ class AnswersListFragment : Fragment(R.layout.fragment_answers_list) {
 					.show()
 			}
 		}
-		binding.btnTurnOffFilter.setOnClickListener { viewModel.turnFilterOff() }
+		binding.etStudentFilterName.addTextChangedListener(object : TextWatcher {
+			override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
+
+			override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+				viewModel.filterByName(p0.toString())
+			}
+
+			override fun afterTextChanged(p0: Editable?) = Unit
+		})
+		binding.btnTurnOffFilter.setOnClickListener { binding.etStudentFilterName.setText("") }
 	}
 
 	private fun initRV() {
 		binding.rvAnswers.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 		inProgressAnswersAdapter = AnswersAdapter(
 			onItemClicked = { viewModel.navigateToAnswer(it) },
-			onItemLongClicked = { filterStudentId, filterStudentName ->
-				viewModel.turnFilterOn(filterStudentId, filterStudentName)
-			},
 		)
 		sentAnswersAdapter = AnswersAdapter(
 			onItemClicked = { viewModel.navigateToAnswer(it) },
-			onItemLongClicked = { filterStudentId, filterStudentName ->
-				viewModel.turnFilterOn(filterStudentId, filterStudentName)
-			},
 		)
 		checkingAnswersAdapter = AnswersAdapter(
 			onItemClicked = { viewModel.navigateToAnswer(it) },
-			onItemLongClicked = { filterStudentId, filterStudentName ->
-				viewModel.turnFilterOn(filterStudentId, filterStudentName)
-			},
 		)
 		ratedAnswersAdapter = AnswersAdapter(
 			onItemClicked = { viewModel.navigateToAnswer(it) },
-			onItemLongClicked = { filterStudentId, filterStudentName ->
-				viewModel.turnFilterOn(filterStudentId, filterStudentName)
-			},
 		)
 		noRatingAnswersAdapter = AnswersAdapter(
 			onItemClicked = { viewModel.navigateToAnswer(it) },
-			onItemLongClicked = { filterStudentId, filterStudentName ->
-				viewModel.turnFilterOn(filterStudentId, filterStudentName)
-			},
 		)
 		binding.rvAnswers.adapter = ConcatAdapter(
 			checkingAnswersAdapter,
@@ -140,21 +137,24 @@ class AnswersListFragment : Fragment(R.layout.fragment_answers_list) {
 	private fun render(state: AnswersListState) {
 		if (state is AnswersListState.Content) {
 			if (state.examState == ExamStates.FINISHED) binding.btnEndExam.text = "закрыть экзамен"
-			state.filterStudentRatingId?.let { filterStudentRatingId ->
-				checkingAnswersAdapter?.answers = state.checkingAnswers.filter { it.studentRatingId == filterStudentRatingId }
-				sentAnswersAdapter?.answers = state.sentAnswers.filter { it.studentRatingId == filterStudentRatingId }
-				noRatingAnswersAdapter?.answers = state.noRatingAnswers.filter { it.studentRatingId == filterStudentRatingId }
-				inProgressAnswersAdapter?.answers = state.inProgressAnswers.filter { it.studentRatingId == filterStudentRatingId }
-				ratedAnswersAdapter?.answers = state.ratedAnswers.filter { it.studentRatingId == filterStudentRatingId }
-				binding.tvStudentFilterName.text = state.filterStudentName
-				binding.llFilter.visibility = View.VISIBLE
+			binding.btnTurnOffFilter.visibility = if (binding.etStudentFilterName.text.toString() == "") View.GONE else View.VISIBLE
+			state.filterStudentName?.let { filterStudentName ->
+				checkingAnswersAdapter?.answers =
+					state.checkingAnswers.filter { it.studentName?.lowercase(Locale.ROOT)?.contains(filterStudentName.lowercase(Locale.ROOT)) ?: true }
+				sentAnswersAdapter?.answers =
+					state.sentAnswers.filter { it.studentName?.lowercase(Locale.ROOT)?.contains(filterStudentName.lowercase(Locale.ROOT)) ?: true }
+				noRatingAnswersAdapter?.answers =
+					state.noRatingAnswers.filter { it.studentName?.lowercase(Locale.ROOT)?.contains(filterStudentName.lowercase(Locale.ROOT)) ?: true }
+				inProgressAnswersAdapter?.answers =
+					state.inProgressAnswers.filter { it.studentName?.lowercase(Locale.ROOT)?.contains(filterStudentName.lowercase(Locale.ROOT)) ?: true }
+				ratedAnswersAdapter?.answers =
+					state.ratedAnswers.filter { it.studentName?.lowercase(Locale.ROOT)?.contains(filterStudentName.lowercase(Locale.ROOT)) ?: true }
 			} ?: run {
 				checkingAnswersAdapter?.answers = state.checkingAnswers
 				sentAnswersAdapter?.answers = state.sentAnswers
 				noRatingAnswersAdapter?.answers = state.noRatingAnswers
 				inProgressAnswersAdapter?.answers = state.inProgressAnswers
 				ratedAnswersAdapter?.answers = state.ratedAnswers
-				binding.llFilter.visibility = View.GONE
 			}
 			with(binding) {
 				tvCounterChecking.text = state.checkingCounter.toString()

@@ -187,19 +187,10 @@ class AnswersListViewModel @Inject constructor(
 		}
 	}
 
-	fun turnFilterOn(studentRatingId: Int, studentName: String) {
+	fun filterByName(studentName: String) {
 		val content = state.value as AnswersListState.Content
 		_state.value = content.copy(
-			filterStudentRatingId = studentRatingId,
 			filterStudentName = studentName,
-		)
-	}
-
-	fun turnFilterOff() {
-		val content = state.value as AnswersListState.Content
-		_state.value = content.copy(
-			filterStudentRatingId = null,
-			filterStudentName = null,
 		)
 	}
 
