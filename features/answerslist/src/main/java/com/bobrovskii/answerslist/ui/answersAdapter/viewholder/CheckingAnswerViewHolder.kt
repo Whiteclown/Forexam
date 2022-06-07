@@ -1,9 +1,9 @@
-package com.bobrovskii.progressexamination.ui.answersAdapter.viewholder
+package com.bobrovskii.answerslist.ui.answersAdapter.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.bobrovskii.answerslist.databinding.ItemCheckingAnswerBinding
 import com.bobrovskii.exam.domain.entity.Answer
-import com.bobrovskii.progressexamination.databinding.ItemCheckingAnswerBinding
 
 class CheckingAnswerViewHolder(
 	private val binding: ItemCheckingAnswerBinding,
@@ -12,7 +12,7 @@ class CheckingAnswerViewHolder(
 	fun bind(
 		item: Answer,
 		onItemClicked: (Int) -> Unit,
-		onItemLongClicked: (Int) -> Unit,
+		onItemLongClicked: (Int, String) -> Unit,
 	) {
 		with(binding) {
 			//Set data and listeners
@@ -20,9 +20,11 @@ class CheckingAnswerViewHolder(
 			tvTaskType.text = "${item.type} ${item.number}"
 
 			itemView.setOnClickListener { onItemClicked(item.id) }
-			itemView.setOnLongClickListener {
-				onItemLongClicked(item.id)
-				true
+			item.studentName?.let { studentName ->
+				itemView.setOnLongClickListener {
+					onItemLongClicked(item.studentRatingId, studentName)
+					true
+				}
 			}
 		}
 	}

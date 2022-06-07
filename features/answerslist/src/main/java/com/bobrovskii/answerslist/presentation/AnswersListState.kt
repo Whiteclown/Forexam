@@ -1,12 +1,12 @@
-package com.bobrovskii.progressexamination.presentation
+package com.bobrovskii.answerslist.presentation
 
 import com.bobrovskii.core.ExamStates
 import com.bobrovskii.exam.domain.entity.Answer
 
-sealed interface ProgressExaminationState {
-	object Initial : ProgressExaminationState
+sealed interface AnswersListState {
+	object Initial : AnswersListState
 
-	object Loading : ProgressExaminationState
+	object Loading : AnswersListState
 
 	data class Content(
 		val inProgressAnswers: List<Answer>,
@@ -18,5 +18,7 @@ sealed interface ProgressExaminationState {
 		val inProgressCounter: Int,
 		val sentCounter: Int,
 		val checkingCounter: Int,
-	) : ProgressExaminationState
+		val filterStudentRatingId: Int?,
+		val filterStudentName: String?,
+	) : AnswersListState
 }

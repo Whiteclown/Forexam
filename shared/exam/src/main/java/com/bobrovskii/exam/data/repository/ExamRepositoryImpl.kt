@@ -90,7 +90,20 @@ class ExamRepositoryImpl @Inject constructor(
 				})
 			}
 		}
-		return answers
+		return answers.apply {
+			add(
+				Answer(
+					9124,
+					12412,
+					0,
+					91999,
+					4,
+					AnswerStates.IN_PROGRESS,
+					"Фейковый Фейк",
+					"Вопрос",
+				)
+			)
+		}
 	}
 
 	override suspend fun getAnswerInfo(answerId: Int): AnswerInfo =

@@ -47,7 +47,7 @@ dependencies {
 	implementation(project(":core"))
 	implementation(project(":features:editexamination"))
 	implementation(project(":features:addexamination"))
-	implementation(project(":features:progressexamination"))
+	implementation(project(":features:answerslist"))
 	implementation(project(":features:answer"))
 	implementation(project(":shared:session"))
 	implementation(project(":shared:exam"))

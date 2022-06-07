@@ -53,7 +53,7 @@
 		android:label="AddExamFragment" />
 	<fragment
 		android:id="@+id/progressExaminationFragment"
-		android:name="com.bobrovskii.progressexamination.ui.ProgressExaminationFragment"
+		android:name="com.bobrovskii.answerslist.ui.AnswersListFragment"
 		android:label="ProgressExaminationFragment">
 		<action
 			android:id="@+id/action_progressExaminationFragment_to_answerFragment"

@@ -1,4 +1,4 @@
-package com.bobrovskii.progressexamination.presentation
+package com.bobrovskii.answerslist.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,23 +20,23 @@ import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
-class ProgressExaminationViewModel @Inject constructor(
+class AnswersListViewModel @Inject constructor(
 	private val getAnswersByExamUseCase: GetAnswersByExamUseCase,
 	private val updateExamStateUseCase: UpdateExamStateUseCase,
 	private val getExamByIdUseCase: GetExamByIdUseCase,
-	private val router: ProgressExaminationRouter,
+	private val router: AnswersListRouter,
 ) : ViewModel() {
 
-	private val _state = MutableStateFlow<ProgressExaminationState>(ProgressExaminationState.Initial)
+	private val _state = MutableStateFlow<AnswersListState>(AnswersListState.Initial)
 	val state = _state.asStateFlow()
 
-	private val _actions: Channel<ProgressExaminationAction> = Channel(Channel.BUFFERED)
-	val actions: Flow<ProgressExaminationAction> = _actions.receiveAsFlow()
+	private val _actions: Channel<AnswersListAction> = Channel(Channel.BUFFERED)
+	val actions: Flow<AnswersListAction> = _actions.receiveAsFlow()
 
 	fun getAnswers(examId: Int) {
 		viewModelScope.launch {
-			if (state.value is ProgressExaminationState.Initial) {
-				_state.value = ProgressExaminationState.Loading
+			if (state.value is AnswersListState.Initial) {
+				_state.value = AnswersListState.Loading
 
 				try {
 					var inProgressAnswers: List<Answer> = emptyList()
@@ -76,7 +76,7 @@ class ProgressExaminationViewModel @Inject constructor(
 							AnswerStates.NO_ANSWER   -> {}
 						}
 					}
-					_state.value = ProgressExaminationState.Content(
+					_state.value = AnswersListState.Content(
 						inProgressAnswers = inProgressAnswers,
 						sentAnswers = sentAnswers,
 						checkingAnswers = checkingAnswers,
@@ -86,6 +86,8 @@ class ProgressExaminationViewModel @Inject constructor(
 						inProgressCounter = inProgressCount,
 						sentCounter = sentCount,
 						checkingCounter = checkingCount,
+						filterStudentRatingId = null,
+						filterStudentName = null,
 					)
 				} catch (e: Exception) {
 					when (e) {
@@ -94,17 +96,17 @@ class ProgressExaminationViewModel @Inject constructor(
 								val errorMessage = responseBody.charStream().use { stream ->
 									stream.readText()
 								}
-								_actions.send(ProgressExaminationAction.ShowError(errorMessage))
+								_actions.send(AnswersListAction.ShowError(errorMessage))
 							} ?: run {
-								_actions.send(ProgressExaminationAction.ShowError("Возникла непредвиденная ошибка"))
+								_actions.send(AnswersListAction.ShowError("Возникла непредвиденная ошибка"))
 							}
 						}
 
 						is NoNetworkConnectionException -> {
-							_actions.send(ProgressExaminationAction.ShowError(e.message))
+							_actions.send(AnswersListAction.ShowError(e.message))
 						}
 
-						else                            -> _actions.send(ProgressExaminationAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
+						else                            -> _actions.send(AnswersListAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 					}
 				}
 			}
@@ -114,6 +116,7 @@ class ProgressExaminationViewModel @Inject constructor(
 	fun refresh(examId: Int) {
 		viewModelScope.launch {
 			try {
+				val content = state.value as AnswersListState.Content
 				var inProgressAnswers: List<Answer> = emptyList()
 				var inProgressCount = 0
 
@@ -151,13 +154,12 @@ class ProgressExaminationViewModel @Inject constructor(
 						AnswerStates.NO_ANSWER   -> {}
 					}
 				}
-				_state.value = ProgressExaminationState.Content(
+				_state.value = content.copy(
 					inProgressAnswers = inProgressAnswers,
 					sentAnswers = sentAnswers,
 					checkingAnswers = checkingAnswers,
 					ratedAnswers = ratedAnswers,
 					noRatingAnswers = noRatingAnswers,
-					examState = getExamByIdUseCase(examId).state,
 					inProgressCounter = inProgressCount,
 					sentCounter = sentCount,
 					checkingCounter = checkingCount,
@@ -169,26 +171,42 @@ class ProgressExaminationViewModel @Inject constructor(
 							val errorMessage = responseBody.charStream().use { stream ->
 								stream.readText()
 							}
-							_actions.send(ProgressExaminationAction.ShowError(errorMessage))
+							_actions.send(AnswersListAction.ShowError(errorMessage))
 						} ?: run {
-							_actions.send(ProgressExaminationAction.ShowError("Возникла непредвиденная ошибка"))
+							_actions.send(AnswersListAction.ShowError("Возникла непредвиденная ошибка"))
 						}
 					}
 
 					is NoNetworkConnectionException -> {
-						_actions.send(ProgressExaminationAction.ShowError(e.message))
+						_actions.send(AnswersListAction.ShowError(e.message))
 					}
 
-					else                            -> _actions.send(ProgressExaminationAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
+					else                            -> _actions.send(AnswersListAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 				}
 			}
 		}
 	}
 
+	fun turnFilterOn(studentRatingId: Int, studentName: String) {
+		val content = state.value as AnswersListState.Content
+		_state.value = content.copy(
+			filterStudentRatingId = studentRatingId,
+			filterStudentName = studentName,
+		)
+	}
+
+	fun turnFilterOff() {
+		val content = state.value as AnswersListState.Content
+		_state.value = content.copy(
+			filterStudentRatingId = null,
+			filterStudentName = null,
+		)
+	}
+
 	fun finishExam(examId: Int) {
 		viewModelScope.launch {
-			val content = state.value as ProgressExaminationState.Content
-			_state.value = ProgressExaminationState.Loading
+			val content = state.value as AnswersListState.Content
+			_state.value = AnswersListState.Loading
 			try {
 				if (content.examState == ExamStates.PROGRESS) {
 					updateExamStateUseCase(examId, ExamStates.FINISHED)
@@ -203,17 +221,17 @@ class ProgressExaminationViewModel @Inject constructor(
 							val errorMessage = responseBody.charStream().use { stream ->
 								stream.readText()
 							}
-							_actions.send(ProgressExaminationAction.ShowError(errorMessage))
+							_actions.send(AnswersListAction.ShowError(errorMessage))
 						} ?: run {
-							_actions.send(ProgressExaminationAction.ShowError("Возникла непредвиденная ошибка"))
+							_actions.send(AnswersListAction.ShowError("Возникла непредвиденная ошибка"))
 						}
 					}
 
 					is NoNetworkConnectionException -> {
-						_actions.send(ProgressExaminationAction.ShowError(e.message))
+						_actions.send(AnswersListAction.ShowError(e.message))
 					}
 
-					else                            -> _actions.send(ProgressExaminationAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
+					else                            -> _actions.send(AnswersListAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
 				}
 			}
 		}

@@ -1,20 +1,20 @@
-package com.bobrovskii.progressexamination.ui.answersAdapter
+package com.bobrovskii.answerslist.ui.answersAdapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bobrovskii.answerslist.R
+import com.bobrovskii.answerslist.ui.answersAdapter.viewholder.BaseAnswerViewHolder
+import com.bobrovskii.answerslist.ui.answersAdapter.viewholder.CheckingAnswerViewHolder
+import com.bobrovskii.answerslist.ui.answersAdapter.viewholder.InProgressAnswerViewHolder
+import com.bobrovskii.answerslist.ui.answersAdapter.viewholder.NoRatingAnswerViewHolder
+import com.bobrovskii.answerslist.ui.answersAdapter.viewholder.RatedAnswerViewHolder
+import com.bobrovskii.answerslist.ui.answersAdapter.viewholder.SentAnswerViewHolder
 import com.bobrovskii.core.AnswerStates
 import com.bobrovskii.exam.domain.entity.Answer
-import com.bobrovskii.progressexamination.R
-import com.bobrovskii.progressexamination.ui.answersAdapter.viewholder.BaseAnswerViewHolder
-import com.bobrovskii.progressexamination.ui.answersAdapter.viewholder.CheckingAnswerViewHolder
-import com.bobrovskii.progressexamination.ui.answersAdapter.viewholder.InProgressAnswerViewHolder
-import com.bobrovskii.progressexamination.ui.answersAdapter.viewholder.NoRatingAnswerViewHolder
-import com.bobrovskii.progressexamination.ui.answersAdapter.viewholder.RatedAnswerViewHolder
-import com.bobrovskii.progressexamination.ui.answersAdapter.viewholder.SentAnswerViewHolder
 
 class AnswersAdapter(
 	private val onItemClicked: (Int) -> Unit,
-	private val onItemLongClicked: (Int) -> Unit,
+	private val onItemLongClicked: (Int, String) -> Unit,
 ) : RecyclerView.Adapter<BaseAnswerViewHolder>() {
 
 	var answers: List<Answer>? = null

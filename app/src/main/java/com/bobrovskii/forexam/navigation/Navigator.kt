@@ -2,12 +2,12 @@ package com.bobrovskii.forexam.navigation
 
 import androidx.navigation.NavController
 import com.bobrovskii.addexamination.presentation.AddExamRouter
+import com.bobrovskii.answerslist.presentation.AnswersListRouter
+import com.bobrovskii.answerslist.ui.AnswersListFragment
 import com.bobrovskii.editexamination.presentation.EditExaminationRouter
 import com.bobrovskii.editexamination.ui.EditExaminationFragment
 import com.bobrovskii.forexam.R
 import com.bobrovskii.home.presentation.HomeRouter
-import com.bobrovskii.progressexamination.presentation.ProgressExaminationRouter
-import com.bobrovskii.progressexamination.ui.ProgressExaminationFragment
 import com.bobrovskii.signin.presentation.SignInRouter
 import com.bobrovskii.signin.ui.SignInFragmentDirections
 import com.bobrovskii.signup.presentation.SignUpRouter
@@ -20,7 +20,7 @@ class Navigator :
 	HomeRouter,
 	EditExaminationRouter,
 	AddExamRouter,
-	ProgressExaminationRouter,
+	AnswersListRouter,
 	AnswerRouter {
 
 	private var navController: NavController? = null
@@ -66,7 +66,7 @@ class Navigator :
 	override fun routeToProgressExam(examId: Int) {
 		navController?.navigate(
 			R.id.action_homeFragment_to_progressExaminationFragment,
-			ProgressExaminationFragment.createBundle(examId)
+			AnswersListFragment.createBundle(examId)
 		)
 	}
 
