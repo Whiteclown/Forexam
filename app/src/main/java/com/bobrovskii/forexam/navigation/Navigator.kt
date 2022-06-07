@@ -45,10 +45,10 @@ class Navigator :
 		navController?.popBackStack()
 	}
 
-	override fun routeToAnswer(answerId: Int) {
+	override fun routeToAnswer(answerId: Int, isClosed: Boolean) {
 		navController?.navigate(
 			R.id.action_progressExaminationFragment_to_answerFragment,
-			AnswerFragment.createBundle(answerId)
+			AnswerFragment.createBundle(answerId, isClosed)
 		)
 	}
 
@@ -63,7 +63,7 @@ class Navigator :
 		navController?.navigate(R.id.action_homeFragment_to_addExamFragment)
 	}
 
-	override fun routeToProgressExam(examId: Int) {
+	override fun routeToAnswersList(examId: Int) {
 		navController?.navigate(
 			R.id.action_homeFragment_to_progressExaminationFragment,
 			AnswersListFragment.createBundle(examId)

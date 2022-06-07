@@ -8,7 +8,7 @@ interface HomeRouter {
 
 	fun routeToAddExam()
 
-	fun routeToProgressExam(examId: Int)
+	fun routeToAnswersList(examId: Int)
 
 	fun routeToSignIn()
 }

@@ -160,9 +160,17 @@ class AnswersListFragment : Fragment(R.layout.fragment_answers_list) {
 				tvCounterChecking.text = state.checkingCounter.toString()
 				tvCounterInProgress.text = state.inProgressCounter.toString()
 				tvCounterSent.text = state.sentCounter.toString()
+				if (state.examState == ExamStates.CLOSED) {
+					ivCounterSent.visibility = View.GONE
+					ivCounterChecking.visibility = View.GONE
+					ivCounterInProgress.visibility = View.GONE
+					tvCounterChecking.visibility = View.GONE
+					tvCounterInProgress.visibility = View.GONE
+					tvCounterSent.visibility = View.GONE
+				}
 			}
 		}
-		binding.btnEndExam.visibility = if (state is AnswersListState.Content) View.VISIBLE else View.GONE
+		binding.btnEndExam.visibility = if (state is AnswersListState.Content && state.examState != ExamStates.CLOSED) View.VISIBLE else View.GONE
 		binding.loadingView.root.visibility = if (state is AnswersListState.Loading) View.VISIBLE else View.GONE
 	}
 

@@ -149,8 +149,8 @@ class HomeViewModel @Inject constructor(
 		router.routeToEditExam(examId)
 	}
 
-	fun openProgressExam(examId: Int) {
-		router.routeToProgressExam(examId)
+	fun openAnswersList(examId: Int) {
+		router.routeToAnswersList(examId)
 	}
 
 	fun setExamId(examId: Int) {

@@ -75,7 +75,7 @@ class HomeFragment : Fragment(),
 
 	private val adapterProgressExams = ExamsAdapter(
 		onItemClicked = { examId ->
-			viewModel.openProgressExam(examId)
+			viewModel.openAnswersList(examId)
 		},
 		onDeleteClicked = { },
 		onRestoreState = { },
@@ -83,14 +83,16 @@ class HomeFragment : Fragment(),
 
 	private val adapterFinishedExams = ExamsAdapter(
 		onItemClicked = { examId ->
-			viewModel.openProgressExam(examId)
+			viewModel.openAnswersList(examId)
 		},
 		onDeleteClicked = { },
 		onRestoreState = { viewModel.restoreFromFinished(it) },
 	)
 
 	private val adapterClosedExams = ExamsAdapter(
-		onItemClicked = { },
+		onItemClicked = { examId ->
+			viewModel.openAnswersList(examId)
+		},
 		onDeleteClicked = { },
 		onRestoreState = { },
 	)

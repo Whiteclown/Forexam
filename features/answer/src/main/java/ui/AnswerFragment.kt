@@ -58,6 +58,10 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 		arguments?.getInt(ANSWER_ID) ?: throw IllegalStateException("no answer id")
 	}
 
+	private val isClosed: Boolean by lazy {
+		arguments?.getBoolean(IS_CLOSED) ?: throw IllegalStateException("no exam state")
+	}
+
 	private val messageAdapter = MessageAdapter(
 		onItemClicked = {
 			viewModel.showArtefact(it)
@@ -76,10 +80,12 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 	companion object {
 
 		private const val ANSWER_ID = "ANSWER_ID"
+		private const val IS_CLOSED = "IS_CLOSED"
 
-		fun createBundle(answerId: Int) =
+		fun createBundle(answerId: Int, isClosed: Boolean) =
 			Bundle().apply {
 				putInt(ANSWER_ID, answerId)
+				putBoolean(IS_CLOSED, isClosed)
 			}
 	}
 
@@ -156,6 +162,17 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 	}
 
 	private fun render(state: AnswerState) {
+		if (isClosed) {
+			with(binding) {
+				llLowerPanel.visibility = View.GONE
+				btnRate.visibility = View.GONE
+				btnReturn.visibility = View.GONE
+				etRating.apply {
+					isEnabled = false
+					setTextColor(Color.BLACK)
+				}
+			}
+		}
 		if (state is AnswerState.Content) {
 			with(binding) {
 				tvTitleTask.text = state.answerInfo.task.taskType
