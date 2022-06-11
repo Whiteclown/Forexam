@@ -4,5 +4,5 @@ interface AnswersListRouter {
 
 	fun goBack()
 
-	fun routeToAnswer(answerId: Int, isClosed: Boolean)
+	fun routeFromAnswersListToAnswer(answerId: Int, isClosed: Boolean)
 }

@@ -7,7 +7,7 @@
 	<fragment
 		android:id="@+id/signInFragment"
 		android:name="com.bobrovskii.signin.ui.SignInFragment"
-		android:label="SignInFragment" >
+		android:label="SignInFragment">
 		<action
 			android:id="@+id/action_signInFragment_to_signUpFragment"
 			app:destination="@id/signUpFragment" />
@@ -34,13 +34,16 @@
 			android:id="@+id/action_homeFragment_to_addExamFragment"
 			app:destination="@id/addExamFragment" />
 		<action
-			android:id="@+id/action_homeFragment_to_progressExaminationFragment"
-			app:destination="@id/progressExaminationFragment" />
+			android:id="@+id/action_homeFragment_to_answersListFragment"
+			app:destination="@id/answersListFragment" />
 		<action
 			android:id="@+id/action_homeFragment_to_signInFragment"
 			app:destination="@id/signInFragment"
 			app:popUpTo="@id/homeFragment"
 			app:popUpToInclusive="true" />
+		<action
+			android:id="@+id/action_homeFragment_to_studentsListFragment"
+			app:destination="@id/studentsListFragment" />
 	</fragment>
 
 	<fragment
@@ -52,15 +55,23 @@
 		android:name="com.bobrovskii.addexamination.ui.AddExamFragment"
 		android:label="AddExamFragment" />
 	<fragment
-		android:id="@+id/progressExaminationFragment"
+		android:id="@+id/answersListFragment"
 		android:name="com.bobrovskii.answerslist.ui.AnswersListFragment"
-		android:label="ProgressExaminationFragment">
+		android:label="AnswersListFragment">
 		<action
-			android:id="@+id/action_progressExaminationFragment_to_answerFragment"
+			android:id="@+id/action_answersListFragment_to_answerFragment"
 			app:destination="@id/answerFragment" />
 	</fragment>
 	<fragment
 		android:id="@+id/answerFragment"
 		android:name="ui.AnswerFragment"
 		android:label="AnswerFragment" />
+	<fragment
+		android:id="@+id/studentsListFragment"
+		android:name="com.bobrovskii.studentslist.ui.StudentsListFragment"
+		android:label="StudentsListFragment">
+		<action
+			android:id="@+id/action_studentsListFragment_to_answerFragment"
+			app:destination="@id/answerFragment" />
+	</fragment>
 </navigation>

@@ -234,6 +234,6 @@ class AnswersListViewModel @Inject constructor(
 
 	fun navigateToAnswer(answerId: Int) {
 		val content = state.value as AnswersListState.Content
-		router.routeToAnswer(answerId, content.examState == ExamStates.CLOSED)
+		router.routeFromAnswersListToAnswer(answerId, content.examState == ExamStates.CLOSED)
 	}
 }

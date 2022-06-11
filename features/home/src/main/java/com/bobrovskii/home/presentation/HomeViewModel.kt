@@ -153,6 +153,10 @@ class HomeViewModel @Inject constructor(
 		router.routeToAnswersList(examId)
 	}
 
+	fun openStudentsList(examId: Int) {
+		router.routeToStudentsList(examId)
+	}
+
 	fun setExamId(examId: Int) {
 		if (state.value is HomeState.Content) {
 			_state.value = (state.value as HomeState.Content).copy(

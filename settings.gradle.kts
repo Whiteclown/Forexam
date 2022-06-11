@@ -22,6 +22,7 @@ include(
 	":features:editexamination",
 	":features:addexamination",
 	":features:answerslist",
+	":features:studentslist",
 	":features:answer",
 	":shared:session",
 	":shared:exam",

@@ -10,5 +10,7 @@ interface HomeRouter {
 
 	fun routeToAnswersList(examId: Int)
 
+	fun routeToStudentsList(examId: Int)
+
 	fun routeToSignIn()
 }

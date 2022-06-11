@@ -59,7 +59,7 @@
 		style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 		android:layout_width="290dp"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="100dp"
+		android:layout_marginTop="16dp"
 		android:ems="10"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +98,7 @@
 		android:id="@+id/sw_repass"
 		android:layout_width="290dp"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="16dp"
+		android:layout_marginTop="56dp"
 		android:text="Пересдача:"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
@@ -120,13 +120,14 @@
 		android:layout_height="wrap_content"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintBottom_toTopOf="@id/btn_add_exam"
 		app:layout_constraintTop_toBottomOf="@id/tv_groups">
 
 		<com.google.android.material.chip.ChipGroup
 			android:id="@+id/cg_groups"
 			android:layout_width="290dp"
 			android:layout_height="wrap_content"
-			android:layout_gravity="center"
+			android:layout_gravity="center_horizontal|top"
 			app:singleSelection="true" />
 	</ScrollView>
 

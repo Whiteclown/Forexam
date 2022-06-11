@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/features/home" />
             <option value="$PROJECT_DIR$/features/signin" />
             <option value="$PROJECT_DIR$/features/signup" />
+            <option value="$PROJECT_DIR$/features/studentslist" />
             <option value="$PROJECT_DIR$/shared" />
             <option value="$PROJECT_DIR$/shared/artefact" />
             <option value="$PROJECT_DIR$/shared/exam" />

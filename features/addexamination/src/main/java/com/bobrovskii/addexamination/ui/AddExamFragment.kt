@@ -17,6 +17,7 @@ import com.bobrovskii.addexamination.databinding.FragmentAddExamBinding
 import com.bobrovskii.addexamination.presentation.AddExamAction
 import com.bobrovskii.addexamination.presentation.AddExamState
 import com.bobrovskii.addexamination.presentation.AddExamViewModel
+import com.bobrovskii.core.IOnBackPressed
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -25,7 +26,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class AddExamFragment : Fragment(R.layout.fragment_add_exam) {
+class AddExamFragment : Fragment(R.layout.fragment_add_exam), IOnBackPressed {
 
 	private var _binding: FragmentAddExamBinding? = null
 	private val binding get() = _binding!!
@@ -105,4 +106,6 @@ class AddExamFragment : Fragment(R.layout.fragment_add_exam) {
 			}
 		}
 	}
+
+	override fun onBackPressed() = true
 }

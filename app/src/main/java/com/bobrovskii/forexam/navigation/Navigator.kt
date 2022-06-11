@@ -11,6 +11,8 @@ import com.bobrovskii.home.presentation.HomeRouter
 import com.bobrovskii.signin.presentation.SignInRouter
 import com.bobrovskii.signin.ui.SignInFragmentDirections
 import com.bobrovskii.signup.presentation.SignUpRouter
+import com.bobrovskii.studentslist.presentation.StudentsListRouter
+import com.bobrovskii.studentslist.ui.StudentsListFragment
 import presentation.AnswerRouter
 import ui.AnswerFragment
 
@@ -21,9 +23,13 @@ class Navigator :
 	EditExaminationRouter,
 	AddExamRouter,
 	AnswersListRouter,
+	StudentsListRouter,
 	AnswerRouter {
 
 	private var navController: NavController? = null
+
+	fun getCurrentFragmentId() =
+		navController?.currentDestination?.id
 
 	fun bind(navController: NavController) {
 		this.navController = navController
@@ -45,9 +51,16 @@ class Navigator :
 		navController?.popBackStack()
 	}
 
-	override fun routeToAnswer(answerId: Int, isClosed: Boolean) {
+	override fun routeFromStudentsListToAnswer(answerId: Int, isClosed: Boolean) {
 		navController?.navigate(
-			R.id.action_progressExaminationFragment_to_answerFragment,
+			R.id.action_studentsListFragment_to_answerFragment,
+			AnswerFragment.createBundle(answerId, isClosed)
+		)
+	}
+
+	override fun routeFromAnswersListToAnswer(answerId: Int, isClosed: Boolean) {
+		navController?.navigate(
+			R.id.action_answersListFragment_to_answerFragment,
 			AnswerFragment.createBundle(answerId, isClosed)
 		)
 	}
@@ -65,8 +78,15 @@ class Navigator :
 
 	override fun routeToAnswersList(examId: Int) {
 		navController?.navigate(
-			R.id.action_homeFragment_to_progressExaminationFragment,
+			R.id.action_homeFragment_to_answersListFragment,
 			AnswersListFragment.createBundle(examId)
+		)
+	}
+
+	override fun routeToStudentsList(examId: Int) {
+		navController?.navigate(
+			R.id.action_homeFragment_to_studentsListFragment,
+			StudentsListFragment.createBundle(examId)
 		)
 	}
 

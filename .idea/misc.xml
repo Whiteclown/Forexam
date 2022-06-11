@@ -12,7 +12,7 @@
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/core/src/main/res/layout/undefined_error_view.xml" value="0.25" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/accessexamination/src/main/res/layout/item_student.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/addexamination/src/main/res/drawable/baseline_arrow_back_ios_24.xml" value="0.238" />
-        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/addexamination/src/main/res/layout/fragment_add_exam.xml" value="0.17760416666666667" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/addexamination/src/main/res/layout/fragment_add_exam.xml" value="0.1" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/addexamination/src/main/res/layout/item_discipline.xml" value="0.28020833333333334" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/addexamination/src/main/res/layout/page_add_exam.xml" value="0.28020833333333334" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answer/src/main/res/drawable/ic_attach_file.xml" value="0.2395" />
@@ -21,7 +21,7 @@
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answer/src/main/res/layout/fragment_answer.xml" value="0.33" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answer/src/main/res/layout/item_message.xml" value="0.33" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answerslist/src/main/res/drawable/ic_turn_off_filter.xml" value="0.1965" />
-        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answerslist/src/main/res/layout/fragment_answers_list.xml" value="0.33" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answerslist/src/main/res/layout/fragment_answers_list.xml" value="0.5" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answerslist/src/main/res/layout/fragment_examination_progress.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/answerslist/src/main/res/layout/item_checking_answer.xml" value="0.23867753623188406" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/editexamination/src/main/res/drawable/baseline_arrow_back_ios_24.xml" value="0.1345" />
@@ -76,6 +76,8 @@
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/signin/src/main/res/layout/fragment_sign_in.xml" value="0.33" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/signup/src/main/res/drawable/baseline_arrow_back_ios_24.xml" value="0.216" />
         <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/signup/src/main/res/layout/fragment_sign_up.xml" value="0.33" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/studentslist/src/main/res/layout/fragment_students_list.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/Ivan/AndroidStudioProjects/Forexam/features/studentslist/src/main/res/layout/item_student.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/Ivan/AppData/Local/Android/Sdk/platforms/android-31/data/res/drawable/ic_lock_power_off.xml" value="0.216" />
       </map>
     </option>

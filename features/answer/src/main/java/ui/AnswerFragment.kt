@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bobrovskii.answer.R
 import com.bobrovskii.answer.databinding.FragmentAnswerBinding
 import com.bobrovskii.core.AnswerStates
+import com.bobrovskii.core.IOnBackPressed
 import com.bobrovskii.core.NOTIFICATION_MESSAGE_FILTER
 import com.bobrovskii.core.OPEN_DOCUMENT_REQUEST_CODE
 import com.bobrovskii.core.OpenFileResult
@@ -43,7 +44,7 @@ import presentation.AnswerViewModel
 import ui.messageAdapter.MessageAdapter
 
 @AndroidEntryPoint
-class AnswerFragment : Fragment(R.layout.fragment_answer) {
+class AnswerFragment : Fragment(R.layout.fragment_answer), IOnBackPressed {
 
 	private var _binding: FragmentAnswerBinding? = null
 	private val binding get() = _binding!!
@@ -266,4 +267,6 @@ class AnswerFragment : Fragment(R.layout.fragment_answer) {
 		super.onPause()
 		requireActivity().unregisterReceiver(notificationReceiver)
 	}
+
+	override fun onBackPressed() = true
 }

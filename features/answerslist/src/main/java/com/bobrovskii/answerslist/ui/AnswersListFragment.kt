@@ -26,6 +26,7 @@ import com.bobrovskii.answerslist.presentation.AnswersListState
 import com.bobrovskii.answerslist.presentation.AnswersListViewModel
 import com.bobrovskii.answerslist.ui.answersAdapter.AnswersAdapter
 import com.bobrovskii.core.ExamStates
+import com.bobrovskii.core.IOnBackPressed
 import com.bobrovskii.core.NOTIFICATION_ANSWER_FILTER
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -35,7 +36,7 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 
 @AndroidEntryPoint
-class AnswersListFragment : Fragment(R.layout.fragment_answers_list) {
+class AnswersListFragment : Fragment(R.layout.fragment_answers_list), IOnBackPressed {
 
 	private var _binding: FragmentAnswersListBinding? = null
 	private val binding get() = _binding!!
@@ -206,4 +207,6 @@ class AnswersListFragment : Fragment(R.layout.fragment_answers_list) {
 			}
 		}
 	}
+
+	override fun onBackPressed() = true
 }

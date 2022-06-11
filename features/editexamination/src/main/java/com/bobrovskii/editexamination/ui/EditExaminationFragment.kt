@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import com.bobrovskii.core.IOnBackPressed
 import com.bobrovskii.editexamination.R
 import com.bobrovskii.editexamination.databinding.FragmentEditExaminationBinding
 import com.bobrovskii.editexamination.presentation.EditExaminationAction
@@ -25,7 +26,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class EditExaminationFragment : Fragment(R.layout.fragment_edit_examination) {
+class EditExaminationFragment : Fragment(R.layout.fragment_edit_examination), IOnBackPressed {
 
 	private val viewModel: EditExaminationViewModel by viewModels()
 
@@ -134,4 +135,6 @@ class EditExaminationFragment : Fragment(R.layout.fragment_edit_examination) {
 			}
 		}
 	}
+
+	override fun onBackPressed() = true
 }

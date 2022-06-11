@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bobrovskii.core.IOnBackPressed
 import com.bobrovskii.home.databinding.FragmentHomeBinding
 import com.bobrovskii.home.presentation.HomeAction
 import com.bobrovskii.home.presentation.HomeState
@@ -31,7 +32,8 @@ import kotlinx.coroutines.launch
 class HomeFragment : Fragment(),
 					 DeleteDialogFragment.DeleteDialogListener,
 					 SetExamTimeDialogFragment.SetExamTimeDialogListener,
-					 StartExamDialogFragment.StartExamDialogListener {
+					 StartExamDialogFragment.StartExamDialogListener,
+					 IOnBackPressed {
 
 	private var _binding: FragmentHomeBinding? = null
 	private val binding get() = _binding!!
@@ -75,7 +77,11 @@ class HomeFragment : Fragment(),
 
 	private val adapterProgressExams = ExamsAdapter(
 		onItemClicked = { examId ->
-			viewModel.openAnswersList(examId)
+			if (binding.swSingleMode.isChecked) {
+				viewModel.openStudentsList(examId)
+			} else {
+				viewModel.openAnswersList(examId)
+			}
 		},
 		onDeleteClicked = { },
 		onRestoreState = { },
@@ -83,7 +89,11 @@ class HomeFragment : Fragment(),
 
 	private val adapterFinishedExams = ExamsAdapter(
 		onItemClicked = { examId ->
-			viewModel.openAnswersList(examId)
+			if (binding.swSingleMode.isChecked) {
+				viewModel.openStudentsList(examId)
+			} else {
+				viewModel.openAnswersList(examId)
+			}
 		},
 		onDeleteClicked = { },
 		onRestoreState = { viewModel.restoreFromFinished(it) },
@@ -91,7 +101,11 @@ class HomeFragment : Fragment(),
 
 	private val adapterClosedExams = ExamsAdapter(
 		onItemClicked = { examId ->
-			viewModel.openAnswersList(examId)
+			if (binding.swSingleMode.isChecked) {
+				viewModel.openStudentsList(examId)
+			} else {
+				viewModel.openAnswersList(examId)
+			}
 		},
 		onDeleteClicked = { },
 		onRestoreState = { },
@@ -210,4 +224,6 @@ class HomeFragment : Fragment(),
 			}
 		}
 	}
+
+	override fun onBackPressed() = true
 }

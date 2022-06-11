@@ -10,6 +10,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.bobrovskii.core.IOnBackPressed
 import com.bobrovskii.signin.R
 import com.bobrovskii.signin.databinding.FragmentSignInBinding
 import com.bobrovskii.signin.presentation.SignInAction
@@ -19,7 +20,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SignInFragment : Fragment(R.layout.fragment_sign_in) {
+class SignInFragment : Fragment(R.layout.fragment_sign_in), IOnBackPressed {
 
 	private var _binding: FragmentSignInBinding? = null
 	private val binding get() = _binding!!
@@ -65,4 +66,6 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 			}
 		}
 	}
+
+	override fun onBackPressed() = true
 }

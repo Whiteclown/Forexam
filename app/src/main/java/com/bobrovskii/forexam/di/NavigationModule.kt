@@ -7,6 +7,7 @@ import com.bobrovskii.forexam.navigation.Navigator
 import com.bobrovskii.home.presentation.HomeRouter
 import com.bobrovskii.signin.presentation.SignInRouter
 import com.bobrovskii.signup.presentation.SignUpRouter
+import com.bobrovskii.studentslist.presentation.StudentsListRouter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,7 +51,12 @@ class NavigationModule {
 
 	@Provides
 	@Singleton
-	fun provideProgressExaminationRouter(navigator: Navigator): AnswersListRouter =
+	fun provideAnswersListRouter(navigator: Navigator): AnswersListRouter =
+		navigator
+
+	@Provides
+	@Singleton
+	fun provideStudentsListRouter(navigator: Navigator): StudentsListRouter =
 		navigator
 
 	@Provides

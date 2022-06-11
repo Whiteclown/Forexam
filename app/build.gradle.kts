@@ -48,6 +48,7 @@ dependencies {
 	implementation(project(":features:editexamination"))
 	implementation(project(":features:addexamination"))
 	implementation(project(":features:answerslist"))
+	implementation(project(":features:studentslist"))
 	implementation(project(":features:answer"))
 	implementation(project(":shared:session"))
 	implementation(project(":shared:exam"))
