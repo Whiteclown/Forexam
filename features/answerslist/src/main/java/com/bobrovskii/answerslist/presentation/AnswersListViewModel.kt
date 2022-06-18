@@ -51,29 +51,31 @@ class AnswersListViewModel @Inject constructor(
 					var ratedAnswers: List<Answer> = emptyList()
 					var noRatingAnswers: List<Answer> = emptyList()
 
-					val answers = getAnswersByExamUseCase(examId)
-					answers.forEach {
-						when (it.state) {
-							AnswerStates.IN_PROGRESS -> {
-								inProgressAnswers = inProgressAnswers.toMutableList().apply { add(it) }
-								inProgressCount++
+					val tickets = getAnswersByExamUseCase(examId)
+					tickets.forEach { ticket ->
+						ticket.answers.forEach {
+							when (it.state) {
+								AnswerStates.IN_PROGRESS -> {
+									inProgressAnswers = inProgressAnswers.toMutableList().apply { add(it) }
+									inProgressCount++
+								}
+
+								AnswerStates.SENT        -> {
+									sentAnswers = sentAnswers.toMutableList().apply { add(it) }
+									sentCount++
+								}
+
+								AnswerStates.CHECKING    -> {
+									checkingAnswers = checkingAnswers.toMutableList().apply { add(it) }
+									checkingCount++
+								}
+
+								AnswerStates.RATED       -> ratedAnswers = ratedAnswers.toMutableList().apply { add(it) }
+
+								AnswerStates.NO_RATING   -> noRatingAnswers = noRatingAnswers.toMutableList().apply { add(it) }
+
+								AnswerStates.NO_ANSWER   -> {}
 							}
-
-							AnswerStates.SENT        -> {
-								sentAnswers = sentAnswers.toMutableList().apply { add(it) }
-								sentCount++
-							}
-
-							AnswerStates.CHECKING    -> {
-								checkingAnswers = checkingAnswers.toMutableList().apply { add(it) }
-								checkingCount++
-							}
-
-							AnswerStates.RATED       -> ratedAnswers = ratedAnswers.toMutableList().apply { add(it) }
-
-							AnswerStates.NO_RATING   -> noRatingAnswers = noRatingAnswers.toMutableList().apply { add(it) }
-
-							AnswerStates.NO_ANSWER   -> {}
 						}
 					}
 					_state.value = AnswersListState.Content(
@@ -129,29 +131,31 @@ class AnswersListViewModel @Inject constructor(
 				var ratedAnswers: List<Answer> = emptyList()
 				var noRatingAnswers: List<Answer> = emptyList()
 
-				val answers = getAnswersByExamUseCase(examId)
-				answers.forEach {
-					when (it.state) {
-						AnswerStates.IN_PROGRESS -> {
-							inProgressAnswers = inProgressAnswers.toMutableList().apply { add(it) }
-							inProgressCount++
+				val tickets = getAnswersByExamUseCase(examId)
+				tickets.forEach { ticket ->
+					ticket.answers.forEach {
+						when (it.state) {
+							AnswerStates.IN_PROGRESS -> {
+								inProgressAnswers = inProgressAnswers.toMutableList().apply { add(it) }
+								inProgressCount++
+							}
+
+							AnswerStates.SENT        -> {
+								sentAnswers = sentAnswers.toMutableList().apply { add(it) }
+								sentCount++
+							}
+
+							AnswerStates.CHECKING    -> {
+								checkingAnswers = checkingAnswers.toMutableList().apply { add(it) }
+								checkingCount++
+							}
+
+							AnswerStates.RATED       -> ratedAnswers = ratedAnswers.toMutableList().apply { add(it) }
+
+							AnswerStates.NO_RATING   -> noRatingAnswers = noRatingAnswers.toMutableList().apply { add(it) }
+
+							AnswerStates.NO_ANSWER   -> {}
 						}
-
-						AnswerStates.SENT        -> {
-							sentAnswers = sentAnswers.toMutableList().apply { add(it) }
-							sentCount++
-						}
-
-						AnswerStates.CHECKING    -> {
-							checkingAnswers = checkingAnswers.toMutableList().apply { add(it) }
-							checkingCount++
-						}
-
-						AnswerStates.RATED       -> ratedAnswers = ratedAnswers.toMutableList().apply { add(it) }
-
-						AnswerStates.NO_RATING   -> noRatingAnswers = noRatingAnswers.toMutableList().apply { add(it) }
-
-						AnswerStates.NO_ANSWER   -> {}
 					}
 				}
 				_state.value = content.copy(

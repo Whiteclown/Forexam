@@ -127,6 +127,7 @@ class HomeFragment : Fragment(),
 	}
 
 	private fun render(state: HomeState) {
+		binding.loadingView.root.visibility = if (state is HomeState.Loading) View.VISIBLE else View.GONE
 		if (state is HomeState.Content) {
 			adapterEditExams.exams = state.examsEdit
 			adapterReadyExams.exams = state.examsReady

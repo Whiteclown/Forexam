@@ -3,11 +3,11 @@ package com.bobrovskii.exam.domain.repository
 import com.bobrovskii.core.AnswerStates
 import com.bobrovskii.core.ExamStates
 import com.bobrovskii.exam.domain.entity.Account
-import com.bobrovskii.exam.domain.entity.Answer
 import com.bobrovskii.exam.domain.entity.AnswerInfo
 import com.bobrovskii.exam.domain.entity.Discipline
 import com.bobrovskii.exam.domain.entity.Exam
 import com.bobrovskii.exam.domain.entity.Group
+import com.bobrovskii.exam.domain.entity.Ticket
 
 interface ExamRepository {
 
@@ -33,7 +33,7 @@ interface ExamRepository {
 
 	suspend fun getGroupById(groupId: Int): Group
 
-	suspend fun getAnswersByExam(examId: Int): List<Answer>
+	suspend fun getAnswersByExam(examId: Int): List<Ticket>
 
 	suspend fun getAnswerInfo(answerId: Int): AnswerInfo
 

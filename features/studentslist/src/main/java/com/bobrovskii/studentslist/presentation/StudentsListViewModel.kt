@@ -39,24 +39,27 @@ class StudentsListViewModel @Inject constructor(
 				_state.value = StudentsListState.Loading
 
 				try {
-					val answers = getAnswersByExamUseCase(examId)
+					val tickets = getAnswersByExamUseCase(examId)
 
 					val questions = mutableListOf<Answer>()
 					val exercises = mutableListOf<Answer>()
 
 					val students: MutableSet<String> = mutableSetOf()
 
-					answers.forEach {
-						it.studentName?.let { it1 -> students.add(it1) }
-						if (it.type == TaskTypes.QUESTION) {
-							questions.add(it)
-						} else if (it.type == TaskTypes.EXERCISE) {
-							exercises.add(it)
+					tickets.forEach { ticket ->
+						students.add(ticket.studentName)
+						ticket.answers.forEach {
+							if (it.type == TaskTypes.QUESTION) {
+								questions.add(it)
+							} else if (it.type == TaskTypes.EXERCISE) {
+								exercises.add(it)
+							}
 						}
 					}
 
 					questions.sortBy { it.number }
 					exercises.sortBy { it.number }
+					tickets.sortedBy { it.studentName }
 
 					_state.value = StudentsListState.Content(
 						questionAnswers = questions,
@@ -64,7 +67,7 @@ class StudentsListViewModel @Inject constructor(
 						examState = getExamByIdUseCase(examId).state,
 						filterStudentRatingId = null,
 						filterStudentName = null,
-						students = students.sorted(),
+						students = tickets,
 					)
 				} catch (e: Exception) {
 					when (e) {
@@ -90,53 +93,53 @@ class StudentsListViewModel @Inject constructor(
 		}
 	}
 
-	fun refresh(examId: Int) {
-		viewModelScope.launch {
-			try {
-				val content = state.value as StudentsListState.Content
-
-				val answers = getAnswersByExamUseCase(examId)
-
-				val questions = mutableListOf<Answer>()
-				val exercises = mutableListOf<Answer>()
-
-				answers.forEach {
-					if (it.type == TaskTypes.QUESTION) {
-						questions.add(it)
-					} else if (it.type == TaskTypes.EXERCISE) {
-						exercises.add(it)
-					}
-				}
-
-				questions.sortBy { it.number }
-				exercises.sortBy { it.number }
-
-				_state.value = content.copy(
-					questionAnswers = questions,
-					exerciseAnswers = exercises,
-				)
-			} catch (e: Exception) {
-				when (e) {
-					is HttpException                -> {
-						e.response()?.errorBody()?.let { responseBody ->
-							val errorMessage = responseBody.charStream().use { stream ->
-								stream.readText()
-							}
-							_actions.send(StudentsListAction.ShowError(errorMessage))
-						} ?: run {
-							_actions.send(StudentsListAction.ShowError("Возникла непредвиденная ошибка"))
-						}
-					}
-
-					is NoNetworkConnectionException -> {
-						_actions.send(StudentsListAction.ShowError(e.message))
-					}
-
-					else                            -> _actions.send(StudentsListAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
-				}
-			}
-		}
-	}
+//	fun refresh(examId: Int) {
+//		viewModelScope.launch {
+//			try {
+//				val content = state.value as StudentsListState.Content
+//
+//				val answers = getAnswersByExamUseCase(examId)
+//
+//				val questions = mutableListOf<Answer>()
+//				val exercises = mutableListOf<Answer>()
+//
+//				answers.forEach {
+//					if (it.type == TaskTypes.QUESTION) {
+//						questions.add(it)
+//					} else if (it.type == TaskTypes.EXERCISE) {
+//						exercises.add(it)
+//					}
+//				}
+//
+//				questions.sortBy { it.number }
+//				exercises.sortBy { it.number }
+//
+//				_state.value = content.copy(
+//					questionAnswers = questions,
+//					exerciseAnswers = exercises,
+//				)
+//			} catch (e: Exception) {
+//				when (e) {
+//					is HttpException                -> {
+//						e.response()?.errorBody()?.let { responseBody ->
+//							val errorMessage = responseBody.charStream().use { stream ->
+//								stream.readText()
+//							}
+//							_actions.send(StudentsListAction.ShowError(errorMessage))
+//						} ?: run {
+//							_actions.send(StudentsListAction.ShowError("Возникла непредвиденная ошибка"))
+//						}
+//					}
+//
+//					is NoNetworkConnectionException -> {
+//						_actions.send(StudentsListAction.ShowError(e.message))
+//					}
+//
+//					else                            -> _actions.send(StudentsListAction.ShowError(e.message ?: "Возникла непредвиденная ошибка"))
+//				}
+//			}
+//		}
+//	}
 
 	fun filterByName(studentName: String) {
 		val content = state.value as StudentsListState.Content

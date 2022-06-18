@@ -18,6 +18,7 @@ import com.bobrovskii.exam.domain.entity.AnswerInfo
 import com.bobrovskii.exam.domain.entity.Discipline
 import com.bobrovskii.exam.domain.entity.Exam
 import com.bobrovskii.exam.domain.entity.Group
+import com.bobrovskii.exam.domain.entity.Ticket
 import com.bobrovskii.exam.domain.repository.ExamRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -76,10 +77,13 @@ class ExamRepositoryImpl @Inject constructor(
 	override suspend fun getGroupById(groupId: Int) =
 		api.getGroupById(groupId).toEntity()
 
-	override suspend fun getAnswersByExam(examId: Int): List<Answer> {
+	override suspend fun getAnswersByExam(examId: Int): List<Ticket> {
+		val tickets: MutableList<Ticket> = mutableListOf()
 		val answers: MutableList<Answer> = mutableListOf()
+		var examRatingCounter = 0
 		api.getFullExamById(examId, 3).tickets.forEach { ticket ->
 			ticket.answers.forEach { fullAnswer ->
+				examRatingCounter += fullAnswer.answer.rating
 				answers.add(fullAnswer.answer.toEntity().apply {
 					studentName = "${ticket.student.student.account.surname} ${ticket.student.student.account.name}"
 					type = when (fullAnswer.task.task.taskType) {
@@ -89,8 +93,18 @@ class ExamRepositoryImpl @Inject constructor(
 					}
 				})
 			}
+			tickets.add(
+				Ticket(
+					answers = mutableListOf<Answer>().apply { addAll(answers) },
+					studentName = "${ticket.student.student.account.surname} ${ticket.student.student.account.name}",
+					semesterRating = ticket.studentRating.semesterRating,
+					examRating = examRatingCounter,
+				)
+			)
+			examRatingCounter = 0
+			answers.clear()
 		}
-		return answers
+		return tickets
 	}
 
 	override suspend fun getAnswerInfo(answerId: Int): AnswerInfo =

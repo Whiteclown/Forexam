@@ -2,6 +2,7 @@ package com.bobrovskii.studentslist.ui.studentsAdapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bobrovskii.exam.domain.entity.Ticket
 import com.bobrovskii.studentslist.ui.studentsAdapter.viewholder.BaseStudentViewHolder
 import com.bobrovskii.studentslist.ui.studentsAdapter.viewholder.StudentViewHolder
 
@@ -9,7 +10,7 @@ class StudentsAdapter(
 	private val onItemClicked: (String) -> Unit,
 ) : RecyclerView.Adapter<BaseStudentViewHolder>() {
 
-	var students: List<String>? = null
+	var students: List<Ticket>? = null
 		set(value) {
 			field = value
 			notifyDataSetChanged()

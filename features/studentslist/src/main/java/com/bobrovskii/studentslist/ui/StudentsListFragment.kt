@@ -116,6 +116,7 @@ class StudentsListFragment : Fragment(R.layout.fragment_students_list), IOnBackP
 			if (state.examState == ExamStates.FINISHED) binding.btnEndExam.text = "закрыть экзамен"
 			state.filterStudentName?.let { filterStudentName ->
 				binding.rvStudents.visibility = View.GONE
+				binding.llInfo.visibility = View.GONE
 				binding.rvAnswers.visibility = View.VISIBLE
 				questionsAdapter?.answers =
 					state.questionAnswers.filter { it.studentName?.lowercase(Locale.ROOT)?.contains(filterStudentName.lowercase(Locale.ROOT)) ?: true }
@@ -125,6 +126,7 @@ class StudentsListFragment : Fragment(R.layout.fragment_students_list), IOnBackP
 			} ?: run {
 				binding.rvAnswers.visibility = View.GONE
 				binding.rvStudents.visibility = View.VISIBLE
+				binding.llInfo.visibility = View.VISIBLE
 				studentsAdapter?.students = state.students
 				isGoingBack = true
 			}

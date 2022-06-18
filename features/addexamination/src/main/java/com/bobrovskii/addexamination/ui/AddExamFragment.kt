@@ -63,26 +63,23 @@ class AddExamFragment : Fragment(R.layout.fragment_add_exam), IOnBackPressed {
 	}
 
 	private fun render(state: AddExamState) {
-		if (state is AddExamState.Content) initSpinners(state)
+		if (state is AddExamState.Content) {
+			val adapterDiscipline = ArrayAdapter<String>(binding.acDiscipline.context, R.layout.item_discipline)
+			adapterDiscipline.clear()
+			state.disciplines.let { list ->
+				adapterDiscipline.addAll(list.map { it.name })
+			}
+			binding.acDiscipline.setAdapter(adapterDiscipline)
+			binding.cgGroups.removeAllViews()
+			state.groups.map {
+				val chip = Chip(binding.cgGroups.context)
+				chip.text = it.name
+				chip.id = it.id
+				chip.isCheckable = true
+				binding.cgGroups.addView(chip)
+			}
+		}
 		binding.loadingView.root.visibility = if (state is AddExamState.Loading) View.VISIBLE else View.GONE
-	}
-
-	private fun initSpinners(content: AddExamState.Content) {
-		val adapterDiscipline = ArrayAdapter<String>(binding.acDiscipline.context, R.layout.item_discipline)
-		adapterDiscipline.clear()
-		content.disciplines.let { list ->
-			adapterDiscipline.addAll(list.map { it.name })
-		}
-		binding.acDiscipline.setAdapter(adapterDiscipline)
-
-		binding.cgGroups.removeAllViews()
-		content.groups.map {
-			val chip = Chip(binding.cgGroups.context)
-			chip.text = it.name
-			chip.id = it.id
-			chip.isCheckable = true
-			binding.cgGroups.addView(chip)
-		}
 	}
 
 	private fun handleAction(action: AddExamAction) {

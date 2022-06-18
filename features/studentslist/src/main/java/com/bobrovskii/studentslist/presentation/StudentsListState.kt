@@ -2,6 +2,7 @@ package com.bobrovskii.studentslist.presentation
 
 import com.bobrovskii.core.ExamStates
 import com.bobrovskii.exam.domain.entity.Answer
+import com.bobrovskii.exam.domain.entity.Ticket
 
 sealed interface StudentsListState {
 	object Initial : StudentsListState
@@ -14,6 +15,6 @@ sealed interface StudentsListState {
 		val examState: ExamStates,
 		val filterStudentRatingId: Int?,
 		val filterStudentName: String?,
-		val students: List<String>?,
+		val students: List<Ticket>?,
 	) : StudentsListState
 }
